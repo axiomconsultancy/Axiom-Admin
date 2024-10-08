@@ -9,13 +9,13 @@ import {
 } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAqi8EioZAZgTT5MAhxqBUqYTpcEPUtO3M",
-  authDomain: "decimal-solutions-8c191.firebaseapp.com",
-  projectId: "decimal-solutions-8c191",
-  storageBucket: "decimal-solutions-8c191.appspot.com",
-  messagingSenderId: "674398346861",
-  appId: "1:674398346861:web:0f1d877901c2d7e30da964",
-  measurementId: "G-C7V3M8PVCB",
+apiKey: "AIzaSyCALbU1ilA1O9ZOEP8A1_6gLHqzWfOuFIk",
+  authDomain: "axiom-528ab.firebaseapp.com",
+  projectId: "axiom-528ab",
+  storageBucket: "axiom-528ab.appspot.com",
+  messagingSenderId: "788965920996",
+  appId: "1:788965920996:web:a4fb1e2abf626159ff5cf1",
+  measurementId: "G-E4M3F5JNZY"
 };
 
 // Initialize Firebase

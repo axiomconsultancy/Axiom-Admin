@@ -1,4 +1,4 @@
-// export const backendUrl = "https://backend.decimalsolution.com";
+
 
 
 
@@ -9,4 +9,3 @@ export const backendUrl = "http://localhost:5000";
 
 
 
-// export const backendUrl = "https://ds-backend-zeta.vercel.app";

@@ -18,8 +18,8 @@ export const Header = () => {
       justify={"space-between"}
       align={"center"}
     >
-      <Image src={logo} width={isMobile ? 50 : "100px"} />
-      <Title order={isMobile ? 6 : 3} color="purple">
+      <Image src={logo} width={isMobile ? 50 : "150px"} />
+      <Title order={isMobile ? 6 : 1} color="#0872da">
         Admin Panel
       </Title>
       <Flex
