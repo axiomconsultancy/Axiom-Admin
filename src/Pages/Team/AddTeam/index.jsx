@@ -41,6 +41,10 @@ export const AddTeam = () => {
       officialEmail: "",
       officialPhone: "",
       CNIC: "",
+      kinName: "",
+      kinRelation: "",
+      kinContact: "",
+      kinAddress: "",
     },
     // we will add team member CNIC as well
     validate: {
@@ -57,8 +61,16 @@ export const AddTeam = () => {
           ? null
           : "Please Enter A Valid Email",
       // teamMemberPhone, must be 11 digits and digits only
+      officialEmail: (val) =>
+        !val || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(val)
+          ? null
+          : "Please Enter A Valid Email",
       teamMemberPhone: (val) =>
         /^(\+92|0)?3\d{2}-?\d{7}$/.test(val)
+          ? null
+          : "Please Enter A Valid Phone Number",
+      officialPhone: (val) =>
+        !val || /^(\+92|0)?3\d{2}-?\d{7}$/.test(val)
           ? null
           : "Please Enter A Valid Phone Number",
       teamMemberFacebookLink: (val) =>
@@ -79,6 +91,21 @@ export const AddTeam = () => {
       IDCardFront: (value) => (value ? null : "Please Upload Cnic front image"),
       IDCardBack: (value) => (value ? null : "Please Upload Cnic back image"),
       teamMemberImage: (value) => (value ? null : "Please Upload User photo"),
+      bankAccountNumber: (val) =>
+        /^[0-9]{8,16}$/.test(val)
+          ? null
+          : "Bank account number must be 8-16 digits",
+  
+      // Basic validation for IBAN
+      IBAN: (val) =>
+        !val || /^PK\d{2}[A-Z0-9]{4}\d{16}$/.test(val)
+          ? null
+          : "Please enter a valid Pakistani IBAN",
+      // Making kin fields optional
+      kinName: (value) => (!value || value.trim() !== "" ? null : null),
+      kinRelation: (value) => (!value || value.trim() !== "" ? null : null),
+      kinContact: (value) => (!value || value.trim() !== "" ? null : null),
+      kinAddress: (value) => (!value || value.trim() !== "" ? null : null),
     },
   });
 
@@ -139,58 +166,58 @@ export const AddTeam = () => {
           fz={"lg"}
         />
         {/* <Flex gap={"xl"} justify={"space-around"}> */}
-          <SimpleGrid
-            cols={2}
-            breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "sm" }]}
-          >
-            <InputField
-              label={"Team Member Name"}
-              placeholder={"Enter Name"}
-              form={form}
-              withAsterisk
-              validateName={"teamMemberName"}
-            />
-            <InputField
-              label={"Job Title"}
-              placeholder={"Enter Job Title"}
-              form={form}
-              withAsterisk
-              validateName={"teamMemberTitle"}
-            />
-            <InputField
-              label={"Personam Email"}
-              placeholder={"Enter Personal Address"}
-              form={form}
-              withAsterisk
-              validateName={"teamMemberEmail"}
-            />
-            <InputField
-              label={"Contact Number"}
-              placeholder={"Enter Contact Number"}
-              form={form}
-              component={InputMask}
-              mask={"0399-9999999"}
-              withAsterisk
-              validateName={"teamMemberPhone"}
-            />
-            <InputField
-              label={"CNIC"}
-              placeholder={"CNIC (13 digits)"}
-              form={form}
-              component={InputMask}
-              mask={"99999-9999999-9"}
-              withAsterisk
-              validateName={"CNIC"}
-            />
-            <InputField
-              label={"Priority"}
-              placeholder={"Enter Priority"}
-              form={form}
-              type="number"
-              withAsterisk
-              validateName={"memberPriority"}
-            />
-          </SimpleGrid>
+        <SimpleGrid
+          cols={2}
+          breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "sm" }]}
+        >
+          <InputField
+            label={"Team Member Name"}
+            placeholder={"Enter Name"}
+            form={form}
+            withAsterisk
+            validateName={"teamMemberName"}
+          />
+          <InputField
+            label={"Job Title"}
+            placeholder={"Enter Job Title"}
+            form={form}
+            withAsterisk
+            validateName={"teamMemberTitle"}
+          />
+          <InputField
+            label={"Personal Email"}
+            placeholder={"Enter Personal Address"}
+            form={form}
+            withAsterisk
+            validateName={"teamMemberEmail"}
+          />
+          <InputField
+            label={"Contact Number"}
+            placeholder={"Enter Contact Number"}
+            form={form}
+            component={InputMask}
+            mask={"0399-9999999"}
+            withAsterisk
+            validateName={"teamMemberPhone"}
+          />
+          <InputField
+            label={"CNIC"}
+            placeholder={"CNIC (13 digits)"}
+            form={form}
+            component={InputMask}
+            mask={"99999-9999999-9"}
+            withAsterisk
+            validateName={"CNIC"}
+          />
+          <InputField
+            label={"Priority"}
+            placeholder={"Enter Priority"}
+            form={form}
+            type="number"
+            withAsterisk
+            validateName={"memberPriority"}
+          />
+        </SimpleGrid>
         {/* </Flex> */}
         <Divider
           my="xl"
@@ -210,7 +237,18 @@ export const AddTeam = () => {
             placeholder={"Official Phone"}
             form={form}
             validateName={"officialPhone"}
+            component={InputMask}
+            mask={"0399-9999999"}
           />
+          {/* <InputField
+              label={"Contact Number"}
+              placeholder={"Enter Contact Number"}
+              form={form}
+              component={InputMask}
+              mask={"0399-9999999"}
+              withAsterisk
+              validateName={"teamMemberPhone"}
+            /> */}
         </SimpleGrid>
         <Divider
           my="xl"
@@ -287,25 +325,25 @@ export const AddTeam = () => {
             label={"Next Of Kin Name"}
             placeholder={"Next Of Kin Name"}
             form={form}
-            validateName={""}
+            validateName={"kinName"}
           />
           <InputField
             label={"Next Of Kin Relation"}
             placeholder={"Next Of Kin Relation"}
             form={form}
-            validateName={""}
+            validateName={"kinRelation"}
           />
           <InputField
             label={"Next Of Kin Contact"}
             placeholder={"Next Of Kin Contact"}
             form={form}
-            validateName={""}
+            validateName={"kinContact"}
           />
           <InputField
             label={"Address"}
             placeholder={"Address"}
             form={form}
-            validateName={""}
+            validateName={"kinAddress"}
           />
         </SimpleGrid>
 

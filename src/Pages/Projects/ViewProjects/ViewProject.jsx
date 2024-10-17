@@ -26,7 +26,9 @@ const ViewService = ({ rowData }) => {
       <Title order={3}>Project Category</Title>
       <Text align="justify">{rowData?.category.title}</Text>
       <Title order={3}>Project Link</Title>
-      <Text align="justify">{rowData?.link}</Text>
+      <a href={rowData?.link}>
+        <Text align="justify">{rowData?.link}</Text>
+      </a>
       <Title order={3}>Short Description</Title>
       <Text>{rowData?.shortDescription}</Text>
       <Title order={3}>Detail Description</Title>

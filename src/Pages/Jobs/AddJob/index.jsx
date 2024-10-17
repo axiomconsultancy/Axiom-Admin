@@ -52,7 +52,7 @@ export const AddJob = () => {
           : "Please enter job title between 2 to 30 characters",
       type: (value) =>
         value?.trim().length > 0 ? null : "Please select job type",
-      vacancies: (value) => (value > 0 ? null : "Please enter vacancies"),
+      vacancies: (value) => (value > 0 ? null : "Please enter vacancies in digits only"),
       category: (value) =>
         value?.trim().length > 0 ? null : "Please select category",
       description: (value) =>
@@ -79,22 +79,33 @@ export const AddJob = () => {
   const { status } = useQuery(
     "fetchJobsCategory",
     () => {
+      console.log("Categories issue 1")
       return axios.get(backendUrl + "/api/v1/jobsCategory");
     },
     {
       onSuccess: (res) => {
-        let data = res.data.data.map((item) => {
-          return { value: item._id, label: item.title };
-        });
+        console.log("categories before:", res);
+      
+        // Map and filter the data, excluding items where blocked is true
+        let data = res.data.data
+          .filter(item => !item?.blocked)  // Exclude items where blocked is true
+          .map((item) => {
+            return { value: item?._id, label: item?.title, blocked: item?.blocked };
+          });
+      
+        console.log("categories after:", data);
         setCategories(data);
       },
+      onError: (error) =>{
+      console.log("Categories issue 2323" , error)
+      }
     }
   );
 
   useEffect(() => {
     if (state?.isUpdate) {
       form.setValues(state.data);
-      form.setFieldValue("category", state.data.category._id);
+      form.setFieldValue("category", state.data?.category?._id);
       form.setFieldValue(
         "jobApplicationDeadline",
         new moment(state.data.jobApplicationDeadline)

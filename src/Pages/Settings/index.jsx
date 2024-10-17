@@ -2,8 +2,8 @@ import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useContext } from "react";
+import { useMutation } from "react-query";
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../Routes/routeNames";
 import Button from "../../components/Button";
@@ -26,16 +26,20 @@ export const Settings = () => {
     },
 
     validate: {
-      oldPassword: (value) => (value?.length > 0 ? null : "Please enter old password"),
+      oldPassword: (value) =>
+        value?.length > 0 ? null : "Please enter old password",
       newPassword: (value) =>
         value?.length > 0 ? null : "Please enter new password",
-      confirmPass: (value) =>
-        value?.length > 0 ? null : "Please enter confirm password",
+      confirmPass: (value, values) =>
+        value === values.newPassword
+          ? null
+          : "New password and confirm password must be the same",
     },
   });
 
   const handleChangePassword = useMutation(
     (values) => {
+      console.log("Values", values);
       return axios.patch(`${backendUrl + "/api/v1/auth/updateProfile"}`, values, {
         headers: {
           authorization: `Bearer ${user.token}`,
@@ -52,22 +56,27 @@ export const Settings = () => {
           });
           form.reset();
         } else {
-          showNotification({
-            title: "Error",
-            message: response?.data?.message,
-            color: "red",
-          });
+          console.log("inside error");
+          console.log(response?.data?.message);
         }
+      },
+      onError: (error) => {
+        console.log("Request failed");
+        console.error(error.response?.data?.message || error.message);
+        showNotification({
+          title: "Error",
+          message: error?.response?.data?.message,
+          color: "red",
+        });
       },
     }
   );
+
   return (
     <Container fluid>
       <PageHeader label={"Settings"} />
       <form
-        onSubmit={form.onSubmit((values) =>
-          handleChangePassword.mutate(values)
-        )}
+        onSubmit={form.onSubmit((values) => handleChangePassword.mutate(values))}
       >
         <PassInput
           label={"Old Password"}

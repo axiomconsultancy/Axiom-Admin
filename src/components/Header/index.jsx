@@ -1,5 +1,5 @@
 import { Flex, Image, Text, Title } from "@mantine/core";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/axiom-logo.png";
 import { Logout } from "tabler-icons-react";
 import { useNavigate } from "react-router";
 import { routeNames } from "../../Routes/routeNames";

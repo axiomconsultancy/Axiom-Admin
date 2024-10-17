@@ -50,6 +50,9 @@ const ViewJobs = () => {
         item?.blocked === blockedFilter
       );
   });
+  // console.log("hello")
+  // console.log("Filtered Jobs :" , tableData)
+  console.log("Jobs :" , filteredItems)
   const handleClearFilters = () => {
     setSearch("");
     setBlockedFilter(null);
@@ -98,6 +101,7 @@ const ViewJobs = () => {
           progressPending={status === "loading"}
           type="jobs"
         />
+        
       </Container>
     </Container>
   );

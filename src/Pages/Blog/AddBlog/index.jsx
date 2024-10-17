@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-
+import { TagsInput } from "react-tag-input-component";
 import axios from "axios";
 import { Container, Group } from "@mantine/core";
 import { useMutation, useQuery } from "react-query";
@@ -33,11 +33,10 @@ export const AddBlog = () => {
       metaDescription: "",
       blogImage: null,
       blogData: "",
-      seoTitle:"",
-      authorName:""
+      seoTitle: "",
+      authorName: "",
+      focusKeywords: [],
     },
-
-   
 
     validate: {
       blogTitle: (value) =>
@@ -92,7 +91,7 @@ export const AddBlog = () => {
       },
     }
   );
-console.log("Form : " , form.values);
+  console.log("Form : ", form.values);
   useEffect(() => {
     if (state?.isUpdate) {
       form.setValues(state.data);
@@ -102,22 +101,24 @@ console.log("Form : " , form.values);
   }, [state]);
   const handleAddService = useMutation(
     (values) => {
-      if (state?.isUpdate)
+      if (state?.isUpdate) {
         return axios.patch(
-          `${backendUrl + `/api/v1/blog/${state?.data?._id}`}`,
+          `${backendUrl}/api/v1/blog/${state?.data?._id}`,
           values,
           {
             headers: {
-              authorization: `Bearer ${user.token}`,
+              'Content-Type': "application/json",
+              Authorization: `Bearer ${user.token}`,
             },
           }
         );
-      else
-        return axios.post(`${backendUrl + "/api/v1/blog"}`, values, {
+      } else {
+        return axios.post(`${backendUrl}/api/v1/blog`, values, {
           headers: {
-            authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user.token}`,
           },
         });
+      }
     },
     {
       onSuccess: (response) => {
@@ -139,6 +140,7 @@ console.log("Form : " , form.values);
       },
     }
   );
+
   return (
     <Container fluid>
       <PageHeader label={state?.isUpdate ? "Edit Blog" : "Add Blog"} />
@@ -159,15 +161,32 @@ console.log("Form : " , form.values);
           withAsterisk
           validateName={"altText"}
         />
-
-<InputField
+        <label
+          style={{
+            fontFamily:
+              "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif",
+            fontWeight: "450",
+          }}
+        >
+          Focus Keywords
+        </label>
+        <TagsInput
+          label={"Focus Keywords"} // Changed label from Meta Description to Blog Keywords
+          value={form.values.focusKeywords}
+          onChange={(tags) => form.setFieldValue("focusKeywords", tags)}
+          placeHolder="Enter keywords"
+          onlyUnique={true}
+          addKeys={[9, 13, 32]}
+          // Allows adding tags when Tab, Enter, or Space is pressed
+        />
+        <InputField
           label={"SEO Title"}
           placeholder={"Enter SEO Title here"}
           form={form}
           withAsterisk
           validateName={"seoTitle"}
         />
-         <InputField
+        <InputField
           label={"Author's Name"}
           placeholder={"Enter Blog's Author Name here"}
           form={form}
@@ -182,7 +201,6 @@ console.log("Form : " , form.values);
           withAsterisk
           validateName={"metaDescription"}
         />
-
 
         {/* <TinyMCEEditor
           label={"Meta Description"}

@@ -21,7 +21,7 @@ export default function TextEditorTinyMce({ form, validateName, label, required 
         <span style={{ color: "red", marginLeft: "4px", display: required ? "inline" : "none" }}>*</span>
       </Text>
       <Editor
-        apiKey="u3ici7ksqrmq51agx3kz00k3qbjp263zmdlmpgwjstzxhwy7"
+        apiKey="97xnvgc0v0y1g14xrdojmy5pwvfkr1si61h6lut5j9j3wj6n"
         onInit={(_evt, editor) => (editorRef.current = editor)}
         value={form.values[validateName]}
         onEditorChange={handleEditorChange}
@@ -49,7 +49,7 @@ export default function TextEditorTinyMce({ form, validateName, label, required 
             "wordcount",
           ],
           toolbar:
-            "undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            "undo redo | anchor | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
           content_style: "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
           images_upload_url: "https://firebasestorage.googleapis.com/v0/b/carflys-b1b57.appspot.com/o",
           automatic_uploads: true,

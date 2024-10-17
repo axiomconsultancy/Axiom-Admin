@@ -39,34 +39,38 @@ export const AboutUs = () => {
         /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value)
           ? null
           : "Please enter a valid email",
-          primaryContact: (value) => {
-            const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
-            if (!regex.test(value)) {
-              return "Please enter a valid primary contact number (e.g., +92-XXXXXXXXXX)";
-            }
-            return null; // No error if the validation passes
-          },
+      otherEmails: (value) =>
+        !value || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value)
+          ? null
+          : "Please Enter A Valid Email",
+      primaryContact: (value) => {
+        const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
+        if (!regex.test(value)) {
+          return "Please enter a valid primary contact number (e.g., +92-XXXXXXXXXX)";
+        }
+        return null; // No error if the validation passes
+      },
 
-          whatsapp: (value) => {
-            if (!value) {
-              return null; // No validation error if the field is empty (optional)
-            }
-            const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
-            if (!regex.test(value)) {
-              return "Please enter a valid whatsapp number (e.g., +92-XXXXXXXXXX)";
-            }
-            return null; // No error if the validation passes
-          },
-          otherContacts: (value) => {
-            if (!value) {
-              return null; // No validation error if the field is empty (optional)
-            }
-            const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
-            if (!regex.test(value)) {
-              return "Please enter a valid whatsapp number (e.g., +92-XXXXXXXXXX)";
-            }
-            return null; // No error if the validation passes
-          },
+      whatsapp: (value) => {
+        if (!value) {
+          return null; // No validation error if the field is empty (optional)
+        }
+        const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
+        if (!regex.test(value)) {
+          return "Please enter a valid whatsapp number (e.g., +92-XXXXXXXXXX)";
+        }
+        return null; // No error if the validation passes
+      },
+      otherContacts: (value) => {
+        if (!value) {
+          return null; // No validation error if the field is empty (optional)
+        }
+        const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
+        if (!regex.test(value)) {
+          return "Please enter a valid whatsapp number (e.g., +92-XXXXXXXXXX)";
+        }
+        return null; // No error if the validation passes
+      },
       primaryAddress: (value) =>
         value?.length > 0 ? null : "Please enter primary address",
     },
@@ -149,7 +153,6 @@ export const AboutUs = () => {
             validateName={"otherContacts"}
           />
 
-
           <InputField
             label={"LinkedIn Profile"}
             placeholder={"Enter LinkedIn Profile Link"}
@@ -174,7 +177,7 @@ export const AboutUs = () => {
             form={form}
             validateName={"whatsapp"}
           />
-         
+
           <InputField
             label={"Youtube Profile"}
             placeholder={"Enter Youtube Profile Link"}
