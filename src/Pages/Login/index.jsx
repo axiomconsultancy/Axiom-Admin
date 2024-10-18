@@ -1,5 +1,5 @@
 import { Container } from "@mantine/core";
-import logo from "../../assets/logo.svg";
+import logo from "../../assets/axiom-logo.png";
 import InputField from "../../components/InputField";
 import PassInput from "../../components/PassInput";
 import { useForm } from "@mantine/form";
