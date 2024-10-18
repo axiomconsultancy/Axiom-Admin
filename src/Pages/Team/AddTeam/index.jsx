@@ -92,11 +92,9 @@ export const AddTeam = () => {
       IDCardBack: (value) => (value ? null : "Please Upload Cnic back image"),
       teamMemberImage: (value) => (value ? null : "Please Upload User photo"),
       bankAccountNumber: (val) =>
-        /^[0-9]{8,16}$/.test(val)
-          ? null
+        !val || /^[0-9]{8,16}$/.test(val) 
+          ? null 
           : "Bank account number must be 8-16 digits",
-  
-      // Basic validation for IBAN
       IBAN: (val) =>
         !val || /^PK\d{2}[A-Z0-9]{4}\d{16}$/.test(val)
           ? null
