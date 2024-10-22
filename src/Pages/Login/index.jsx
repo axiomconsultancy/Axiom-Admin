@@ -13,6 +13,7 @@ import { showNotification } from "@mantine/notifications";
 import { routeNames } from "../../Routes/routeNames";
 import { useNavigate } from "react-router";
 import { useStyles } from "./styles";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -90,6 +91,9 @@ export const Login = () => {
           form={form}
           validateName={"password"}
         />
+        <div style={{ fontSize: "12px", cursor: "pointer", marginTop: "8px" }}>
+          <Link to="/login/forgot-password">Forgot Password?</Link>
+        </div>
         <Button
           label={"Login"}
           type={"submit"}

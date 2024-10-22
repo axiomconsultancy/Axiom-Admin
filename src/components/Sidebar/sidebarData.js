@@ -12,6 +12,7 @@ import {
   Settings,
   Users,
 } from "tabler-icons-react";
+import { IconMessageQuestion , IconQuote  } from '@tabler/icons-react';
 import { routeNames } from "../../Routes/routeNames";
 export const sidebarData = [
   {
@@ -74,7 +75,7 @@ export const sidebarData = [
   },
   {
     label: "Testimonial",
-    icon: BrandBlogger,
+    icon: IconMessageQuestion,
     links: [
       { label: "Add Testimonial", link: routeNames.general.addTestimonial },
       { label: "View Testimonial", link: routeNames.general.viewTestimonial },
@@ -82,7 +83,7 @@ export const sidebarData = [
   },
   {
     label: "Quotes",
-    icon: BrandBlogger,
+    icon: IconQuote ,
     links: [
 
       { label: "View Quotes", link: routeNames.general.viewQuotes },

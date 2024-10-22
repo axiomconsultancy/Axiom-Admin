@@ -20,17 +20,22 @@ import ViewBlogs from "./Pages/Blog/ViewBlogs";
 import { Settings } from "./Pages/Settings";
 import { AboutUs } from "./Pages/AboutUs";
 import { Login } from "./Pages/Login";
+import { ForgetPassword } from "./Pages/ForgotPassword";
 import { Dashboard } from "./Pages/Dashboard";
 import ViewJobApplications from "./Pages/Jobs/JobApplications";
 import { AddTestimonial } from "./Pages/Testimonial/AddTestimonial";
 import ViewTestimonial from "./Pages/Testimonial/ViewTestimonials";
 import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
 import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
+import { ResetPassword } from "./Pages/ResetPassword";
 
 function App() {
   return (
     <Routes>
       <Route path={routeNames.general.login} element={<Login />} />
+      <Route path={routeNames.general.forgetPassword} element={<ForgetPassword />} />
+      <Route path="/reset-password/:token" element={<ResetPassword />} />
+      
       <Route path={routeNames.general.landing} element={<GeneralLayout />}>
         <Route path={routeNames.general.landing} element={<Dashboard />} />
         <Route path={routeNames.general.addService} element={<AddService />} />

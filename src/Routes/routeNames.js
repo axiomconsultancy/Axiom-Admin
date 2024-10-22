@@ -2,6 +2,7 @@ export const routeNames = {
   general: {
     landing: "/",
     login: "/login",
+    forgetPassword: "/login/forgot-password",
     addService: "/add-service",
     viewService: "/view-services",
     addProject: "/add-project",
