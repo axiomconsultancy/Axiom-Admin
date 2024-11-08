@@ -30,6 +30,8 @@ const ViewProduct = ({ rowData }) => {
       <Text align="justify">{rowData?.metaDescription}</Text>
       <Title order={3}>SEO Title</Title>
       <Text align="justify">{rowData?.seoTitle}</Text>
+      <Title order={3}>Category</Title>
+      <Text align="justify">{rowData?.blogCategory}</Text>
       <Title order={3}>Author Name</Title>
       <Text align="justify">{rowData?.authorName}</Text>
       <Title order={3}>Blog Data</Title>

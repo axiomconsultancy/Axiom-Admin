@@ -34,6 +34,7 @@ const InputField = ({
   value,
   size="md",
   validateName,
+  data, // New prop for Select options
   disabled,
   onKeyDown,
   mask,

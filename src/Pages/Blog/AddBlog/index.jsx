@@ -14,6 +14,7 @@ import { backendUrl } from "../../../constants/constants";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 import DropZone from "../../../components/Dropzone";
+import DropDown from "../../../components/DropDown"
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../../Routes/routeNames";
 // import SelectMenu from "../../../components/SelectMenu";
@@ -25,10 +26,13 @@ export const AddBlog = () => {
   let { state } = useLocation();
   const [categories, setCategories] = useState([]);
 
+  console.log("categ : " , categories);
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
       blogTitle: "",
+      blogCategory: "",
       altText: "",
       metaDescription: "",
       blogImage: null,
@@ -47,6 +51,7 @@ export const AddBlog = () => {
           : value.length > 100
           ? "Title must be at most 100 characters long"
           : null,
+      blogCategory: (value) => (!value ? "Category is required" : null),
       altText: (value) =>
         !value
           ? "Alt Text is required"
@@ -91,7 +96,7 @@ export const AddBlog = () => {
       },
     }
   );
-  console.log("Form : ", form.values);
+  // console.log("Form : ", form.values);
   useEffect(() => {
     if (state?.isUpdate) {
       form.setValues(state.data);
@@ -107,12 +112,13 @@ export const AddBlog = () => {
           values,
           {
             headers: {
-              'Content-Type': "application/json",
+              "Content-Type": "application/json",
               Authorization: `Bearer ${user.token}`,
             },
           }
         );
       } else {
+        console.log("values : " , values);
         return axios.post(`${backendUrl}/api/v1/blog`, values, {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -153,6 +159,14 @@ export const AddBlog = () => {
           form={form}
           withAsterisk
           validateName={"blogTitle"}
+        />
+        {/* Use the CategoryDropdown component for blog category */}
+        <DropDown
+          label={"Category"}
+          placeholder={"Select Blog Category"}
+          data={categories} // Pass the fetched categories here
+          form={form}
+          validateName={"blogCategory"}
         />
         <InputField
           label={"Cover Image Alt Text"}
