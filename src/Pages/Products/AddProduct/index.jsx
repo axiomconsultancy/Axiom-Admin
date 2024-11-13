@@ -35,18 +35,28 @@ export const AddProduct = () => {
 
     validate: {
       title: (value) =>
-        value?.length > 1 && value?.length < 30
+        value?.trim().length > 1 && value?.length < 30
           ? null
           : "Please enter product title between 2 to 30 characters",
       description: (value) =>
-        value?.length > 0 ? null : "Please enter product description",
+        value?.trim().length > 0 ? null : "Please enter product description",
       // shortDescription: (value) =>
       //   value?.length > 0 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
-      link: (value) => (value ? null : "Please enter project link"),
+      link: (value) =>
+        value?.trim().length > 0 ? null : "Please enter project link",
       // homeImage: (value) => (value ? null : "Please upload a home Image"),
     },
   });
+  const handleSubmit = (values) => {
+    const trimmedValues = {
+      ...values,
+      title: values.title.trim(),
+      description: values.description.trim(),
+      link: values.link.trim(),
+    };
+    handleAddService.mutate(trimmedValues);
+  };
 
   //categories
   const { status } = useQuery(
@@ -112,9 +122,11 @@ export const AddProduct = () => {
   return (
     <Container fluid>
       <PageHeader label={state?.isUpdate ? "Edit Product" : "Add Product"} />
-      <form
+      {/* <form
         onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}
-      >
+      > */}
+
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <InputField
           label={"Title"}
           placeholder={"Enter Product Title"}

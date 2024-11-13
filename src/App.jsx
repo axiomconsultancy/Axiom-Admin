@@ -25,17 +25,24 @@ import { Dashboard } from "./Pages/Dashboard";
 import ViewJobApplications from "./Pages/Jobs/JobApplications";
 import { AddTestimonial } from "./Pages/Testimonial/AddTestimonial";
 import ViewTestimonial from "./Pages/Testimonial/ViewTestimonials";
-import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
-import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
+// import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
+// import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
+import ViewPrivacyPolicy from "./Pages/PrivacyPolicy/ViewPrivacyPolicy";
+import { AddPrivacyPolicy } from "./Pages/PrivacyPolicy/AddPrivacyPolicy";
+import { AddTermsAndConditions } from "./Pages/TermsAndConditions/AddTermsAndConditions";
+import ViewTermsAndConditions from "./Pages/TermsAndConditions/ViewTermsAndConditions";
 import { ResetPassword } from "./Pages/ResetPassword";
 
 function App() {
   return (
     <Routes>
       <Route path={routeNames.general.login} element={<Login />} />
-      <Route path={routeNames.general.forgetPassword} element={<ForgetPassword />} />
+      <Route
+        path={routeNames.general.forgetPassword}
+        element={<ForgetPassword />}
+      />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
-      
+
       <Route path={routeNames.general.landing} element={<GeneralLayout />}>
         <Route path={routeNames.general.landing} element={<Dashboard />} />
         <Route path={routeNames.general.addService} element={<AddService />} />
@@ -54,15 +61,15 @@ function App() {
           element={<ViewProducts />}
         />
         <Route path={routeNames.general.addJob} element={<AddJob />} />
-        <Route
+        {/* <Route
           path={routeNames.general.addJobCategory}
           element={<AddJobCategory />}
-        />
+        /> */}
         <Route path={routeNames.general.viewJobs} element={<ViewJobs />} />
-        <Route
+        {/* <Route
           path={routeNames.general.viewJobCategory}
           element={<ViewJobCategory />}
-        />
+        /> */}
         <Route path={routeNames.general.addTeam} element={<AddTeam />} />
         <Route path={routeNames.general.viewTeams} element={<ViewTeams />} />
         <Route path={routeNames.general.viewXTeams} element={<ViewXTeams />} />
@@ -73,6 +80,22 @@ function App() {
         <Route path={routeNames.general.viewBlogs} element={<ViewBlogs />} />
         <Route path={routeNames.general.addBlog} element={<AddBlog />} />
         <Route path={routeNames.general.viewBlogs} element={<ViewBlogs />} />
+        <Route
+          path={routeNames.general.addTermsAndConditions}
+          element={<AddTermsAndConditions />}
+        />
+        <Route
+          path={routeNames.general.viewTermsAndConditions}
+          element={<ViewTermsAndConditions />}
+        />
+        <Route
+          path={routeNames.general.addPrivacyPolicy}
+          element={<AddPrivacyPolicy />}
+        />
+        <Route
+          path={routeNames.general.viewPrivacyPolicy}
+          element={<ViewPrivacyPolicy />}
+        />
         <Route
           path={routeNames.general.jobApplications}
           element={<ViewJobApplications />}
@@ -85,10 +108,7 @@ function App() {
           path={routeNames.general.viewTestimonial}
           element={<ViewTestimonial />}
         />
-         <Route
-          path={routeNames.general.viewQuotes}
-          element={<ViewQuotes/>}
-        />
+        <Route path={routeNames.general.viewQuotes} element={<ViewQuotes />} />
       </Route>
     </Routes>
   );

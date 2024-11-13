@@ -95,6 +95,22 @@ const ActionIcons = ({
           },
         });
         break;
+      case "privacyPolicy":
+        navigate(routeNames.general.addPrivacyPolicy, {
+          state: {
+            isUpdate: true,
+            data: rowData,
+          },
+        });
+        break;
+      case "termsAndConditions":
+        navigate(routeNames.general.addTermsAndConditions, {
+          state: {
+            isUpdate: true,
+            data: rowData,
+          },
+        });
+        break;
       case "testimonial":
         navigate(routeNames.general.addTestimonial, {
           state: {
@@ -111,14 +127,14 @@ const ActionIcons = ({
           },
         });
         break;
-        case "jobsCategory":
-          navigate(routeNames.general.addJobCategory, {
-            state: {
-              isUpdate: true,
-              data: rowData,
-            },
-          });
-          break;
+      case "jobsCategory":
+        navigate(routeNames.general.addJobCategory, {
+          state: {
+            isUpdate: true,
+            data: rowData,
+          },
+        });
+        break;
     }
   };
 
@@ -149,8 +165,14 @@ const ActionIcons = ({
         else if (type === "teamMember")
           queryClient.invalidateQueries("fetchTeamMembers");
         else if (type === "blog") queryClient.invalidateQueries("fetchBlogs");
-        else if (type === "testimonial")queryClient.invalidateQueries("fetchTestimonials");
-        else if (type === "jobsCategory")queryClient.invalidateQueries("fetchJobsCategory");
+        else if (type === "privacyPolicy")
+          queryClient.invalidateQueries("fetchTermsAndConditions");
+        else if (type === "termsAndConditions")
+          queryClient.invalidateQueries("fetch");
+        else if (type === "testimonial")
+          queryClient.invalidateQueries("fetchTestimonials");
+        else if (type === "jobsCategory")
+          queryClient.invalidateQueries("fetchJobsCategory");
         else if (type === "quote") queryClient.invalidateQueries("fetchQuotes");
       },
       onError: (res) => {
@@ -243,7 +265,11 @@ const ActionIcons = ({
       <ViewModal
         opened={openView}
         setOpened={setOpenView}
-        title={<span style={{ fontWeight: 'bold', color:'black', fontSize: '2rem' }}>{`View ${type}`}</span>}
+        title={
+          <span
+            style={{ fontWeight: "bold", color: "black", fontSize: "2rem" }}
+          >{`View ${type}`}</span>
+        }
       >
         {viewData}
       </ViewModal>

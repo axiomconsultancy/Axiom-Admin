@@ -14,7 +14,7 @@ import { backendUrl } from "../../../constants/constants";
 import { routeNames } from "../../../Routes/routeNames";
 import { useNavigate } from "react-router";
 
-const ViewJobs = () => {
+const ViewPrivacyPolicy = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -23,9 +23,9 @@ const ViewJobs = () => {
   const [blockedFilter, setBlockedFilter] = useState(null);
 
   const { status } = useQuery(
-    "fetchJobs",
+    "fetchPrivacyPolicy",
     () => {
-      return axios.get(backendUrl + "/api/v1/jobs", {
+      return axios.get(backendUrl + "/api/v1/privacy-policy", {
         headers: {
           authorization: `Bearer ${user.token}`,
         },
@@ -43,34 +43,31 @@ const ViewJobs = () => {
   );
   const filteredItems = tableData.filter((item) => {
     if (blockedFilter === null)
-      return item?.title?.toLowerCase().includes(search.toLowerCase());
+      return item?.policyTitle?.toLowerCase().includes(search.toLowerCase());
     else
       return (
-        item?.title?.toLowerCase().includes(search.toLowerCase()) &&
+        item?.policyTitle?.toLowerCase().includes(search.toLowerCase()) &&
         item?.blocked === blockedFilter
       );
   });
-  // console.log("hello")
-  // console.log("Filtered Jobs :" , tableData)
-  console.log("Jobs :", filteredItems);
   const handleClearFilters = () => {
     setSearch("");
     setBlockedFilter(null);
   };
   return (
     <Container size="xl" p="sm">
-      <PageHeader label={"View Jobs"} />
+      <PageHeader label={"View Privacy Policy"} />
       <Container size="xl" pb={"md"} bg={"white"} className={classes.table}>
         <Grid p="xs">
-          <Grid.Col sm="6" md="6" lg="3">
+          <Grid.Col sm="6" md={"6"} lg="3">
             <InputField
-              placeholder={"Search Title"}
+              placeholder={"Search Privacy Policy"}
               leftIcon="search"
               value={search}
               onChange={(v) => setSearch(v.target.value)}
             />
           </Grid.Col>
-          <Grid.Col sm="6" md="6" lg="3">
+          <Grid.Col sm="6" md={"6"} lg="3">
             <SelectMenu
               placeholder={"Filter by Status"}
               data={filterbyStatus}
@@ -78,20 +75,20 @@ const ViewJobs = () => {
               onChange={setBlockedFilter}
             />
           </Grid.Col>
-          <Grid.Col sm="6" md="6" lg={"3"}>
+          <Grid.Col sm="6" md={"6"} lg="3">
             <Button
-              fullWidth
               label={"Clear Filters"}
+              fullWidth
               variant="outline"
               onClick={handleClearFilters}
             />
           </Grid.Col>
           <Grid.Col sm="6" md={"6"} lg="3">
             <Button
+              label={"Add Privacy Policy"}
               fullWidth
-              label={"Add Job"}
               leftIcon="plus"
-              onClick={() => navigate(routeNames.general.addJob)}
+              onClick={() => navigate(routeNames.general.addPrivacyPolicy)}
             />
           </Grid.Col>
         </Grid>
@@ -99,11 +96,11 @@ const ViewJobs = () => {
           columns={Columns}
           data={filteredItems}
           progressPending={status === "loading"}
-          type="jobs"
+          type="privacyPolicy"
         />
       </Container>
     </Container>
   );
 };
 
-export default ViewJobs;
+export default ViewPrivacyPolicy;

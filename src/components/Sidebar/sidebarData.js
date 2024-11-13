@@ -12,7 +12,7 @@ import {
   Settings,
   Users,
 } from "tabler-icons-react";
-import { IconMessageQuestion , IconQuote  } from '@tabler/icons-react';
+import { IconMessageQuestion, IconQuote } from "@tabler/icons-react";
 import { routeNames } from "../../Routes/routeNames";
 export const sidebarData = [
   {
@@ -48,8 +48,8 @@ export const sidebarData = [
     label: "Jobs",
     icon: Briefcase,
     links: [
-      { label: "Add Job Category", link: routeNames.general.addJobCategory },
-      { label: "View Job Categories", link: routeNames.general.viewJobCategory },
+      // { label: "Add Job Category", link: routeNames.general.addJobCategory },
+      // { label: "View Job Categories", link: routeNames.general.viewJobCategory },
       { label: "Add Job", link: routeNames.general.addJob },
       { label: "View Jobs", link: routeNames.general.viewJobs },
       { label: "Job Applications", link: routeNames.general.jobApplications },
@@ -62,7 +62,6 @@ export const sidebarData = [
       { label: "Add Team Member", link: routeNames.general.addTeam },
       { label: "View Team Members", link: routeNames.general.viewTeams },
       { label: "View X-Team Members", link: routeNames.general.viewXTeams },
-
     ],
   },
   {
@@ -83,11 +82,8 @@ export const sidebarData = [
   },
   {
     label: "Quotes",
-    icon: IconQuote ,
-    links: [
-
-      { label: "View Quotes", link: routeNames.general.viewQuotes },
-    ],
+    icon: IconQuote,
+    links: [{ label: "View Quotes", link: routeNames.general.viewQuotes }],
   },
   {
     label: "About Us",
@@ -98,5 +94,34 @@ export const sidebarData = [
     label: "Settings",
     icon: Settings,
     link: routeNames.general.settings,
+  },
+
+  {
+    label: "Terms And Conditions",
+    icon: BrandBlogger,
+    links: [
+      {
+        label: "Add Terms And Conditions",
+        link: routeNames.general.addTermsAndConditions,
+      },
+      {
+        label: "View Terms And Conditions",
+        link: routeNames.general.viewTermsAndConditions,
+      },
+    ],
+  },
+  {
+    label: "Privacy Policy",
+    icon: BrandBlogger,
+    links: [
+      {
+        label: "Add Privacy Policy",
+        link: routeNames.general.addPrivacyPolicy,
+      },
+      {
+        label: "View Privacy Policy",
+        link: routeNames.general.viewPrivacyPolicy,
+      },
+    ],
   },
 ];

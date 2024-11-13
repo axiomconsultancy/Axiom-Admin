@@ -36,18 +36,18 @@ export const AddProject = () => {
 
     validate: {
       title: (value) =>
-        value?.length > 1 && value?.length < 30
+        value?.trim().length > 1 && value?.trim().length < 30
           ? null
           : "Please enter project title between 2 to 30 characters",
       description: (value) =>
-        value?.length > 0 ? null : "Please enter project description",
+        value?.trim().length > 0 ? null : "Please enter project description",
       shortDescription: (value) =>
-        value?.length > 1 && value?.length < 100
+        value?.trim().length > 1 && value?.trim().length < 100
           ? null
           : "Please enter short description between 2 and 100 characters",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
-      // homeImage: (value) => (value ? null : "Please upload a home Image"),
-      link: (value) => (value ? null : "Please enter project link"),
+      link: (value) =>
+        value?.trim().length > 0 ? null : "Please enter project link",
       category: (value) => (value ? null : "Please select category"),
     },
   });
@@ -78,7 +78,17 @@ export const AddProject = () => {
       },
     }
   );
-
+  const handleSubmit = (values) => {
+    // Trim whitespace from all string fields before submission
+    const trimmedValues = {
+      ...values,
+      title: values.title.trim(),
+      description: values.description.trim(),
+      shortDescription: values.shortDescription.trim(),
+      link: values.link.trim(),
+    };
+    handleAddService.mutate(trimmedValues);
+  };
   const handleAddService = useMutation(
     (values) => {
       if (state?.isUpdate)
@@ -121,9 +131,10 @@ export const AddProject = () => {
   return (
     <Container fluid>
       <PageHeader label={state?.isUpdate ? "Edit Project" : "Add Project"} />
-      <form
-        onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}
-      >
+      {/* <form
+       onSubmit={form.onSubmit((values) => handleAddService.mutate(values))} */}
+      {/* > */}
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <InputField
           label={"Title"}
           placeholder={"Enter Project Title"}

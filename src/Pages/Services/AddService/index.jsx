@@ -31,13 +31,13 @@ export const AddService = () => {
 
     validate: {
       title: (value) =>
-        value?.length > 1 && value?.length < 30
+        value?.trim().length > 1 && value?.trim().length < 30
           ? null
           : "Please enter service title between 2 to 30 characters",
       description: (value) =>
-        value?.length > 0 ? null : "Please enter project description",
+        value?.trim().length > 0 ? null : "Please enter project description",
       shortDescription: (value) =>
-        value?.length > 0 && value?.length < 80
+        value?.trim().length > 0 && value?.trim().length < 80
           ? null
           : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
@@ -93,7 +93,17 @@ export const AddService = () => {
     <Container fluid>
       <PageHeader label={state?.isUpdate ? "Edit Service" : "Add Service"} />
       <form
-        onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}
+        onSubmit={form.onSubmit((values) => {
+          // Trim all values before passing to mutation
+          const trimmedValues = {
+            ...values,
+            title: values.title.trim(),
+            description: values.description.trim(),
+            shortDescription: values.shortDescription.trim(),
+            // No need to trim images, as they are file objects
+          };
+          handleAddService.mutate(trimmedValues);
+        })}
       >
         <InputField
           label={"Title"}

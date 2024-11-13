@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { Badge, Loader, Menu } from "@mantine/core";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { backendUrl } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContext";
@@ -18,11 +20,15 @@ const StatusToggle = ({ status, id, type, queryName }) => {
   const handleStatusChange = useMutation(
     async () => {
       const link = backendUrl + `/api/v1/${type}/${id}`;
-      return axios.patch(link, { blocked: !blocked },{
-        headers: {
-          authorization: `Bearer ${user.token}`,
-        },
-      });
+      return axios.patch(
+        link,
+        { blocked: !blocked },
+        {
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
     },
     {
       onSuccess: (res) => {

@@ -28,21 +28,21 @@ export const AddJob = () => {
     initialValues: {
       title: "",
       type: "",
-      vacancies: "",
-      description: "",
-      category: "",
-      location: "Islamabad",
-      jobLevel: "",
-      minimumQualifications: "",
-      minimumExperience: "",
-      jobApplicationDeadline: "",
-      jobRequirements: "",
-      jobResponsibilities: "",
-      minimumJobSalary: "",
-      maximumJobSalary: "",
-      jobImage: null,
-      jobSkills: "",
-      otherBenefits: "",
+      // vacancies: "",
+      // description: "",
+      // category: "",
+      location: "",
+      // jobLevel: "",
+      // minimumQualifications: "",
+      // minimumExperience: "",
+      // jobApplicationDeadline: "",
+      // jobRequirements: "",
+      // jobResponsibilities: "",
+      // minimumJobSalary: "",
+      // maximumJobSalary: "",
+      // jobImage: null,
+      // jobSkills: "",
+      // otherBenefits: "",
     },
 
     validate: {
@@ -52,66 +52,73 @@ export const AddJob = () => {
           : "Please enter job title between 2 to 30 characters",
       type: (value) =>
         value?.trim().length > 0 ? null : "Please select job type",
-      vacancies: (value) => (value > 0 ? null : "Please enter vacancies in digits only"),
-      category: (value) =>
-        value?.trim().length > 0 ? null : "Please select category",
-      description: (value) =>
-        value?.trim().length > 0 ? null : "Please enter job description",
-      jobLevel: (value) =>
-        value?.trim().length > 0 ? null : "Please enter job level",
-      minimumQualifications: (value) =>
-        value?.trim().length > 0 ? null : "Please enter minimum qualification",
-      minimumExperience: (value) =>
-        value?.trim().length > 0 ? null : "Please enter minimum experience",
-      jobApplicationDeadline: (value) =>
-        value ? null : "Please select job deadline",
-      jobRequirements: (value) =>
-        value?.trim().length > 0 ? null : "Please enter job requirements",
+      location: (value) =>
+        value?.trim().length > 0 ? null : "Please select job location",
+      // vacancies: (value) =>
+      //   value > 0 ? null : "Please enter vacancies in digits only",
+      // category: (value) =>
+      //   value?.trim().length > 0 ? null : "Please select category",
+      // description: (value) =>
+      //   value?.trim().length > 0 ? null : "Please enter job description",
+      // jobLevel: (value) =>
+      //   value?.trim().length > 0 ? null : "Please enter job level",
+      // minimumQualifications: (value) =>
+      //   value?.trim().length > 0 ? null : "Please enter minimum qualification",
+      // minimumExperience: (value) =>
+      //   value?.trim().length > 0 ? null : "Please enter minimum experience",
+      // jobApplicationDeadline: (value) =>
+      //   value ? null : "Please select job deadline",
+      // jobRequirements: (value) =>
+      //   value?.trim().length > 0 ? null : "Please enter job requirements",
 
-      minimumJobSalary: (value) =>
-        value > 0 ? null : "Please enter minimum salary",
-      maximumJobSalary: (value) =>
-        value > 0 ? null : "Please enter maximum salary",
+      // minimumJobSalary: (value) =>
+      //   value > 0 ? null : "Please enter minimum salary",
+      // maximumJobSalary: (value) =>
+      //   value > 0 ? null : "Please enter maximum salary",
     },
   });
 
-  //categories
-  const { status } = useQuery(
-    "fetchJobsCategory",
-    () => {
-      console.log("Categories issue 1")
-      return axios.get(backendUrl + "/api/v1/jobsCategory");
-    },
-    {
-      onSuccess: (res) => {
-        console.log("categories before:", res);
-      
-        // Map and filter the data, excluding items where blocked is true
-        let data = res.data.data
-          .filter(item => !item?.blocked)  // Exclude items where blocked is true
-          .map((item) => {
-            return { value: item?._id, label: item?.title, blocked: item?.blocked };
-          });
-      
-        console.log("categories after:", data);
-        setCategories(data);
-      },
-      onError: (error) =>{
-      console.log("Categories issue 2323" , error)
-      }
-    }
-  );
+  // //categories
+  // const { status } = useQuery(
+  //   "fetchJobsCategory",
+  //   () => {
+  //     console.log("Categories issue 1");
+  //     return axios.get(backendUrl + "/api/v1/jobsCategory");
+  //   },
+  //   {
+  //     onSuccess: (res) => {
+  //       console.log("categories before:", res);
 
-  useEffect(() => {
-    if (state?.isUpdate) {
-      form.setValues(state.data);
-      form.setFieldValue("category", state.data?.category?._id);
-      form.setFieldValue(
-        "jobApplicationDeadline",
-        new moment(state.data.jobApplicationDeadline)
-      );
-    }
-  }, [state]);
+  //       // Map and filter the data, excluding items where blocked is true
+  //       let data = res.data.data
+  //         .filter((item) => !item?.blocked) // Exclude items where blocked is true
+  //         .map((item) => {
+  //           return {
+  //             value: item?._id,
+  //             label: item?.title,
+  //             blocked: item?.blocked,
+  //           };
+  //         });
+
+  //       console.log("categories after:", data);
+  //       setCategories(data);
+  //     },
+  //     onError: (error) => {
+  //       console.log("Categories issue 2323", error);
+  //     },
+  //   }
+  // );
+
+  // useEffect(() => {
+  //   if (state?.isUpdate) {
+  //     form.setValues(state.data);
+  //     form.setFieldValue("category", state.data?.category?._id);
+  //     form.setFieldValue(
+  //       "jobApplicationDeadline",
+  //       new moment(state.data.jobApplicationDeadline)
+  //     );
+  //   }
+  // }, [state]);
 
   const handleAddJob = useMutation(
     (values) => {
@@ -163,14 +170,14 @@ export const AddJob = () => {
             { minWidth: "md", cols: 2 },
           ]}
         >
-          <Datepicker
+          {/* <Datepicker
             label={"Application Deadline"}
             placeholder={"Select Application Deadline"}
             form={form}
             withAsterisk
             minDate={new Date()}
             validateName={"jobApplicationDeadline"}
-          />
+          /> */}
           <InputField
             label={"Title"}
             placeholder={"Enter Job Title"}
@@ -190,36 +197,43 @@ export const AddJob = () => {
             form={form}
             validateName="type"
           />
-          <SelectMenu
+          {/* <SelectMenu
             data={categories}
             label="Job Category"
             placeholder="Select Job Category"
             withAsterisk
             form={form}
             validateName="category"
-          />
-          <InputField
+          /> */}
+          {/* <InputField
             label={"Vacancies"}
             placeholder={"Enter Job vacancies"}
             form={form}
             withAsterisk
             validateName={"vacancies"}
-          />
+          /> */}
           <InputField
+            label={"Location"}
+            placeholder={"Enter Job Location"}
+            form={form}
+            withAsterisk
+            validateName={"location"}
+          />
+          {/* <InputField
             label={"Job Level"}
             placeholder={"Enter Job Level"}
             form={form}
             withAsterisk
             validateName={"jobLevel"}
-          />
-          <InputField
+          /> */}
+          {/* <InputField
             label={"Minimum Qualification"}
             placeholder={"Enter Minimum Qualification"}
             form={form}
             withAsterisk
             validateName={"minimumQualifications"}
-          />
-          <SelectMenu
+          /> */}
+          {/* <SelectMenu
             data={[
               { value: "0-1 Year", label: "0-1 Year" },
               { value: "1-3 Years", label: "1-3 Years" },
@@ -233,59 +247,59 @@ export const AddJob = () => {
             withAsterisk
             form={form}
             validateName="minimumExperience"
-          />
-          <InputField
+          /> */}
+          {/* <InputField
             label={"Minimum Salary"}
             placeholder={"Enter Minimum Salary"}
             form={form}
             withAsterisk
             validateName={"minimumJobSalary"}
-          />
-          <InputField
+          /> */}
+          {/* <InputField
             label={"Maximum Salary"}
             placeholder={"Enter Maximum Salary"}
             form={form}
             withAsterisk
             validateName={"maximumJobSalary"}
-          />
+          /> */}
         </SimpleGrid>
-        <TextArea
+        {/* <TextArea
           label={"Job Requirements"}
           placeholder={"Enter Job Requirements"}
           rows="4"
           form={form}
           withAsterisk
           validateName={"jobRequirements"}
-        />
-        <TextArea
+        /> */}
+        {/* <TextArea
           label={"Job Responsibilities"}
           placeholder={"Enter Job Responsibilities"}
           rows="4"
           form={form}
           validateName={"jobResponsibilities"}
-        />
-        <TextArea
+        /> */}
+        {/* <TextArea
           label={"Detail Description"}
           placeholder={"Enter Detailed Description"}
           rows="4"
           form={form}
           withAsterisk
           validateName={"description"}
-        />
-        <TextArea
+        /> */}
+        {/* <TextArea
           label={"Other Benefits"}
           placeholder={"Enter Other Benefits"}
           rows="4"
           form={form}
           validateName={"otherBenefits"}
-        />
-        <TextArea
+        /> */}
+        {/* <TextArea
           label={"Job Skills"}
           placeholder={"Enter Job Skills"}
           rows="4"
           form={form}
           validateName={"jobSkills"}
-        />
+        /> */}
         <Group position="right" mt={"md"}>
           <Button
             label={"Cancel"}

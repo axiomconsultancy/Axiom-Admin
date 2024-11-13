@@ -1,4 +1,5 @@
-import { Anchor, Text } from "@mantine/core";
+/* eslint-disable no-unused-vars */
+import { Anchor } from "@mantine/core";
 import ActionIcons from "../../../components/ActionIcons";
 import StatusToggle from "../../../components/StatusToggle";
 import ViewJob from "./ViewJob";
@@ -19,27 +20,6 @@ export const Columns = [
     width: "200px",
   },
   {
-    name: "Category",
-    selector: (row) => row.category?.title,
-    sortable: true,
-    // center: true,
-    width: "200px",
-  },
-  {
-    name: "Vacancy",
-    selector: (row) => row?.vacancies,
-    sortable: true,
-    center: true,
-    width: "110px",
-  },
-  {
-    name: "Job Level",
-    selector: (row) => row?.jobLevel,
-    sortable: true,
-    // center: true,
-    width: "150px",
-  },
-  {
     name: "Job Type",
     selector: (row) => row?.type,
     sortable: true,
@@ -47,17 +27,39 @@ export const Columns = [
     width: "150px",
   },
   {
-    name: "Salary Range (PKR)",
-    selector: (row) => row?.minimumJobSalary,
+    name: "Location",
+    selector: (row) => row.location,
     sortable: true,
     // center: true,
     width: "200px",
-    cell: (row) => (
-      <Text>
-        {row?.minimumJobSalary} - {row?.maximumJobSalary}
-      </Text>
-    ),
   },
+  // {
+  //   name: "Vacancy",
+  //   selector: (row) => row?.vacancies,
+  //   sortable: true,
+  //   center: true,
+  //   width: "110px",
+  // },
+  // {
+  //   name: "Job Level",
+  //   selector: (row) => row?.jobLevel,
+  //   sortable: true,
+  //   // center: true,
+  //   width: "150px",
+  // },
+
+  // {
+  //   name: "Salary Range (PKR)",
+  //   selector: (row) => row?.minimumJobSalary,
+  //   sortable: true,
+  //   // center: true,
+  //   width: "200px",
+  //   cell: (row) => (
+  //     <Text>
+  //       {row?.minimumJobSalary} - {row?.maximumJobSalary}
+  //     </Text>
+  //   ),
+  // },
   {
     name: "Applications",
     selector: (row) => row?.minimumJobSalary,
