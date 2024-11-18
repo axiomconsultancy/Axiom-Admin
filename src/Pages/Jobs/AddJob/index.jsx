@@ -15,6 +15,7 @@ import TextArea from "../../../components/TextArea";
 import Datepicker from "../../../components/Datepicker";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
+import TinyMCEEditor from "./TinyMCEEditor";
 import moment from "moment";
 
 export const AddJob = () => {
@@ -109,16 +110,16 @@ export const AddJob = () => {
   //   }
   // );
 
-  // useEffect(() => {
-  //   if (state?.isUpdate) {
-  //     form.setValues(state.data);
-  //     form.setFieldValue("category", state.data?.category?._id);
-  //     form.setFieldValue(
-  //       "jobApplicationDeadline",
-  //       new moment(state.data.jobApplicationDeadline)
-  //     );
-  //   }
-  // }, [state]);
+  useEffect(() => {
+    if (state?.isUpdate) {
+      form.setValues(state.data);
+      form.setFieldValue("category", state.data?.category?._id);
+      form.setFieldValue(
+        "jobApplicationDeadline",
+        new moment(state.data.jobApplicationDeadline)
+      );
+    }
+  }, [state]);
 
   const handleAddJob = useMutation(
     (values) => {
@@ -219,6 +220,7 @@ export const AddJob = () => {
             withAsterisk
             validateName={"location"}
           />
+
           {/* <InputField
             label={"Job Level"}
             placeholder={"Enter Job Level"}
@@ -263,6 +265,13 @@ export const AddJob = () => {
             validateName={"maximumJobSalary"}
           /> */}
         </SimpleGrid>
+        <TinyMCEEditor
+          label={"Description"}
+          placeholder={"Enter Job Description"}
+          form={form}
+          withAsterisk
+          validateName={"description"}
+        />
         {/* <TextArea
           label={"Job Requirements"}
           placeholder={"Enter Job Requirements"}

@@ -44,8 +44,9 @@ const ViewJob = ({ rowData }) => {
       <Text>{rowData?.jobRequirements}</Text>
       <Title order={3}>Job Responsibilities</Title>
       <Text>{rowData?.jobResponsibilities}</Text> */}
-      {/* <Title order={3}>Detail Description</Title>
-      <Text align="justify">{rowData?.description}</Text> */}
+      <Title order={3}>Detail Description</Title>
+
+      <div dangerouslySetInnerHTML={{ __html: rowData?.description }} />
       {/* <Title order={3}>Detail View Image</Title>
       <Image
         src={rowData?.homeImage}

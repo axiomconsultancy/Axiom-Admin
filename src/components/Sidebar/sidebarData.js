@@ -99,29 +99,13 @@ export const sidebarData = [
   {
     label: "Terms And Conditions",
     icon: BrandBlogger,
-    links: [
-      {
-        label: "Add Terms And Conditions",
-        link: routeNames.general.addTermsAndConditions,
-      },
-      {
-        label: "View Terms And Conditions",
-        link: routeNames.general.viewTermsAndConditions,
-      },
-    ],
+
+    link: routeNames.general.addTermsAndConditions,
   },
   {
     label: "Privacy Policy",
     icon: BrandBlogger,
-    links: [
-      {
-        label: "Add Privacy Policy",
-        link: routeNames.general.addPrivacyPolicy,
-      },
-      {
-        label: "View Privacy Policy",
-        link: routeNames.general.viewPrivacyPolicy,
-      },
-    ],
+
+    link: routeNames.general.addPrivacyPolicy,
   },
 ];

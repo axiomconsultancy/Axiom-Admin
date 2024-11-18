@@ -27,10 +27,11 @@ import { AddTestimonial } from "./Pages/Testimonial/AddTestimonial";
 import ViewTestimonial from "./Pages/Testimonial/ViewTestimonials";
 // import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
 // import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
-import ViewPrivacyPolicy from "./Pages/PrivacyPolicy/ViewPrivacyPolicy";
-import { AddPrivacyPolicy } from "./Pages/PrivacyPolicy/AddPrivacyPolicy";
-import { AddTermsAndConditions } from "./Pages/TermsAndConditions/AddTermsAndConditions";
-import ViewTermsAndConditions from "./Pages/TermsAndConditions/ViewTermsAndConditions";
+// import ViewPrivacyPolicy from "./Pages/PrivacyPolicy/ViewPrivacyPolicy";
+
+import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
+import { TermsAndConditions } from "./Pages/TermsAndConditions";
+// import ViewTermsAndConditions from "./Pages/TermsAndConditions/ViewTermsAndConditions";
 import { ResetPassword } from "./Pages/ResetPassword";
 
 function App() {
@@ -82,20 +83,20 @@ function App() {
         <Route path={routeNames.general.viewBlogs} element={<ViewBlogs />} />
         <Route
           path={routeNames.general.addTermsAndConditions}
-          element={<AddTermsAndConditions />}
+          element={<TermsAndConditions />}
         />
-        <Route
+        {/* <Route
           path={routeNames.general.viewTermsAndConditions}
           element={<ViewTermsAndConditions />}
-        />
+        /> */}
         <Route
           path={routeNames.general.addPrivacyPolicy}
-          element={<AddPrivacyPolicy />}
+          element={<PrivacyPolicy />}
         />
-        <Route
+        {/* <Route
           path={routeNames.general.viewPrivacyPolicy}
           element={<ViewPrivacyPolicy />}
-        />
+        /> */}
         <Route
           path={routeNames.general.jobApplications}
           element={<ViewJobApplications />}
