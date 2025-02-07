@@ -1,14 +1,16 @@
 import { ActionIcon, Box, Image, Loader, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useDropzone } from "react-dropzone";
-import { Paperclip, Photo, X } from "tabler-icons-react";
+import { Photo, X } from "tabler-icons-react";
 import { uploadSingleFile } from "../../constants/firebase";
 import { useEffect, useState } from "react";
 
 export default function DropZone({ form, name, folderName, label }) {
   const isMobile = useMediaQuery("(max-width: 820px)");
-  const [url, urlSetter] = useState("");
+  const [url, setUrl] = useState(""); // Firebase URL
   const [progress, setProgress] = useState(null);
+  const [preview, setPreview] = useState(""); // Local blob URL for preview
+
   const {
     getRootProps,
     getInputProps,
@@ -22,14 +24,40 @@ export default function DropZone({ form, name, folderName, label }) {
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
-      uploadSingleFile({ file, folderName, urlSetter, setProgress });
-      // file.preview = URL.createObjectURL(file);
-      form.setFieldValue(name, url);
+      if (file) {
+        // Create a preview URL for immediate display
+        const previewUrl = URL.createObjectURL(file);
+        setPreview(previewUrl); // Set the preview URL
+        form.setFieldValue(name, previewUrl); // Set form value to preview URL temporarily
+
+        // Upload the file to Firebase Storage
+        uploadSingleFile({
+          file,
+          folderName,
+          urlSetter: setUrl, // Update the Firebase URL state
+          setProgress,
+        });
+      }
     },
   });
+
+  // Update the form value with the Firebase URL once the upload is complete
   useEffect(() => {
-    progress === 100 && form.setFieldValue(name, url);
-  }, [name, progress, url]);
+    if (progress === 100 && url) {
+      form.setFieldValue(name, url); // Set form value to the Firebase URL
+      setPreview(""); // Clear the preview URL
+    }
+  }, [progress, url, form, name]);
+
+  // Clean up the preview URL when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview); // Free up memory
+      }
+    };
+  }, [preview]);
+
   return (
     <Box
       sx={{
@@ -65,15 +93,7 @@ export default function DropZone({ form, name, folderName, label }) {
     >
       {form.values[name] == null ? (
         <>
-          <input
-            {...getInputProps()}
-            onChange={(e) => {
-              const file = e.target.files[0];
-              file.preview = URL.createObjectURL(file);
-              form.setFieldValue(name, file);
-            }}
-          />
-
+          <input {...getInputProps()} />
           <Photo size={"25%"} />
           {isDragActive ? (
             <Text>Drop the files here ...</Text>
@@ -91,7 +111,7 @@ export default function DropZone({ form, name, folderName, label }) {
         >
           {progress === null || progress === 100 ? (
             <Image
-              src={form.values[name]}
+              src={preview || form.values[name]} // Use preview URL or the actual Firebase URL
               alt="preview"
               style={{
                 width: "100%",
@@ -116,7 +136,10 @@ export default function DropZone({ form, name, folderName, label }) {
             }}
             onClick={(e) => {
               e.stopPropagation();
-              form.setFieldValue(name, null);
+              form.setFieldValue(name, null); // Clear the form value
+              setPreview(""); // Clear the preview URL
+              setUrl(""); // Clear the Firebase URL
+              setProgress(null); // Reset progress
             }}
           >
             <X />
