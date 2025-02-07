@@ -14,11 +14,35 @@ import { UserContext } from "../../../contexts/UserContext";
 import DropZone from "../../../components/Dropzone";
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../../Routes/routeNames";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { isValid as isValidIBAN } from "iban";
 
 export const AddTeam = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   let { state } = useLocation();
+
+  const validatePhoneNumber = (val) => {
+    if (!val) return "Please enter a phone number";
+
+    // Ensure the number starts with "+" for correct international parsing
+    const formattedVal = val.startsWith("+") ? val : `+${val}`;
+
+    // Parse the phone number
+    const phoneNumber = parsePhoneNumberFromString(formattedVal);
+
+    return phoneNumber && phoneNumber.isValid()
+      ? null
+      : "Please enter a valid phone number";
+  };
+
+  const validateIBAN = (val) => {
+    if (!val) return "Please enter an IBAN";
+  
+    return isValidIBAN(val) ? null : "Please enter a valid IBAN";
+  };
 
   const form = useForm({
     validateInputOnChange: true,
@@ -66,14 +90,22 @@ export const AddTeam = () => {
         !val || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(val)
           ? null
           : "Please Enter A Valid Email",
-      teamMemberPhone: (val) =>
-        /^(\+92|0)?3\d{2}-?\d{7}$/.test(val)
-          ? null
-          : "Please Enter A Valid Phone Number",
-      officialPhone: (val) =>
-        !val || /^(\+92|0)?3\d{2}-?\d{7}$/.test(val)
-          ? null
-          : "Please Enter A Valid Phone Number",
+
+      // ###### phone #########
+
+      // teamMemberPhone: (val) =>
+      //   /^(\+92|0)?3\d{2}-?\d{7}$/.test(val)
+      //     ? null
+      //     : "Please Enter A Valid Phone Number",
+      teamMemberPhone: validatePhoneNumber,
+
+      // officialPhone: (val) =>
+      //   !val || /^(\+92|0)?3\d{2}-?\d{7}$/.test(val)
+      //     ? null
+      //     : "Please Enter A Valid Phone Number",
+
+      officialPhone: validatePhoneNumber,
+
       teamMemberFacebookLink: (val) =>
         val.trim().length < 1
           ? "Please Enter Value Of Length Greater Than 0"
@@ -93,13 +125,14 @@ export const AddTeam = () => {
       IDCardBack: (value) => (value ? null : "Please Upload Cnic back image"),
       teamMemberImage: (value) => (value ? null : "Please Upload User photo"),
       bankAccountNumber: (val) =>
-        !val || /^[0-9]{8,16}$/.test(val) 
-          ? null 
-          : "Bank account number must be 8-16 digits",
-      IBAN: (val) =>
-        !val || /^PK\d{2}[A-Z0-9]{4}\d{16}$/.test(val)
+        !val || /^[0-9]{8,16}$/.test(val)
           ? null
-          : "Please enter a valid Pakistani IBAN",
+          : "Bank account number must be 8-16 digits",
+      // IBAN: (val) =>
+      //   !val || /^PK\d{2}[A-Z0-9]{4}\d{16}$/.test(val)
+      //     ? null
+      //     : "Please enter a valid Pakistani IBAN",
+      IBAN:validateIBAN,
       // Making kin fields optional
       kinName: (value) => (!value || value.trim() !== "" ? null : null),
       kinRelation: (value) => (!value || value.trim() !== "" ? null : null),
@@ -152,6 +185,7 @@ export const AddTeam = () => {
       },
     }
   );
+
   return (
     <Container fluid>
       <PageHeader
@@ -190,7 +224,7 @@ export const AddTeam = () => {
             withAsterisk
             validateName={"teamMemberEmail"}
           />
-          <InputField
+          {/* <InputField
             label={"Contact Number"}
             placeholder={"Enter Contact Number"}
             form={form}
@@ -198,7 +232,17 @@ export const AddTeam = () => {
             // mask={"0399-9999999"}x
             withAsterisk
             validateName={"teamMemberPhone"}
+          /> */}
+          <InputField
+            label={"Contact Number"}
+            placeholder={"Enter Contact Number"}
+            form={form}
+            component={PhoneInput}
+            mask={"+999999999999"} // Adjust based on user needs
+            withAsterisk
+            validateName={"teamMemberPhone"}
           />
+
           <InputField
             label={"CNIC"}
             placeholder={"CNIC (13 digits)"}
@@ -231,23 +275,25 @@ export const AddTeam = () => {
             form={form}
             validateName={"officialEmail"}
           />
-          <InputField
+          {/* <InputField
             label={"Official Phone"}
             placeholder={"Official Phone"}
             form={form}
             validateName={"officialPhone"}
             component={InputMask}
             mask={"0399-9999999"}
+          /> */}
+
+          <InputField
+            label={"Offical Phone"}
+            placeholder={"Enter Official Phone"}
+            form={form}
+            component={PhoneInput}
+            mask={"+999999999999"} // Adjust based on user needs
+            // withAsterisk
+            validateName={"officialPhone"}
           />
-          {/* <InputField
-              label={"Contact Number"}
-              placeholder={"Enter Contact Number"}
-              form={form}
-              component={InputMask}
-              mask={"0399-9999999"}
-              withAsterisk
-              validateName={"teamMemberPhone"}
-            /> */}
+          
         </SimpleGrid>
         <Divider
           my="xl"
@@ -306,12 +352,20 @@ export const AddTeam = () => {
             form={form}
             validateName={"bankAccountNumber"}
           />
-          <InputField
+          {/* <InputField
             label={"IBAN"}
             placeholder={"IBAN"}
             form={form}
             validateName={"IBAN"}
-          />
+          /> */}
+
+<InputField
+  label="IBAN"
+  placeholder="Enter IBAN"
+  form={form}
+  validateName="IBAN"
+/>
+
         </SimpleGrid>
         <Divider
           my="xl"
