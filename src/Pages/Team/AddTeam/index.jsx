@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { Container, Divider, Flex, Group, SimpleGrid } from "@mantine/core";
 import { useMutation } from "react-query";
@@ -194,7 +195,7 @@ export const AddTeam = () => {
             placeholder={"Enter Contact Number"}
             form={form}
             component={InputMask}
-            mask={"0399-9999999"}
+            // mask={"0399-9999999"}x
             withAsterisk
             validateName={"teamMemberPhone"}
           />
@@ -203,7 +204,7 @@ export const AddTeam = () => {
             placeholder={"CNIC (13 digits)"}
             form={form}
             component={InputMask}
-            mask={"99999-9999999-9"}
+            // mask={"99999-9999999-9"}
             withAsterisk
             validateName={"CNIC"}
           />

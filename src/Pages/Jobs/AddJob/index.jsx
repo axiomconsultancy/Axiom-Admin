@@ -30,7 +30,7 @@ export const AddJob = () => {
       title: "",
       type: "",
       // vacancies: "",
-      // description: "",
+      description: "",
       // category: "",
       location: "",
       // jobLevel: "",
@@ -59,8 +59,8 @@ export const AddJob = () => {
       //   value > 0 ? null : "Please enter vacancies in digits only",
       // category: (value) =>
       //   value?.trim().length > 0 ? null : "Please select category",
-      // description: (value) =>
-      //   value?.trim().length > 0 ? null : "Please enter job description",
+      description: (value) =>
+        value?.trim().length > 0 ? null : "Please enter job description",
       // jobLevel: (value) =>
       //   value?.trim().length > 0 ? null : "Please enter job level",
       // minimumQualifications: (value) =>

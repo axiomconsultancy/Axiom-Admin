@@ -46,7 +46,7 @@ export const AboutUs = () => {
       primaryContact: (value) => {
         const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
         if (!regex.test(value)) {
-          return "Please enter a valid primary contact number (e.g., +92-XXXXXXXXXX)";
+          return "Please enter a valid primary contact number";
         }
         return null; // No error if the validation passes
       },
@@ -57,7 +57,7 @@ export const AboutUs = () => {
         }
         const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
         if (!regex.test(value)) {
-          return "Please enter a valid whatsapp number (e.g., +92-XXXXXXXXXX)";
+          return "Please enter a valid whatsapp number ";
         }
         return null; // No error if the validation passes
       },
@@ -67,7 +67,7 @@ export const AboutUs = () => {
         }
         const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
         if (!regex.test(value)) {
-          return "Please enter a valid whatsapp number (e.g., +92-XXXXXXXXXX)";
+          return "Please enter a valid whatsapp number ";
         }
         return null; // No error if the validation passes
       },
