@@ -7,7 +7,7 @@ const CategoryDropdown = ({ label, placeholder, data, form, validateName }) => {
         return category.label
     })
 
-    console.log("categoryLabel : " , categoryLabel)
+    // console.log("categoryLabel : " , categoryLabel)
 
   return (
     <Select

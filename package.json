@@ -28,6 +28,7 @@
     "firebase": "^11.2.0",
     "fs-extra": "^11.2.0",
     "iban": "^0.0.14",
+    "identity-number-validator": "^1.1.17",
     "jszip": "^3.10.1",
     "jwt-decode": "^3.1.2",
     "libphonenumber-js": "^1.11.19",

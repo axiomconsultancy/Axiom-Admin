@@ -39,7 +39,7 @@ export const Settings = () => {
 
   const handleChangePassword = useMutation(
     (values) => {
-      console.log("Values", values);
+      // console.log("Values", values);
       return axios.patch(`${backendUrl + "/api/v1/auth/updateProfile"}`, values, {
         headers: {
           authorization: `Bearer ${user.token}`,
@@ -56,12 +56,12 @@ export const Settings = () => {
           });
           form.reset();
         } else {
-          console.log("inside error");
+          // console.log("inside error");
           console.log(response?.data?.message);
         }
       },
       onError: (error) => {
-        console.log("Request failed");
+        // console.log("Request failed");
         console.error(error.response?.data?.message || error.message);
         showNotification({
           title: "Error",

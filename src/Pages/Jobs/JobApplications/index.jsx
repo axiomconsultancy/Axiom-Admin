@@ -73,7 +73,7 @@ const ViewJobApplications = () => {
 
   // Filter job applications based on search, category, and blocked filter
   const filteredItems = tableData.filter((item) => {
-    console.log("item : " , item)
+    // console.log("item : " , item)
     const matchesSearch = item?.fullName?.toLowerCase().includes(search.toLowerCase());
     const matchesBlockedFilter = blockedFilter === null || item?.blocked === blockedFilter;
     const matchesCategoryFilter = categoryFilter === "" || item?.category === categoryFilter;

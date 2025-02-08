@@ -40,8 +40,61 @@ export const AddTeam = () => {
 
   const validateIBAN = (val) => {
     if (!val) return "Please enter an IBAN";
-  
+
     return isValidIBAN(val) ? null : "Please enter a valid IBAN";
+  };
+
+  const validateCNIC = (val) => {
+    if (!val) return "Please enter CNIC";
+
+    const cnicPatterns = [
+      // South Asia
+      /^\d{5}-\d{7}-\d$/, // Pakistan (12345-1234567-1)
+      /^\d{12}$/, // India (123412341234 - Aadhaar)
+      /^\d{17}$/, // Bangladesh (12345678901234567 - NID)
+
+      // North America
+      /^\d{3}-\d{2}-\d{4}$/, // USA (123-45-6789 - SSN)
+      /^\d{3}-\d{3}-\d{3}$/, // Canada (123-456-789 - SIN)
+      /^\d{9}$/, // Mexico (CURP - Unique Population Registry Code)
+
+      // Europe
+      /^[A-Z]{2}\d{6}[A-Z]$/, // UK (AB123456C - NIN)
+      /^\d{11}$/, // Germany (12345678901 - Steuer ID)
+      /^\d{11}$/, // France (12345678901 - INSEE)
+      /^\d{9}$/, // Spain (123456789 - DNI)
+      /^[A-Z]\d{8}$/, // Italy (A12345678 - Codice Fiscale)
+      /^\d{10}$/, // Netherlands (BSN - 1234567890)
+      /^\d{11}$/, // Poland (PESEL - 12345678901)
+
+      // Asia
+      /^\d{9}$/, // China (Resident ID 123456789)
+      /^\d{10}$/, // Saudi Arabia (1234567890 - Iqama)
+      /^[A-Z]\d{8}$/, // Hong Kong (A1234567)
+      /^\d{12}$/, // Indonesia (NIK - 123456789012)
+      /^\d{10}$/, // Japan (My Number - 1234567890)
+      /^\d{6}-\d{2}-\d{4}$/, // Malaysia (123456-12-1234 - NRIC)
+      /^\d{9}$/, // UAE (Emirates ID 123456789)
+      /^\d{2}-\d{7}$/, // Philippines (SSS 12-3456789)
+
+      // Africa
+      /^\d{13}$/, // South Africa (1234567890123 - SA ID)
+      /^\d{14}$/, // Egypt (National ID 12345678901234)
+      /^\d{11}$/, // Nigeria (NIN 12345678901)
+
+      // Australia & Oceania
+      /^[A-Z]{2}\d{7}$/, // Australia (AB1234567 - TFN)
+      /^\d{8}$/, // New Zealand (12345678 - IRD)
+
+      // South America
+      /^\d{11}$/, // Brazil (CPF - 123.456.789-01)
+      /^\d{8}-\d{1}$/, // Argentina (DNI - 12345678-1)
+      /^\d{10}$/, // Chile (RUN - 1234567890)
+    ];
+
+    return cnicPatterns.some((pattern) => pattern.test(val))
+      ? null
+      : "Invalid CNIC/ID format for your region";
   };
 
   const form = useForm({
@@ -119,8 +172,9 @@ export const AddTeam = () => {
           ? "Please Enter Value Of Length Greater Than 0"
           : null,
       memberPriority: (val) => val.length < 1,
-      CNIC: (val) =>
-        val.length < 1 || val?.length > 15 ? "Please Enter CNIC" : null,
+      // CNIC: (val) =>
+      //   val.length < 1 || val?.length > 15 ? "Please Enter CNIC" : null,
+      CNIC: validateCNIC,
       IDCardFront: (value) => (value ? null : "Please Upload Cnic front image"),
       IDCardBack: (value) => (value ? null : "Please Upload Cnic back image"),
       teamMemberImage: (value) => (value ? null : "Please Upload User photo"),
@@ -132,7 +186,7 @@ export const AddTeam = () => {
       //   !val || /^PK\d{2}[A-Z0-9]{4}\d{16}$/.test(val)
       //     ? null
       //     : "Please enter a valid Pakistani IBAN",
-      IBAN:validateIBAN,
+      IBAN: validateIBAN,
       // Making kin fields optional
       kinName: (value) => (!value || value.trim() !== "" ? null : null),
       kinRelation: (value) => (!value || value.trim() !== "" ? null : null),
@@ -243,7 +297,7 @@ export const AddTeam = () => {
             validateName={"teamMemberPhone"}
           />
 
-          <InputField
+          {/* <InputField
             label={"CNIC"}
             placeholder={"CNIC (13 digits)"}
             form={form}
@@ -251,7 +305,20 @@ export const AddTeam = () => {
             // mask={"99999-9999999-9"}
             withAsterisk
             validateName={"CNIC"}
+          /> */}
+
+          <InputField
+            label="National Identity Number"
+            placeholder="Enter National Identity Number"
+            form={form}
+            maxLength={17}
+            validateName="CNIC"
+            onInput={(e) => {
+              e.target.value = e.target.value.replace(/[^0-9A-Za-z-]/g, "");
+            }}
+            withAsterisk
           />
+
           <InputField
             label={"Priority"}
             placeholder={"Enter Priority"}
@@ -293,7 +360,6 @@ export const AddTeam = () => {
             // withAsterisk
             validateName={"officialPhone"}
           />
-          
         </SimpleGrid>
         <Divider
           my="xl"
@@ -359,13 +425,12 @@ export const AddTeam = () => {
             validateName={"IBAN"}
           /> */}
 
-<InputField
-  label="IBAN"
-  placeholder="Enter IBAN"
-  form={form}
-  validateName="IBAN"
-/>
-
+          <InputField
+            label="IBAN"
+            placeholder="Enter IBAN"
+            form={form}
+            validateName="IBAN"
+          />
         </SimpleGrid>
         <Divider
           my="xl"

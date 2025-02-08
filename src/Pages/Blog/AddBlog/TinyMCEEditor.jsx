@@ -9,7 +9,7 @@ export default function TextEditorTinyMce({ form, validateName, label, required 
 
   // Function to handle editor content changes
   const handleEditorChange = (content) => {
-    console.log("content", form.values[validateName]);
+    // console.log("content", form.values[validateName]);
     form.setFieldValue(validateName, content);
   };
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createStyles } from "@mantine/core";
 
 export const useStyles = createStyles((theme) => ({
@@ -8,6 +9,6 @@ export const useStyles = createStyles((theme) => ({
   form: {
     borderRadius: "20px",
     backgroundColor: "white",
-    boxShadow: "0px 10px 15px 10px rgb(0,0,0,0.2)"
+    boxShadow: "0px 10px 15px 10px rgb(0,0,0,0.2)",
   },
 }));
