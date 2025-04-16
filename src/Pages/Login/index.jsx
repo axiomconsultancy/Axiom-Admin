@@ -1,5 +1,5 @@
 import { Container } from "@mantine/core";
-import logo from "../../assets/axiom-logo.png";
+import logo from "../../assets/axiom-new-logo.svg";
 import InputField from "../../components/InputField";
 import PassInput from "../../components/PassInput";
 import { useForm } from "@mantine/form";
@@ -32,10 +32,7 @@ export const Login = () => {
       password: "",
     },
     validate: {
-      email: (val) =>
-        /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{0,6}$/i.test(val)
-          ? null
-          : "Please enter a valid email",
+      email: (val) => (/^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{0,6}$/i.test(val) ? null : "Please enter a valid email"),
       password: (value) => (value?.length < 1 ? "Please enter password" : null),
     },
   });
@@ -74,32 +71,14 @@ export const Login = () => {
   );
   return (
     <Container mih="100vh" className={classes.con}>
-      <form
-        className={classes.form}
-        onSubmit={form.onSubmit((values) => handleLogin.mutate(values))}
-      >
+      <form className={classes.form} onSubmit={form.onSubmit((values) => handleLogin.mutate(values))}>
         <img src={logo} width={"200px"} style={{ margin: "auto" }} />
-        <InputField
-          label={"Email"}
-          placeholder={"example@email.com"}
-          form={form}
-          validateName={"email"}
-        />
-        <PassInput
-          label={"Password"}
-          placeholder={"******"}
-          form={form}
-          validateName={"password"}
-        />
+        <InputField label={"Email"} placeholder={"example@email.com"} form={form} validateName={"email"} />
+        <PassInput label={"Password"} placeholder={"******"} form={form} validateName={"password"} />
         <div style={{ fontSize: "12px", cursor: "pointer", marginTop: "8px" }}>
           <Link to="/login/forgot-password">Forgot Password?</Link>
         </div>
-        <Button
-          label={"Login"}
-          type={"submit"}
-          mt="md"
-          loading={handleLogin.isLoading}
-        />
+        <Button label={"Login"} type={"submit"} mt="md" loading={handleLogin.isLoading} />
       </form>
     </Container>
   );

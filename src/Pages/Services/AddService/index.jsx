@@ -34,12 +34,9 @@ export const AddService = () => {
         value?.trim().length > 1 && value?.trim().length < 30
           ? null
           : "Please enter service title between 2 to 30 characters",
-      description: (value) =>
-        value?.trim().length > 0 ? null : "Please enter project description",
+      description: (value) => (value?.trim().length > 0 ? null : "Please enter project description"),
       shortDescription: (value) =>
-        value?.trim().length > 0 && value?.trim().length < 80
-          ? null
-          : "Please enter short description",
+        value?.trim().length > 0 && value?.trim().length < 100 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
       homeImage: (value) => (value ? null : "Please upload a home Image"),
     },
@@ -53,15 +50,11 @@ export const AddService = () => {
   const handleAddService = useMutation(
     (values) => {
       if (state?.isUpdate)
-        return axios.patch(
-          `${backendUrl + `/api/v1/service/${state?.data?._id}`}`,
-          values,
-          {
-            headers: {
-              authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        return axios.patch(`${backendUrl + `/api/v1/service/${state?.data?._id}`}`, values, {
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        });
       else
         return axios.post(`${backendUrl + "/api/v1/service"}`, values, {
           headers: {
@@ -129,25 +122,11 @@ export const AddService = () => {
           validateName={"description"}
         />
         <Group position="center">
-          <DropZone
-            form={form}
-            folderName={"service"}
-            name={"coverImage"}
-            label="Cover Image"
-          />
-          <DropZone
-            form={form}
-            folderName={"service"}
-            name={"homeImage"}
-            label="Home Image"
-          />
+          <DropZone form={form} folderName={"service"} name={"coverImage"} label="Cover Image" />
+          <DropZone form={form} folderName={"service"} name={"homeImage"} label="Home Image" />
         </Group>
         <Group position="right" mt={"md"}>
-          <Button
-            label={"Cancel"}
-            variant={"outline"}
-            onClick={() => navigate(routeNames.general.viewService)}
-          />
+          <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.viewService)} />
           <Button
             label={state?.isUpdate ? "Edit Service" : "Add Service"}
             type={"submit"}

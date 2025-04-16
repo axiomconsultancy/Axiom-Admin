@@ -1,5 +1,5 @@
 import { Flex, Image, Text, Title } from "@mantine/core";
-import logo from "../../assets/axiom-logo.png";
+import logo from "../../assets/axiom-new-logo.svg";
 import { Logout } from "tabler-icons-react";
 import { useNavigate } from "react-router";
 import { routeNames } from "../../Routes/routeNames";
@@ -12,12 +12,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
   return (
-    <Flex
-      w={"100vw"}
-      style={{ color: "black" }}
-      justify={"space-between"}
-      align={"center"}
-    >
+    <Flex w={"100vw"} style={{ color: "black" }} justify={"space-between"} align={"center"}>
       <Image src={logo} width={isMobile ? 50 : "150px"} />
       <Title order={isMobile ? 6 : 1} color="#0872da">
         Admin Panel

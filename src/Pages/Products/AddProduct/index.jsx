@@ -35,16 +35,12 @@ export const AddProduct = () => {
 
     validate: {
       title: (value) =>
-        value?.trim().length > 1 && value?.length < 30
-          ? null
-          : "Please enter product title between 2 to 30 characters",
-      description: (value) =>
-        value?.trim().length > 0 ? null : "Please enter product description",
+        value?.trim().length > 1 && value?.length < 50 ? null : "Please enter product title between 2 to 50 characters",
+      description: (value) => (value?.trim().length > 0 ? null : "Please enter product description"),
       // shortDescription: (value) =>
       //   value?.length > 0 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
-      link: (value) =>
-        value?.trim().length > 0 ? null : "Please enter project link",
+      link: (value) => (value?.trim().length > 0 ? null : "Please enter project link"),
       // homeImage: (value) => (value ? null : "Please upload a home Image"),
     },
   });
@@ -83,15 +79,11 @@ export const AddProduct = () => {
   const handleAddService = useMutation(
     (values) => {
       if (state?.isUpdate)
-        return axios.patch(
-          `${backendUrl + `/api/v1/product/${state?.data?._id}`}`,
-          values,
-          {
-            headers: {
-              authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        return axios.patch(`${backendUrl + `/api/v1/product/${state?.data?._id}`}`, values, {
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        });
       else
         return axios.post(`${backendUrl + "/api/v1/product"}`, values, {
           headers: {
@@ -166,12 +158,7 @@ export const AddProduct = () => {
           validateName={"description"}
         />
         <Group position="center">
-          <DropZone
-            form={form}
-            folderName={"service"}
-            name={"coverImage"}
-            label="Cover Image"
-          />
+          <DropZone form={form} folderName={"service"} name={"coverImage"} label="Cover Image" />
           {/* <DropZone
             form={form}
             folderName={"service"}
@@ -180,11 +167,7 @@ export const AddProduct = () => {
           /> */}
         </Group>
         <Group position="right" mt={"md"}>
-          <Button
-            label={"Cancel"}
-            variant={"outline"}
-            onClick={() => navigate(routeNames.general.viewProducts)}
-          />
+          <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.viewProducts)} />
           <Button
             label={state?.isUpdate ? "Edit Product" : "Add Product"}
             type={"submit"}
