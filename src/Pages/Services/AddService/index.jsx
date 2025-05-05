@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Container, Group } from "@mantine/core";
+import { ActionIcon, Container, Group } from "@mantine/core";
 import { useMutation } from "react-query";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -13,6 +13,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import DropZone from "../../../components/Dropzone";
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../../Routes/routeNames";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
 
 export const AddService = () => {
   const { user } = useContext(UserContext);
@@ -23,8 +24,15 @@ export const AddService = () => {
     validateInputOnChange: true,
     initialValues: {
       title: "",
-      description: "",
+      subTitle: "",
       shortDescription: "",
+      description: "",
+      aboutSlogan: "",
+      aboutTitle: "  ",
+      aboutDescription: "",
+      serviceTitle: "",
+      serviceDescription: "",
+      services: [],
       coverImage: null,
       homeImage: null,
     },
@@ -87,13 +95,20 @@ export const AddService = () => {
       <PageHeader label={state?.isUpdate ? "Edit Service" : "Add Service"} />
       <form
         onSubmit={form.onSubmit((values) => {
-          // Trim all values before passing to mutation
           const trimmedValues = {
             ...values,
             title: values.title.trim(),
-            description: values.description.trim(),
             shortDescription: values.shortDescription.trim(),
-            // No need to trim images, as they are file objects
+            aboutSlogan: values.aboutSlogan.trim(),
+            aboutTitle: values.aboutTitle.trim(),
+            aboutDescription: values.aboutDescription.trim(),
+            serviceTitle: values.serviceTitle.trim(),
+            serviceDescription: values.serviceDescription.trim(),
+            services: values.services.map((s) => ({
+              icon: s.icon.trim(),
+              serviceTitle: s.serviceTitle.trim(),
+              serviceDescription: s.serviceDescription.trim(),
+            })),
           };
           handleAddService.mutate(trimmedValues);
         })}
@@ -104,6 +119,13 @@ export const AddService = () => {
           form={form}
           withAsterisk
           validateName={"title"}
+        />
+        <InputField
+          label={"Sub Title"}
+          placeholder={"Enter Sub Title"}
+          form={form}
+          withAsterisk
+          validateName={"subTitle"}
         />
         <TextArea
           label={"Short Description"}
@@ -121,6 +143,92 @@ export const AddService = () => {
           withAsterisk
           validateName={"description"}
         />
+
+        <InputField
+          label={"Slogan"}
+          placeholder={"Enter Sub Title"}
+          form={form}
+          withAsterisk
+          validateName={"aboutSlogan"}
+        />
+        <InputField
+          label={"About Title"}
+          placeholder={"Enter about Title"}
+          form={form}
+          withAsterisk
+          validateName={"aboutTitle"}
+        />
+        <TextArea
+          label={"About Description"}
+          placeholder={"Enter About Description"}
+          rows="2"
+          form={form}
+          withAsterisk
+          validateName={"aboutDescription"}
+        />
+        <TextArea
+          label={"Service Title"}
+          placeholder={"Enter Service Title"}
+          rows="2"
+          form={form}
+          withAsterisk
+          validateName={"serviceTitle"}
+        />
+
+        <TextArea
+          label={"Service Description"}
+          placeholder={"Enter Service Description"}
+          rows="3"
+          form={form}
+          withAsterisk
+          validateName={"serviceDescription"}
+        />
+
+        {/* Dynamic List of Services */}
+        {form.values.services.map((item, index) => (
+          <Group key={index} grow mt="xs" align="flex-end" Padding={10}>
+            <DropZone form={form} folderName={"service"} name={`services.${index}.icon`} label="Icon" />
+            <InputField
+              label="Title"
+              placeholder="Enter Title"
+              form={form}
+              validateName={`services.${index}.serviceTitle`}
+            />
+            <TextArea
+              label="Description"
+              placeholder="Enter Description"
+              form={form}
+              validateName={`services.${index}.serviceDescription`}
+              rows={1}
+            />
+            <ActionIcon
+              color="red"
+              onClick={() =>
+                form.setFieldValue(
+                  "services",
+                  form.values.services.filter((_, i) => i !== index)
+                )
+              }
+            >
+              <IconTrash size={18} />
+            </ActionIcon>
+          </Group>
+        ))}
+        <h3>Add Sub Service</h3>
+
+        <ActionIcon
+          variant="light"
+          color="blue"
+          onClick={() =>
+            form.setFieldValue("services", [
+              ...form.values.services,
+              { icon: "", serviceTitle: "", serviceDescription: "" },
+            ])
+          }
+          mt="sm"
+        >
+          <IconPlus size={18} />
+        </ActionIcon>
         <Group position="center">
           <DropZone form={form} folderName={"service"} name={"coverImage"} label="Cover Image" />
           <DropZone form={form} folderName={"service"} name={"homeImage"} label="Home Image" />

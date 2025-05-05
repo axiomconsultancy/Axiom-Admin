@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Flex, Image, Text, Title, useMantineTheme } from "@mantine/core";
 
 const ViewService = ({ rowData }) => {
@@ -28,10 +29,7 @@ const ViewService = ({ rowData }) => {
       <Title order={3}>Detail Description</Title>
       <Text align="justify">{rowData?.description}</Text>
       <Title order={3}>Detail View Image</Title>
-      <Image
-        src={rowData?.homeImage}
-        width="70%"
-      />
+      <Image src={rowData?.homeImage} width="70%" />
     </Flex>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Flex, Image, Text, Title, useMantineTheme } from "@mantine/core";
 
 const ViewProduct = ({ rowData }) => {

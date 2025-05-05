@@ -25,6 +25,8 @@ import { Dashboard } from "./Pages/Dashboard";
 import ViewJobApplications from "./Pages/Jobs/JobApplications";
 import { AddTestimonial } from "./Pages/Testimonial/AddTestimonial";
 import ViewTestimonial from "./Pages/Testimonial/ViewTestimonials";
+import { AddFaq } from "./Pages/Faq/AddFaq";
+import ViewFaq from "./Pages/Faq/ViewFaqs";
 // import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
 // import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
 // import ViewPrivacyPolicy from "./Pages/PrivacyPolicy/ViewPrivacyPolicy";
@@ -38,29 +40,17 @@ function App() {
   return (
     <Routes>
       <Route path={routeNames.general.login} element={<Login />} />
-      <Route
-        path={routeNames.general.forgetPassword}
-        element={<ForgetPassword />}
-      />
+      <Route path={routeNames.general.forgetPassword} element={<ForgetPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       <Route path={routeNames.general.landing} element={<GeneralLayout />}>
         <Route path={routeNames.general.landing} element={<Dashboard />} />
         <Route path={routeNames.general.addService} element={<AddService />} />
-        <Route
-          path={routeNames.general.viewService}
-          element={<ViewServices />}
-        />
+        <Route path={routeNames.general.viewService} element={<ViewServices />} />
         <Route path={routeNames.general.addProject} element={<AddProject />} />
-        <Route
-          path={routeNames.general.viewProjects}
-          element={<ViewProjects />}
-        />
+        <Route path={routeNames.general.viewProjects} element={<ViewProjects />} />
         <Route path={routeNames.general.addProduct} element={<AddProduct />} />
-        <Route
-          path={routeNames.general.viewProducts}
-          element={<ViewProducts />}
-        />
+        <Route path={routeNames.general.viewProducts} element={<ViewProducts />} />
         <Route path={routeNames.general.addJob} element={<AddJob />} />
         {/* <Route
           path={routeNames.general.addJobCategory}
@@ -81,34 +71,23 @@ function App() {
         <Route path={routeNames.general.viewBlogs} element={<ViewBlogs />} />
         <Route path={routeNames.general.addBlog} element={<AddBlog />} />
         <Route path={routeNames.general.viewBlogs} element={<ViewBlogs />} />
-        <Route
-          path={routeNames.general.addTermsAndConditions}
-          element={<TermsAndConditions />}
-        />
+        <Route path={routeNames.general.addTermsAndConditions} element={<TermsAndConditions />} />
         {/* <Route
           path={routeNames.general.viewTermsAndConditions}
           element={<ViewTermsAndConditions />}
         /> */}
-        <Route
-          path={routeNames.general.addPrivacyPolicy}
-          element={<PrivacyPolicy />}
-        />
+        <Route path={routeNames.general.addPrivacyPolicy} element={<PrivacyPolicy />} />
         {/* <Route
           path={routeNames.general.viewPrivacyPolicy}
           element={<ViewPrivacyPolicy />}
         /> */}
-        <Route
-          path={routeNames.general.jobApplications}
-          element={<ViewJobApplications />}
-        />
-        <Route
-          path={routeNames.general.addTestimonial}
-          element={<AddTestimonial />}
-        />
-        <Route
-          path={routeNames.general.viewTestimonial}
-          element={<ViewTestimonial />}
-        />
+        <Route path={routeNames.general.jobApplications} element={<ViewJobApplications />} />
+        <Route path={routeNames.general.addTestimonial} element={<AddTestimonial />} />
+        <Route path={routeNames.general.viewTestimonial} element={<ViewTestimonial />} />
+
+        <Route path={routeNames.general.addFaq} element={<AddFaq />} />
+        <Route path={routeNames.general.viewFaq} element={<ViewFaq />} />
+
         <Route path={routeNames.general.viewQuotes} element={<ViewQuotes />} />
       </Route>
     </Routes>

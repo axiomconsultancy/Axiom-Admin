@@ -119,6 +119,14 @@ const ActionIcons = ({
           },
         });
         break;
+        case "faq":
+          navigate(routeNames.general.addFaq, {
+            state: {
+              isUpdate: true,
+              data: rowData,
+            },
+          });
+          break;
       case "Quote":
         navigate(routeNames.general.viewQuotes, {
           state: {

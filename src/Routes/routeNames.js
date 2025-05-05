@@ -26,6 +26,8 @@ export const routeNames = {
     viewBlogs: "/view-blogs",
     addTestimonial: "/add-testimonial",
     viewTestimonial: "/view-testimonial",
+    addFaq: "/add-faq",
+    viewFaq: "/view-faq",
     viewQuotes: "/view-quotes",
     settings: "/settings",
     aboutUs: "/about-us",

@@ -1,6 +1,6 @@
 import { Container, Grid } from "@mantine/core";
 import axios from "axios";
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import SelectMenu from "../../../components/SelectMenu";
 import { useStyles } from "../styles";
@@ -14,7 +14,7 @@ import { backendUrl } from "../../../constants/constants";
 import { routeNames } from "../../../Routes/routeNames";
 import { useNavigate } from "react-router";
 
-const ViewTestimonial = () => {
+const ViewFaq = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -23,9 +23,9 @@ const ViewTestimonial = () => {
   const [blockedFilter, setBlockedFilter] = useState(null);
 
   const { status } = useQuery(
-    "fetchTestimonials",
+    "fetchFaqs",
     () => {
-      return axios.get(backendUrl + "/api/v1/testimonial", {
+      return axios.get(backendUrl + "/api/v1/faq", {
         headers: {
           authorization: `Bearer ${user.token}`,
         },
@@ -42,13 +42,8 @@ const ViewTestimonial = () => {
     }
   );
   const filteredItems = tableData.filter((item) => {
-    if (blockedFilter === null)
-      return item?.name?.toLowerCase().includes(search.toLowerCase());
-    else
-      return (
-        item?.name?.toLowerCase().includes(search.toLowerCase()) &&
-        item?.blocked === blockedFilter
-      );
+    if (blockedFilter === null) return item?.question?.toLowerCase().includes(search.toLowerCase());
+    else return item?.question?.toLowerCase().includes(search.toLowerCase()) && item?.blocked === blockedFilter;
   });
   const handleClearFilters = () => {
     setSearch("");
@@ -56,7 +51,7 @@ const ViewTestimonial = () => {
   };
   return (
     <Container size="xl" p="sm">
-      <PageHeader label={"View Testimonials"} />
+      <PageHeader label={"View FAQs"} />
       <Container size="xl" pb={"md"} bg={"white"} className={classes.table}>
         <Grid p="xs">
           <Grid.Col sm="6" md={"6"} lg="3">
@@ -76,31 +71,16 @@ const ViewTestimonial = () => {
             />
           </Grid.Col>
           <Grid.Col sm="6" md={"6"} lg="3">
-            <Button
-              label={"Clear Filters"}
-              variant="outline"
-              fullWidth
-              onClick={handleClearFilters}
-            />
+            <Button label={"Clear Filters"} variant="outline" fullWidth onClick={handleClearFilters} />
           </Grid.Col>
           <Grid.Col sm="6" md={"6"} lg="3">
-            <Button
-              fullWidth
-              label={"Add Testimonial"}
-              leftIcon="plus"
-              onClick={() => navigate(routeNames.general.addTestimonial)}
-            />
+            <Button fullWidth label={"Add FAQ"} leftIcon="plus" onClick={() => navigate(routeNames.general.addFaq)} />
           </Grid.Col>
         </Grid>
-        <DataGrid
-          columns={Columns}
-          data={filteredItems}
-          progressPending={status === "loading"}
-          type="product"
-        />
+        <DataGrid columns={Columns} data={filteredItems} progressPending={status === "loading"} type="product" />
       </Container>
     </Container>
   );
 };
 
-export default ViewTestimonial;
+export default ViewFaq;

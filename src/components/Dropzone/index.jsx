@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { ActionIcon, Box, Image, Loader, Text } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { useDropzone } from "react-dropzone";
@@ -11,13 +12,7 @@ export default function DropZone({ form, name, folderName, label }) {
   const [progress, setProgress] = useState(null);
   const [preview, setPreview] = useState(""); // Local blob URL for preview
 
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragReject,
-    isDragAccept,
-  } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, isDragReject, isDragAccept } = useDropzone({
     accept: {
       "image/*": [],
     },
@@ -71,11 +66,7 @@ export default function DropZone({ form, name, folderName, label }) {
         overflow: "hidden",
         borderWidth: "2px",
         borderStyle: "dashed",
-        borderColor: isDragAccept
-          ? "success.main"
-          : isDragReject
-          ? "error.main"
-          : "gray",
+        borderColor: isDragAccept ? "success.main" : isDragReject ? "error.main" : "gray",
         borderRadius: 16,
         width: "min(100%, 200px)",
         height: 200,
@@ -95,11 +86,7 @@ export default function DropZone({ form, name, folderName, label }) {
         <>
           <input {...getInputProps()} />
           <Photo size={"25%"} />
-          {isDragActive ? (
-            <Text>Drop the files here ...</Text>
-          ) : (
-            <Text>Upload {label} here</Text>
-          )}
+          {isDragActive ? <Text>Drop the files here ...</Text> : <Text>Upload {label} here</Text>}
         </>
       ) : (
         <Box

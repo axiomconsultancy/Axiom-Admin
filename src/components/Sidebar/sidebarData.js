@@ -81,6 +81,15 @@ export const sidebarData = [
     ],
   },
   {
+    label: "FAQs",
+    icon: Book2,
+
+    links: [
+      { label: "Add FAQ", link: routeNames.general.addFaq },
+      { label: "View FQAs", link: routeNames.general.viewFaq },
+    ],
+  },
+  {
     label: "Quotes",
     icon: IconQuote,
     links: [{ label: "View Quotes", link: routeNames.general.viewQuotes }],
