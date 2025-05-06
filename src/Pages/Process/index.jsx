@@ -1,9 +1,9 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Container, Group, Loader, ActionIcon, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router";
 import { routeNames } from "../../Routes/routeNames";
@@ -18,20 +18,14 @@ export const Process = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // Form setup for auto-steps
+  // Handle loading state for user
+  if (!user) return <Loader />;
+
   const form = useForm({
     initialValues: {
-      steps: [
-        {
-          stepNo: 1,
-          title: "",
-          description: "",
-        },
-      ],
+      steps: [{ stepNo: 1, title: "", description: "" }],
     },
   });
-
-  const [processExists, setProcessExists] = useState(false);
 
   const { status, refetch } = useQuery(
     "fetchProcess",
@@ -41,32 +35,30 @@ export const Process = () => {
       }),
     {
       onSuccess: (res) => {
-        setProcessExists(true);
-        form.setValues(res.data.data || { steps: [{ stepNo: 1, title: "", description: "" }] });
+        const steps = res.data.data?.steps || [{ stepNo: 1, title: "", description: "" }];
+        form.setValues({ steps });
       },
       onError: (err) => {
         if (err.response?.status === 404) {
-          setProcessExists(false);
-          // Important: make sure steps array has at least one item
           form.setValues({
             steps: [{ stepNo: 1, title: "", description: "" }],
           });
         }
       },
-
-      refetchOnWindowFocus: false, // prevent unnecessary refetching
-      retry: false, // prevent auto-retries on 404
+      refetchOnWindowFocus: false,
+      retry: false,
     }
   );
 
-  // Mutation to save process steps (create or update)
   const handleSave = useMutation(
-    (values) => {
-      const method = processExists ? "patch" : "post";
-      return axios[method](`${backendUrl}/api/v1/process`, values, {
-        headers: { authorization: `Bearer ${user.token}` },
-      });
-    },
+    (values) =>
+      axios.patch(
+        `${backendUrl}/api/v1/process`,
+        { steps: values.steps },
+        {
+          headers: { authorization: `Bearer ${user.token}` },
+        }
+      ),
     {
       onSuccess: (response) => {
         showNotification({
@@ -74,8 +66,7 @@ export const Process = () => {
           message: response.data?.message,
           color: "green",
         });
-        setProcessExists(true); // assume process now exists after save
-        refetch(); // fetch updated data
+        refetch();
       },
       onError: (error) => {
         showNotification({
@@ -87,35 +78,39 @@ export const Process = () => {
     }
   );
 
-  // Add a new step
   const addStep = () => {
-    const steps = [...form.values.steps];
-    steps.push({ stepNo: steps.length + 1, title: "", description: "" });
-    form.setFieldValue("steps", steps);
+    const newSteps = [
+      ...form.values.steps,
+      {
+        stepNo: form.values.steps.length + 1,
+        title: "",
+        description: "",
+      },
+    ];
+    form.setFieldValue("steps", newSteps);
   };
 
-  // Remove a step
   const removeStep = (index) => {
-    const steps = form.values.steps.filter((_, i) => i !== index);
-    form.setFieldValue("steps", steps);
+    const filteredSteps = form.values.steps.filter((_, i) => i !== index);
+    const reIndexed = filteredSteps.map((step, i) => ({
+      ...step,
+      stepNo: i + 1,
+    }));
+    form.setFieldValue("steps", reIndexed);
   };
 
-  // Handle changes to individual steps
   const handleChange = (index, field, value) => {
     const steps = [...form.values.steps];
-
-    // If the step at that index doesn't exist, initialize it
     if (!steps[index]) {
       steps[index] = { stepNo: index + 1, title: "", description: "" };
     }
-
     steps[index][field] = value;
     form.setFieldValue("steps", steps);
   };
 
   return (
     <Container fluid style={{ minHeight: "80vh" }}>
-      <PageHeader label={"Our Process"} />
+      <PageHeader label="Our Process" />
       {status === "loading" ? (
         <Loader style={{ display: "flex", margin: "auto" }} />
       ) : (
@@ -131,20 +126,20 @@ export const Process = () => {
                   label={`Step Title ${index + 1}`}
                   placeholder={`Enter Title for Step ${index + 1}`}
                   form={form}
-                  value={step.title}
+                  value={step?.title || ""}
                   onChange={(e) => handleChange(index, "title", e.target.value)}
-                  validateName={`steps[${index}].title`}
+                  validateName={`steps.${index}.title`}
                 />
                 <InputField
                   label={`Step Description ${index + 1}`}
                   placeholder={`Enter Description for Step ${index + 1}`}
                   form={form}
-                  value={step.description}
+                  value={step?.description || ""}
                   onChange={(e) => handleChange(index, "description", e.target.value)}
-                  validateName={`steps[${index}].description`}
+                  validateName={`steps.${index}.description`}
                 />
                 {form.values.steps.length > 1 && (
-                  <ActionIcon color="red" onClick={() => removeStep(index)} size="lg" style={{ marginTop: 5 }}>
+                  <ActionIcon color="red" onClick={() => removeStep(index)} size="lg">
                     <FaTrashAlt size={18} />
                   </ActionIcon>
                 )}
@@ -152,17 +147,15 @@ export const Process = () => {
             </div>
           ))}
 
-          {form.values.steps.length > 0 && (
-            <Group position="center" style={{ marginTop: "20px" }}>
-              <ActionIcon color="blue" size="xl" onClick={addStep}>
-                <FaPlus />
-              </ActionIcon>
-            </Group>
-          )}
+          <Group position="center" mt="md">
+            <ActionIcon color="blue" size="xl" onClick={addStep}>
+              <FaPlus />
+            </ActionIcon>
+          </Group>
 
           <Group position="right" mt="md">
-            <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.landing)} />
-            <Button label={"Save"} type={"submit"} loading={handleSave.isLoading} />
+            <Button label="Cancel" variant="outline" onClick={() => navigate(routeNames.general.landing)} />
+            <Button label="Save" type="submit" loading={handleSave.isLoading} />
           </Group>
         </form>
       )}
