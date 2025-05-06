@@ -27,17 +27,13 @@ import ViewJobApplications from "./Pages/Jobs/JobApplications";
 import { AddTestimonial } from "./Pages/Testimonial/AddTestimonial";
 import ViewTestimonial from "./Pages/Testimonial/ViewTestimonials";
 import { AddFaq } from "./Pages/Faq/AddFaq";
-import ViewFaqs from "./Pages/Faq/ViewFaqs";
-// import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
-// import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
-// import ViewPrivacyPolicy from "./Pages/PrivacyPolicy/ViewPrivacyPolicy";
 
 import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
 import { TermsAndConditions } from "./Pages/TermsAndConditions";
-// import ViewTermsAndConditions from "./Pages/TermsAndConditions/ViewTermsAndConditions";
 import { ResetPassword } from "./Pages/ResetPassword";
 import { AddAxiomAdvantage } from "./Pages/AxiomAdvantages/AddAxiomAdvantage";
 import ViewAxiomAdvantage from "./Pages/AxiomAdvantages/ViewAxiomAdvantage";
+import ViewFaqs from "./Pages/Faq/ViewFaqs";
 
 function App() {
   return (
