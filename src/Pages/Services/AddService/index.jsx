@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { Container, Group, Select, Switch } from "@mantine/core";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import InputField from "../../../components/InputField";
@@ -8,7 +9,7 @@ import TextArea from "../../../components/TextArea";
 import Button from "../../../components/Button";
 import PageHeader from "../../../components/PageHeader";
 import { backendUrl } from "../../../constants/constants";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 import DropZone from "../../../components/Dropzone";
 import { useLocation, useNavigate } from "react-router";
@@ -18,6 +19,24 @@ export const AddService = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   let { state } = useLocation();
+
+  const [parentServices, setParentServices] = useState([]);
+
+  // Fetch parent services using useQuery
+  const { status: parentServicesStatus } = useQuery(
+    "fetchParentServices",
+    () =>
+      axios.get(backendUrl + "/api/v1/service", {
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      }),
+    {
+      onSuccess: (res) => {
+        setParentServices(res.data.data); // Populate parent services state
+      },
+    }
+  );
 
   const form = useForm({
     validateInputOnChange: true,
@@ -36,7 +55,6 @@ export const AddService = () => {
       isParent: true, // Default to true (Parent service)
       parentService: null, // Default parentService to null (will be set if sub-service)
     },
-
     validate: {
       title: (value) =>
         value?.trim().length > 1 && value?.trim().length < 30
@@ -106,29 +124,31 @@ export const AddService = () => {
             aboutDescription: values.aboutDescription.trim(),
             serviceTitle: values.serviceTitle.trim(),
             serviceDescription: values.serviceDescription.trim(),
-
           };
           handleAddService.mutate(trimmedValues);
         })}
       >
         {/* Toggle for Parent or Sub-Service */}
-        <Group position="apart" mt="md">
-          <Switch
-            checked={form.values.isParent}
-            label="Is Parent Service?"
-            onChange={(e) => form.setFieldValue("isParent", e.currentTarget.checked)}
+        {/* <Group position="apart" mt="md"> */}
+        <Switch
+          checked={form.values.isParent}
+          label="Is Parent Service?"
+          onChange={(e) => form.setFieldValue("isParent", e.currentTarget.checked)}
+        />
+        {!form.values.isParent && (
+          <Select
+            label={"Select Parent Service"}
+            placeholder="Choose Parent Service"
+            data={parentServices.map((service) => ({
+              value: service._id, // Parent service's unique identifier
+              label: service.title, // The title of the parent service
+            }))}
+            value={form.values.parentService}
+            onChange={(value) => form.setFieldValue("parentService", value)}
+            required
           />
-          {!form.values.isParent && (
-            <Select
-              label="Select Parent Service"
-              placeholder="Choose Parent Service"
-              data={state?.parentServices || []} // Assuming you are fetching available parent services
-              value={form.values.parentService}
-              onChange={(value) => form.setFieldValue("parentService", value)}
-              required
-            />
-          )}
-        </Group>
+        )}
+        {/* </Group> */}
         <InputField
           label={"Title"}
           placeholder={"Enter Service Title"}
@@ -199,19 +219,6 @@ export const AddService = () => {
           validateName={"serviceDescription"}
         />
 
-        {/* <ActionIcon
-          variant="light"
-          color="blue"
-          onClick={() =>
-            form.setFieldValue("services", [
-              ...form.values.services,
-              { icon: "", serviceTitle: "", serviceDescription: "" },
-            ])
-          }
-          mt="sm"
-        >
-
-        </ActionIcon> */}
         <Group position="center">
           <DropZone form={form} folderName={"service"} name={"coverImage"} label="Cover Image" />
           <DropZone form={form} folderName={"service"} name={"homeImage"} label="Home Image" />
