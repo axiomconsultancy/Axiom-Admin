@@ -109,6 +109,11 @@ export const sidebarData = [
     link: routeNames.general.aboutUs,
   },
   {
+    label: "Process",
+    icon: AddressBook,
+    link: routeNames.general.process,
+  },
+  {
     label: "Settings",
     icon: Settings,
     link: routeNames.general.settings,

@@ -33,5 +33,6 @@ export const routeNames = {
     viewQuotes: "/view-quotes",
     settings: "/settings",
     aboutUs: "/about-us",
+    process: "/our-process",
   },
 };

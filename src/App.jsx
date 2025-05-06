@@ -19,6 +19,7 @@ import { AddBlog } from "./Pages/Blog/AddBlog";
 import ViewBlogs from "./Pages/Blog/ViewBlogs";
 import { Settings } from "./Pages/Settings";
 import { AboutUs } from "./Pages/AboutUs";
+import { Process } from "./Pages/Process";
 import { Login } from "./Pages/Login";
 import { ForgetPassword } from "./Pages/ForgotPassword";
 import { Dashboard } from "./Pages/Dashboard";
@@ -69,6 +70,7 @@ function App() {
 
         <Route path={routeNames.general.settings} element={<Settings />} />
         <Route path={routeNames.general.aboutUs} element={<AboutUs />} />
+        <Route path={routeNames.general.process} element={<Process />} />
         <Route path={routeNames.general.addBlog} element={<AddBlog />} />
         <Route path={routeNames.general.viewBlogs} element={<ViewBlogs />} />
         <Route path={routeNames.general.addBlog} element={<AddBlog />} />
