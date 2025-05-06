@@ -27,7 +27,7 @@ import ViewJobApplications from "./Pages/Jobs/JobApplications";
 import { AddTestimonial } from "./Pages/Testimonial/AddTestimonial";
 import ViewTestimonial from "./Pages/Testimonial/ViewTestimonials";
 import { AddFaq } from "./Pages/Faq/AddFaq";
-import ViewFaqs from "./Pages/Faq/Viewfaqs";
+import ViewFaqs from "./Pages/Faq/ViewFaqs";
 // import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
 // import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
 // import ViewPrivacyPolicy from "./Pages/PrivacyPolicy/ViewPrivacyPolicy";
