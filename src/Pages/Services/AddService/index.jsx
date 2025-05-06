@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ActionIcon, Container, Group } from "@mantine/core";
+import { Container, Group, Select, Switch } from "@mantine/core";
 import { useMutation } from "react-query";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -13,7 +13,6 @@ import { UserContext } from "../../../contexts/UserContext";
 import DropZone from "../../../components/Dropzone";
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../../Routes/routeNames";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
 
 export const AddService = () => {
   const { user } = useContext(UserContext);
@@ -32,9 +31,10 @@ export const AddService = () => {
       aboutDescription: "",
       serviceTitle: "",
       serviceDescription: "",
-      services: [],
       coverImage: null,
       homeImage: null,
+      isParent: true, // Default to true (Parent service)
+      parentService: null, // Default parentService to null (will be set if sub-service)
     },
 
     validate: {
@@ -55,6 +55,7 @@ export const AddService = () => {
       form.setValues(state.data);
     }
   }, [state]);
+
   const handleAddService = useMutation(
     (values) => {
       if (state?.isUpdate)
@@ -90,6 +91,7 @@ export const AddService = () => {
       },
     }
   );
+
   return (
     <Container fluid>
       <PageHeader label={state?.isUpdate ? "Edit Service" : "Add Service"} />
@@ -104,15 +106,28 @@ export const AddService = () => {
             aboutDescription: values.aboutDescription.trim(),
             serviceTitle: values.serviceTitle.trim(),
             serviceDescription: values.serviceDescription.trim(),
-            services: values.services.map((s) => ({
-              icon: s.icon.trim(),
-              serviceTitle: s.serviceTitle.trim(),
-              serviceDescription: s.serviceDescription.trim(),
-            })),
           };
           handleAddService.mutate(trimmedValues);
         })}
       >
+        {/* Toggle for Parent or Sub-Service */}
+        <Group position="apart" mt="md">
+          <Switch
+            checked={form.values.isParent}
+            label="Is Parent Service?"
+            onChange={(e) => form.setFieldValue("isParent", e.currentTarget.checked)}
+          />
+          {!form.values.isParent && (
+            <Select
+              label="Select Parent Service"
+              placeholder="Choose Parent Service"
+              data={state?.parentServices || []} // Assuming you are fetching available parent services
+              value={form.values.parentService}
+              onChange={(value) => form.setFieldValue("parentService", value)}
+              required
+            />
+          )}
+        </Group>
         <InputField
           label={"Title"}
           placeholder={"Enter Service Title"}
@@ -143,7 +158,6 @@ export const AddService = () => {
           withAsterisk
           validateName={"description"}
         />
-
         <InputField
           label={"Slogan"}
           placeholder={"Enter Sub Title"}
@@ -184,39 +198,7 @@ export const AddService = () => {
           validateName={"serviceDescription"}
         />
 
-        {/* Dynamic List of Services */}
-        {form.values.services.map((item, index) => (
-          <Group key={index} grow mt="xs" align="flex-end" Padding={10}>
-            <DropZone form={form} folderName={"service"} name={`services.${index}.icon`} label="Icon" />
-            <InputField
-              label="Title"
-              placeholder="Enter Title"
-              form={form}
-              validateName={`services.${index}.serviceTitle`}
-            />
-            <TextArea
-              label="Description"
-              placeholder="Enter Description"
-              form={form}
-              validateName={`services.${index}.serviceDescription`}
-              rows={1}
-            />
-            <ActionIcon
-              color="red"
-              onClick={() =>
-                form.setFieldValue(
-                  "services",
-                  form.values.services.filter((_, i) => i !== index)
-                )
-              }
-            >
-              <IconTrash size={18} />
-            </ActionIcon>
-          </Group>
-        ))}
-        <h3>Add Sub Service</h3>
-
-        <ActionIcon
+        {/* <ActionIcon
           variant="light"
           color="blue"
           onClick={() =>
@@ -227,8 +209,8 @@ export const AddService = () => {
           }
           mt="sm"
         >
-          <IconPlus size={18} />
-        </ActionIcon>
+
+        </ActionIcon> */}
         <Group position="center">
           <DropZone form={form} folderName={"service"} name={"coverImage"} label="Cover Image" />
           <DropZone form={form} folderName={"service"} name={"homeImage"} label="Home Image" />
