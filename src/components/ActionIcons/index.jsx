@@ -7,14 +7,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
-import {
-  Eye,
-  Pencil,
-  PencilOff,
-  Trash,
-  TrashOff,
-  UserOff,
-} from "tabler-icons-react"; // Import UserOff icon
+import { Eye, Pencil, PencilOff, Trash, TrashOff, UserOff } from "tabler-icons-react"; // Import UserOff icon
 import { routeNames } from "../../Routes/routeNames";
 import { backendUrl } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContext";
@@ -22,16 +15,7 @@ import DeleteModal from "../DeleteModal";
 import ViewModal from "../ViewModal";
 import { Loader } from "@mantine/core";
 
-const ActionIcons = ({
-  rowData,
-  type,
-  edit,
-  view,
-  del,
-  viewData,
-  blocked,
-  left,
-}) => {
+const ActionIcons = ({ rowData, type, edit, view, del, viewData, blocked, left }) => {
   const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
@@ -119,14 +103,23 @@ const ActionIcons = ({
           },
         });
         break;
-        case "faq":
-          navigate(routeNames.general.addFaq, {
-            state: {
-              isUpdate: true,
-              data: rowData,
-            },
-          });
-          break;
+
+      case "axiomAdvantage":
+        navigate(routeNames.general.addAxiomAdvantage, {
+          state: {
+            isUpdate: true,
+            data: rowData,
+          },
+        });
+        break;
+      case "faq":
+        navigate(routeNames.general.addFaq, {
+          state: {
+            isUpdate: true,
+            data: rowData,
+          },
+        });
+        break;
       case "Quote":
         navigate(routeNames.general.viewQuotes, {
           state: {
@@ -165,23 +158,18 @@ const ActionIcons = ({
           color: "green",
         });
         if (type === "service") queryClient.invalidateQueries("fetchServices");
-        else if (type === "project")
-          queryClient.invalidateQueries("fetchProjects");
-        else if (type === "product")
-          queryClient.invalidateQueries("fetchProducts");
+        else if (type === "project") queryClient.invalidateQueries("fetchProjects");
+        else if (type === "product") queryClient.invalidateQueries("fetchProducts");
         else if (type === "jobs") queryClient.invalidateQueries("fetchJobs");
-        else if (type === "teamMember")
-          queryClient.invalidateQueries("fetchTeamMembers");
+        else if (type === "teamMember") queryClient.invalidateQueries("fetchTeamMembers");
         else if (type === "blog") queryClient.invalidateQueries("fetchBlogs");
-        else if (type === "privacyPolicy")
-          queryClient.invalidateQueries("fetchTermsAndConditions");
-        else if (type === "termsAndConditions")
-          queryClient.invalidateQueries("fetch");
-        else if (type === "testimonial")
-          queryClient.invalidateQueries("fetchTestimonials");
-        else if (type === "jobsCategory")
-          queryClient.invalidateQueries("fetchJobsCategory");
+        else if (type === "privacyPolicy") queryClient.invalidateQueries("fetchTermsAndConditions");
+        else if (type === "termsAndConditions") queryClient.invalidateQueries("fetch");
+        else if (type === "testimonial") queryClient.invalidateQueries("fetchTestimonials");
+        else if (type === "jobsCategory") queryClient.invalidateQueries("fetchJobsCategory");
         else if (type === "quote") queryClient.invalidateQueries("fetchQuotes");
+        else if (type === "faq") queryClient.invalidateQueries("fetchFaqs");
+        else if (type === "axiomAdvantage") queryClient.invalidateQueries("fetchAxiomAdvantages");
       },
       onError: (res) => {
         showNotification({
@@ -212,9 +200,7 @@ const ActionIcons = ({
       onSuccess: () => {
         showNotification({
           title: "Success",
-          message: `Team Member marked as ${
-            rowData.left ? "not left" : "left"
-          } successfully`, // Notification message toggles
+          message: `Team Member marked as ${rowData.left ? "not left" : "left"} successfully`, // Notification message toggles
           color: "green",
         });
         queryClient.invalidateQueries("fetchTeamMembers");
@@ -248,36 +234,21 @@ const ActionIcons = ({
       {del && (
         <Tooltip label="Delete">
           <ActionIcon disabled={blocked}>
-            {blocked ? (
-              <TrashOff />
-            ) : (
-              <Trash color={"red"} onClick={() => setOpenDelete(true)} />
-            )}
+            {blocked ? <TrashOff /> : <Trash color={"red"} onClick={() => setOpenDelete(true)} />}
           </ActionIcon>
         </Tooltip>
       )}
       {left && (
         <Tooltip label={rowData.left ? "Mark as Not Left" : "Mark as Left"}>
-          <ActionIcon
-            onClick={() => handleToggleLeft.mutate()}
-            disabled={blocked || isLoading}
-          >
-            {isLoading ? (
-              <Loader color={"orange"} size="sm" />
-            ) : (
-              <UserOff color={rowData.left ? "gray" : "orange"} />
-            )}
+          <ActionIcon onClick={() => handleToggleLeft.mutate()} disabled={blocked || isLoading}>
+            {isLoading ? <Loader color={"orange"} size="sm" /> : <UserOff color={rowData.left ? "gray" : "orange"} />}
           </ActionIcon>
         </Tooltip>
       )}
       <ViewModal
         opened={openView}
         setOpened={setOpenView}
-        title={
-          <span
-            style={{ fontWeight: "bold", color: "black", fontSize: "2rem" }}
-          >{`View ${type}`}</span>
-        }
+        title={<span style={{ fontWeight: "bold", color: "black", fontSize: "2rem" }}>{`View ${type}`}</span>}
       >
         {viewData}
       </ViewModal>
