@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { Container, Group, Loader, ActionIcon, Text } from "@mantine/core";
+import { Container, Group, Loader, ActionIcon, Text, Stack, Grid, Col, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
@@ -119,33 +119,40 @@ export const Process = () => {
             Add Process Steps
           </Text>
 
-          {form.values.steps.map((step, index) => (
-            <div key={index} style={{ marginBottom: "20px" }}>
-              <Group direction="column" spacing="sm">
-                <InputField
-                  label={`Step Title ${index + 1}`}
-                  placeholder={`Enter Title for Step ${index + 1}`}
-                  form={form}
-                  value={step?.title || ""}
-                  onChange={(e) => handleChange(index, "title", e.target.value)}
-                  validateName={`steps.${index}.title`}
-                />
-                <InputField
-                  label={`Step Description ${index + 1}`}
-                  placeholder={`Enter Description for Step ${index + 1}`}
-                  form={form}
-                  value={step?.description || ""}
-                  onChange={(e) => handleChange(index, "description", e.target.value)}
-                  validateName={`steps.${index}.description`}
-                />
-                {form.values.steps.length > 1 && (
-                  <ActionIcon color="red" onClick={() => removeStep(index)} size="lg">
-                    <FaTrashAlt size={18} />
-                  </ActionIcon>
-                )}
-              </Group>
-            </div>
-          ))}
+          {/* Using Grid and Col for responsive design */}
+          <Grid>
+            {form.values.steps.map((step, index) => (
+              <Col span={12} key={index} style={{ marginBottom: "20px" }}>
+                <Stack spacing="lg">
+                  <Group position="center" mt="md">
+                    <InputField
+                      label={`Step Title ${index + 1}`}
+                      placeholder={`Enter Title for Step ${index + 1}`}
+                      form={form}
+                      value={step?.title || ""}
+                      onChange={(e) => handleChange(index, "title", e.target.value)}
+                      validateName={`steps.${index}.title`}
+                    />
+
+                    <Textarea
+                      label={`Step Description ${index + 1}`}
+                      placeholder={`Enter Description for Step ${index + 1}`}
+                      form={form}
+                      rows="4"
+                      value={step?.description || ""}
+                      onChange={(e) => handleChange(index, "description", e.target.value)}
+                      validateName={`steps.${index}.description`}
+                    />
+                    {form.values.steps.length > 1 && (
+                      <ActionIcon color="red" onClick={() => removeStep(index)} size="lg">
+                        <FaTrashAlt size={18} />
+                      </ActionIcon>
+                    )}
+                  </Group>
+                </Stack>
+              </Col>
+            ))}
+          </Grid>
 
           <Group position="center" mt="md">
             <ActionIcon color="blue" size="xl" onClick={addStep}>
