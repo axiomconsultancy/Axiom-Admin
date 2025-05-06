@@ -80,6 +80,15 @@ export const sidebarData = [
       { label: "View Testimonial", link: routeNames.general.viewTestimonial },
     ],
   },
+
+  {
+    label: "Axiom Advantages",
+    icon: IconMessageQuestion,
+    links: [
+      { label: "Add Advantage", link: routeNames.general.addAxiomAdvantage },
+      { label: "View Advantage", link: routeNames.general.viewAxiomAdvantage },
+    ],
+  },
   {
     label: "FAQs",
     icon: Book2,

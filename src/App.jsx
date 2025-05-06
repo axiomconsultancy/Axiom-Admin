@@ -35,6 +35,8 @@ import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
 import { TermsAndConditions } from "./Pages/TermsAndConditions";
 // import ViewTermsAndConditions from "./Pages/TermsAndConditions/ViewTermsAndConditions";
 import { ResetPassword } from "./Pages/ResetPassword";
+import { AddAxiomAdvantage } from "./Pages/AxiomAdvantages/AddAxiomAdvantage";
+import ViewAxiomAdvantage from "./Pages/AxiomAdvantages/ViewAxiomAdvantage";
 
 function App() {
   return (
@@ -84,6 +86,8 @@ function App() {
         <Route path={routeNames.general.jobApplications} element={<ViewJobApplications />} />
         <Route path={routeNames.general.addTestimonial} element={<AddTestimonial />} />
         <Route path={routeNames.general.viewTestimonial} element={<ViewTestimonial />} />
+        <Route path={routeNames.general.addAxiomAdvantage} element={<AddAxiomAdvantage />} />
+        <Route path={routeNames.general.viewAxiomAdvantage} element={<ViewAxiomAdvantage />} />
 
         <Route path={routeNames.general.addFaq} element={<AddFaq />} />
         <Route path={routeNames.general.viewFaq} element={<ViewFaq />} />

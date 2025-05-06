@@ -3,7 +3,7 @@ import ActionIcons from "../../../components/ActionIcons";
 import StatusToggle from "../../../components/StatusToggle";
 import TableImageView from "../../../components/TableImageView";
 
-import ViewAxiomAdvantage from "./ViewAxiomAdvantage";
+import ViewAxiomAdvantage from ".";
 
 export const Columns = [
   {
