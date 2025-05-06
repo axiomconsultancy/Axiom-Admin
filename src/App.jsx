@@ -27,7 +27,7 @@ import ViewJobApplications from "./Pages/Jobs/JobApplications";
 import { AddTestimonial } from "./Pages/Testimonial/AddTestimonial";
 import ViewTestimonial from "./Pages/Testimonial/ViewTestimonials";
 import { AddFaq } from "./Pages/Faq/AddFaq";
-import ViewFaq from "./Pages/Faq/Viewfaqs";
+import ViewFaqs from "./Pages/Faq/Viewfaqs";
 // import { AddJobCategory } from "./Pages/Jobs/AddJobCategory";
 // import ViewJobCategory from "./Pages/Jobs/ViewJobCategory";
 // import ViewPrivacyPolicy from "./Pages/PrivacyPolicy/ViewPrivacyPolicy";
@@ -92,7 +92,7 @@ function App() {
         <Route path={routeNames.general.viewAxiomAdvantage} element={<ViewAxiomAdvantage />} />
 
         <Route path={routeNames.general.addFaq} element={<AddFaq />} />
-        <Route path={routeNames.general.viewFaq} element={<ViewFaq />} />
+        <Route path={routeNames.general.viewFaq} element={<ViewFaqs />} />
 
         <Route path={routeNames.general.viewQuotes} element={<ViewQuotes />} />
       </Route>
