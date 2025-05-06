@@ -1,6 +1,6 @@
 import { Container, Grid } from "@mantine/core";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import SelectMenu from "../../../components/SelectMenu";
 import { useStyles } from "../styles";
@@ -42,13 +42,8 @@ const ViewServices = () => {
     }
   );
   const filteredItems = tableData.filter((item) => {
-    if (blockedFilter === null)
-      return item?.title?.toLowerCase().includes(search.toLowerCase());
-    else
-      return (
-        item?.title?.toLowerCase().includes(search.toLowerCase()) &&
-        item?.blocked === blockedFilter
-      );
+    if (blockedFilter === null) return item?.title?.toLowerCase().includes(search.toLowerCase());
+    else return item?.title?.toLowerCase().includes(search.toLowerCase()) && item?.blocked === blockedFilter;
   });
   const handleClearFilters = () => {
     setSearch("");
@@ -76,12 +71,7 @@ const ViewServices = () => {
             />
           </Grid.Col>
           <Grid.Col sm="6" md="6" lg={"3"}>
-            <Button
-              label={"Clear Filters"}
-              variant="outline"
-              fullWidth
-              onClick={handleClearFilters}
-            />
+            <Button label={"Clear Filters"} variant="outline" fullWidth onClick={handleClearFilters} />
           </Grid.Col>
           <Grid.Col sm="6" md={"6"} lg="3">
             <Button
@@ -92,12 +82,7 @@ const ViewServices = () => {
             />
           </Grid.Col>
         </Grid>
-        <DataGrid
-          columns={Columns}
-          data={filteredItems}
-          progressPending={status === "loading"}
-          type="service"
-        />
+        <DataGrid columns={Columns} data={filteredItems} progressPending={status === "loading"} type="service" />
       </Container>
     </Container>
   );

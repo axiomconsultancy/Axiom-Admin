@@ -106,6 +106,7 @@ export const AddService = () => {
             aboutDescription: values.aboutDescription.trim(),
             serviceTitle: values.serviceTitle.trim(),
             serviceDescription: values.serviceDescription.trim(),
+
           };
           handleAddService.mutate(trimmedValues);
         })}
