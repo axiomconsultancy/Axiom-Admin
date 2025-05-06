@@ -42,8 +42,8 @@ const ViewAxiomAdvantage = () => {
     }
   );
   const filteredItems = tableData.filter((item) => {
-    if (blockedFilter === null) return item?.name?.toLowerCase().includes(search.toLowerCase());
-    else return item?.name?.toLowerCase().includes(search.toLowerCase()) && item?.blocked === blockedFilter;
+    if (blockedFilter === null) return item?.title?.toLowerCase().includes(search.toLowerCase());
+    else return item?.title?.toLowerCase().includes(search.toLowerCase()) && item?.blocked === blockedFilter;
   });
   const handleClearFilters = () => {
     setSearch("");

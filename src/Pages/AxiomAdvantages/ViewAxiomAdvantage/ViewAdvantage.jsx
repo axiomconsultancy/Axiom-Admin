@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Flex, Image, Text, Title, useMantineTheme } from "@mantine/core";
 
-const ViewProduct = ({ rowData }) => {
+const ViewAxiomAdvantage = ({ rowData }) => {
   const theme = useMantineTheme();
   return (
     <Flex direction={"column"} w={"100%"}>
@@ -21,9 +21,6 @@ const ViewProduct = ({ rowData }) => {
           },
         }}
       />
-      <Text fw={"bold"} color="purple" fz="xl" my={"md"} align="center">
-        {rowData?.name}
-      </Text>
       <Title order={3}>Title</Title>
       <Text align="justify">{rowData?.title}</Text>
       <Title order={3}>Description</Title>
@@ -31,4 +28,4 @@ const ViewProduct = ({ rowData }) => {
     </Flex>
   );
 };
-export default ViewProduct;
+export default ViewAxiomAdvantage;
