@@ -36,18 +36,18 @@ export const AboutUs = () => {
 
     validate: {
       primaryEmail: (value) =>
-        /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value)
-          ? null
-          : "Please enter a valid email",
+        /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value) ? null : "Please enter a valid email",
       otherEmails: (value) =>
-        !value || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value)
-          ? null
-          : "Please Enter A Valid Email",
+        !value || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value) ? null : "Please Enter A Valid Email",
       primaryContact: (value) => {
-        const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
+        // Regular expression to match phone numbers from multiple countries:
+        const regex = /^(?:\+92-\d{10}|(?:\+44-\d{4,5}-\d{6,7})|\+(\d{1,3})-\d{7,10}|\(\d{3}\)\s?\d{3}-\d{4})$/;
+
+        // Check if the phone number matches the regular expression
         if (!regex.test(value)) {
           return "Please enter a valid primary contact number";
         }
+
         return null; // No error if the validation passes
       },
 
@@ -55,7 +55,7 @@ export const AboutUs = () => {
         if (!value) {
           return null; // No validation error if the field is empty (optional)
         }
-        const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
+        const regex = /^(?:\+92-\d{10}|(?:\+44-\d{4,5}-\d{6,7})|\+(\d{1,3})-\d{7,10}|\(\d{3}\)\s?\d{3}-\d{4})$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
         if (!regex.test(value)) {
           return "Please enter a valid whatsapp number ";
         }
@@ -65,14 +65,13 @@ export const AboutUs = () => {
         if (!value) {
           return null; // No validation error if the field is empty (optional)
         }
-        const regex = /^\+92-\d{10}$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
+        const regex = /^(?:\+92-\d{10}|(?:\+44-\d{4,5}-\d{6,7})|\+(\d{1,3})-\d{7,10}|\(\d{3}\)\s?\d{3}-\d{4})$/;
         if (!regex.test(value)) {
           return "Please enter a valid whatsapp number ";
         }
         return null; // No error if the validation passes
       },
-      primaryAddress: (value) =>
-        value?.length > 0 ? null : "Please enter primary address",
+      primaryAddress: (value) => (value?.length > 0 ? null : "Please enter primary address"),
     },
   });
 
@@ -199,16 +198,8 @@ export const AboutUs = () => {
           />
 
           <Group position="right" mt={"md"}>
-            <Button
-              label={"Cancel"}
-              variant={"outline"}
-              onClick={() => navigate(routeNames.general.landing)}
-            />
-            <Button
-              label={"Save"}
-              type={"submit"}
-              loading={handleSave.isLoading}
-            />
+            <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.landing)} />
+            <Button label={"Save"} type={"submit"} loading={handleSave.isLoading} />
           </Group>
         </form>
       )}
