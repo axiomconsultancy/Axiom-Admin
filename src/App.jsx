@@ -88,7 +88,7 @@ function App() {
         <Route path={routeNames.general.viewAxiomAdvantage} element={<ViewAxiomAdvantage />} />
 
         <Route path={routeNames.general.addFaq} element={<AddFaq />} />
-        <Route path={routeNames.general.viewFaq} element={<ViewFaqIndex/>} />
+        <Route path={routeNames.general.viewFaq} element={<ViewFaqIndex />} />
 
         <Route path={routeNames.general.viewQuotes} element={<ViewQuotes />} />
       </Route>
