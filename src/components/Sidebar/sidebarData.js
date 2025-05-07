@@ -26,6 +26,9 @@ export const sidebarData = [
     links: [
       { label: "Add Service", link: routeNames.general.addService },
       { label: "View Services", link: routeNames.general.viewService },
+      { label: "Process", link: routeNames.general.process },
+      { label: "Add Advantage", link: routeNames.general.addAxiomAdvantage },
+      { label: "View Advantage", link: routeNames.general.viewAxiomAdvantage },
     ],
   },
   {
@@ -80,15 +83,6 @@ export const sidebarData = [
       { label: "View Testimonial", link: routeNames.general.viewTestimonial },
     ],
   },
-
-  {
-    label: "Axiom Advantages",
-    icon: IconMessageQuestion,
-    links: [
-      { label: "Add Advantage", link: routeNames.general.addAxiomAdvantage },
-      { label: "View Advantage", link: routeNames.general.viewAxiomAdvantage },
-    ],
-  },
   {
     label: "FAQs",
     icon: Book2,
@@ -108,11 +102,7 @@ export const sidebarData = [
     icon: AddressBook,
     link: routeNames.general.aboutUs,
   },
-  {
-    label: "Process",
-    icon: AddressBook,
-    link: routeNames.general.process,
-  },
+
   {
     label: "Settings",
     icon: Settings,
