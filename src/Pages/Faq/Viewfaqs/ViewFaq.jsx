@@ -19,7 +19,7 @@
 
 import { Flex, Image, Text, Title, useMantineTheme, TypographyStylesProvider } from "@mantine/core";
 
-const ViewFuckinFaq = ({ rowData }) => {
+const ViewFaq = ({ rowData }) => {
   const theme = useMantineTheme();
   return (
     <Flex direction={"column"} w={"100%"}>
@@ -63,4 +63,4 @@ const ViewFuckinFaq = ({ rowData }) => {
     </Flex>
   );
 };
-export default ViewFuckinFaq;
+export default ViewFaq;

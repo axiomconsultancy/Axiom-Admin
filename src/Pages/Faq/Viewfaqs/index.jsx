@@ -14,7 +14,7 @@ import { backendUrl } from "../../../constants/constants";
 import { routeNames } from "../../../Routes/routeNames";
 import { useNavigate } from "react-router";
 
-const View = () => {
+const ViewFaqIndex = () => {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -83,4 +83,4 @@ const View = () => {
   );
 };
 
-export default View;
+export default ViewFaqIndex;

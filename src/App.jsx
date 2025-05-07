@@ -33,7 +33,7 @@ import { TermsAndConditions } from "./Pages/TermsAndConditions";
 import { ResetPassword } from "./Pages/ResetPassword";
 import { AddAxiomAdvantage } from "./Pages/AxiomAdvantages/AddAxiomAdvantage";
 import ViewAxiomAdvantage from "./Pages/AxiomAdvantages/ViewAxiomAdvantage";
-import ViewFuckinFaq from "./Pages/Faq/ViewFaqs/ViewFaq";
+import ViewFaqIndex from "./Pages/Faq/ViewFaqs";
 
 function App() {
   return (
@@ -88,7 +88,7 @@ function App() {
         <Route path={routeNames.general.viewAxiomAdvantage} element={<ViewAxiomAdvantage />} />
 
         <Route path={routeNames.general.addFaq} element={<AddFaq />} />
-        <Route path={routeNames.general.viewFaq} element={<ViewFuckinFaq />} />
+        <Route path={routeNames.general.viewFaq} element={<ViewFaqIndex/>} />
 
         <Route path={routeNames.general.viewQuotes} element={<ViewQuotes />} />
       </Route>
