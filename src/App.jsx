@@ -38,6 +38,8 @@ import ViewFaqIndex from "./Pages/Faq/ViewFaqs";
 function App() {
   return (
     <Routes>
+      <Route path={routeNames.general.viewFaq} element={<ViewFaqIndex />} />
+
       <Route path={routeNames.general.login} element={<Login />} />
       <Route path={routeNames.general.forgetPassword} element={<ForgetPassword />} />
       <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -88,7 +90,6 @@ function App() {
         <Route path={routeNames.general.viewAxiomAdvantage} element={<ViewAxiomAdvantage />} />
 
         <Route path={routeNames.general.addFaq} element={<AddFaq />} />
-        <Route path={routeNames.general.viewFaq} element={<ViewFaqIndex />} />
 
         <Route path={routeNames.general.viewQuotes} element={<ViewQuotes />} />
       </Route>
