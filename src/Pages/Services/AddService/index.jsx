@@ -50,6 +50,7 @@ export const AddService = () => {
       aboutDescription: "",
       serviceTitle: "",
       serviceDescription: "",
+      serviceIcon: null,
       coverImage: null,
       homeImage: null,
       isParent: true, // Default to true (Parent service)
@@ -64,6 +65,7 @@ export const AddService = () => {
       shortDescription: (value) =>
         value?.trim().length > 0 && value?.trim().length < 100 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
+      serviceIcon: (value) => (value ? null : "Please upload a service Icon"),
       homeImage: (value) => (value ? null : "Please upload a home Image"),
     },
   });
@@ -201,6 +203,9 @@ export const AddService = () => {
           withAsterisk
           validateName={"aboutDescription"}
         />
+
+        <DropZone form={form} folderName={"serviceIcon"} name={"serviceIcon"} label="Service Icon" />
+
         <TextArea
           label={"Service Title"}
           placeholder={"Enter Service Title"}
