@@ -31,24 +31,37 @@ export const sidebarData = [
       { label: "View Advantage", link: routeNames.general.viewAxiomAdvantage },
     ],
   },
+
   {
-    label: "Projects",
+    label: "About Us",
+    icon: AddressBook,
+    // link: routeNames.general.aboutUs,
+
+    links: [
+      { label: "Add Team Member", link: routeNames.general.addTeam },
+      { label: "View Team Members", link: routeNames.general.viewTeams },
+      { label: "View X-Team Members", link: routeNames.general.viewXTeams },
+    ],
+  },
+
+  {
+    label: "Portfolio",
     icon: Devices,
     links: [
-      { label: "Add Project", link: routeNames.general.addProject },
-      { label: "View Projects", link: routeNames.general.viewProjects },
+      { label: "Add Portfolip Project", link: routeNames.general.addProject },
+      { label: "View  Portfolio Projects", link: routeNames.general.viewProjects },
     ],
   },
+  // {
+  //   label: "Products",
+  //   icon: BrandVite,
+  //   links: [
+  //     { label: "Add Product", link: routeNames.general.addProduct },
+  //     { label: "View Products", link: routeNames.general.viewProducts },
+  //   ],
+  // },
   {
-    label: "Products",
-    icon: BrandVite,
-    links: [
-      { label: "Add Product", link: routeNames.general.addProduct },
-      { label: "View Products", link: routeNames.general.viewProducts },
-    ],
-  },
-  {
-    label: "Jobs",
+    label: "Careers",
     icon: Briefcase,
     links: [
       // { label: "Add Job Category", link: routeNames.general.addJobCategory },
@@ -58,15 +71,7 @@ export const sidebarData = [
       { label: "Job Applications", link: routeNames.general.jobApplications },
     ],
   },
-  {
-    label: "Team",
-    icon: Users,
-    links: [
-      { label: "Add Team Member", link: routeNames.general.addTeam },
-      { label: "View Team Members", link: routeNames.general.viewTeams },
-      { label: "View X-Team Members", link: routeNames.general.viewXTeams },
-    ],
-  },
+
   {
     label: "Blogs",
     icon: BrandBlogger,
@@ -93,32 +98,30 @@ export const sidebarData = [
     ],
   },
   {
-    label: "Quotes",
+    label: "Contact Us",
     icon: IconQuote,
-    links: [{ label: "View Quotes", link: routeNames.general.viewQuotes }],
-  },
-  {
-    label: "About Us",
-    icon: AddressBook,
-    link: routeNames.general.aboutUs,
+    links: [
+      { label: "Get In Touch", link: routeNames.general.viewQuotes },
+      { label: "Contact Us Configuration", link: routeNames.general.aboutUs },
+    ],
   },
 
   {
-    label: "Settings",
-    icon: Settings,
-    link: routeNames.general.settings,
-  },
+    label: "Footer",
+    icon: IconQuote,
+    links: [
+      {
+        label: "Terms And Conditions",
+        icon: BrandBlogger,
 
-  {
-    label: "Terms And Conditions",
-    icon: BrandBlogger,
+        link: routeNames.general.addTermsAndConditions,
+      },
+      {
+        label: "Privacy Policy",
+        icon: BrandBlogger,
 
-    link: routeNames.general.addTermsAndConditions,
-  },
-  {
-    label: "Privacy Policy",
-    icon: BrandBlogger,
-
-    link: routeNames.general.addPrivacyPolicy,
+        link: routeNames.general.addPrivacyPolicy,
+      },
+    ],
   },
 ];

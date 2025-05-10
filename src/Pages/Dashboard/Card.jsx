@@ -17,12 +17,12 @@ import {
 
 const iconMap = {
   Services: <AiOutlineAppstore size={36} />,
+  "Team Members": <AiOutlineTeam size={36} />,
   Projects: <AiOutlineProject size={36} />,
   Products: <AiOutlineShoppingCart size={36} />,
   "Job Applications": <AiOutlineFileDone size={36} />,
   Jobs: <AiOutlineFileSearch size={36} />,
   Testimonials: <AiOutlineUser size={36} />,
-  "Team Members": <AiOutlineTeam size={36} />,
   Blogs: <AiOutlineRead size={36} />,
 };
 
@@ -33,12 +33,12 @@ const Card = ({ data }) => {
   const handleClick = () => {
     const routes = {
       Services: routeNames.general.viewService,
+      "Team Members": routeNames.general.viewTeams,
       Projects: routeNames.general.viewProjects,
       Products: routeNames.general.viewProducts,
       "Job Applications": routeNames.general.jobApplications,
       Jobs: routeNames.general.viewJobs,
       Testimonials: routeNames.general.viewTestimonial,
-      "Team Members": routeNames.general.viewTeams,
       Blogs: routeNames.general.viewBlogs,
     };
 
