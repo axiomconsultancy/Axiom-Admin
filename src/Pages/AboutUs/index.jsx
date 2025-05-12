@@ -40,8 +40,9 @@ export const AboutUs = () => {
       otherEmails: (value) =>
         !value || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value) ? null : "Please Enter A Valid Email",
       primaryContact: (value) => {
-        // Regular expression to match phone numbers from multiple countries:
-        const regex = /^(?:\+92-\d{10}|(?:\+44-\d{4,5}-\d{6,7})|\+(\d{1,3})-\d{7,10}|\(\d{3}\)\s?\d{3}-\d{4})$/;
+        // Regular expression to match phone numbers from UK, USA, and PTCCL
+        const regex =
+          /^(?:\+44-\d{4,5}-\d{6,7}|\+44 \d{4,5} \d{6,7}|(?:\+1 \(\d{3}\) \d{3}-\d{4}|\+1 \d{3} \d{3}-\d{4}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4})|\+92-\d{3}-\d{7}|\d{3}-\d{7})$/;
 
         // Check if the phone number matches the regular expression
         if (!regex.test(value)) {
@@ -65,7 +66,8 @@ export const AboutUs = () => {
         if (!value) {
           return null; // No validation error if the field is empty (optional)
         }
-        const regex = /^(?:\+92-\d{10}|(?:\+44-\d{4,5}-\d{6,7})|\+(\d{1,3})-\d{7,10}|\(\d{3}\)\s?\d{3}-\d{4})$/;
+        const regex =
+          /^(?:\+44-\d{4,5}-\d{6,7}|\+44 \d{4,5} \d{6,7}|(?:\+1 \(\d{3}\) \d{3}-\d{4}|\+1 \d{3} \d{3}-\d{4}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4})|\+92-\d{3}-\d{7}|\d{3}-\d{7})$/;
         if (!regex.test(value)) {
           return "Please enter a valid whatsapp number ";
         }
