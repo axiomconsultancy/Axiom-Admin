@@ -41,7 +41,6 @@ export const AddBlog = () => {
       authorName: "",
       authorAvatar: null,
       authorBio: "",
-
       authorSocial: "",
       authorEmail: "",
       focusKeywords: [],

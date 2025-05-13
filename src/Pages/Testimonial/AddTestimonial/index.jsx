@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { Container, Group } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
-import { useContext, useEffect } from "react";
-import { useMutation } from "react-query";
+import { useContext, useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../../Routes/routeNames";
 import Button from "../../../components/Button";
@@ -13,12 +14,12 @@ import PageHeader from "../../../components/PageHeader";
 import TextArea from "../../../components/TextArea";
 import { backendUrl } from "../../../constants/constants";
 import { UserContext } from "../../../contexts/UserContext";
-
+import DropDown from "../../../components/DropDown";
 export const AddTestimonial = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   let { state } = useLocation();
-
+  const [categories, setCategories] = useState([]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -26,23 +27,31 @@ export const AddTestimonial = () => {
       image: null,
       designation: "",
       testimonial: "",
+      project: "",
     },
 
     validate: {
-      name: (value) =>
-        value?.length > 1 && value?.length < 30
-          ? null
-          : "Please enter name",
-      designation: (value) =>
-        value?.length > 0 ? null : "Please enter designation",
-      testimonial: (value) =>
-        value?.length > 0 ? null : "Please enter testimonial",
+      name: (value) => (value?.length > 1 && value?.length < 30 ? null : "Please enter name"),
+      designation: (value) => (value?.length > 0 ? null : "Please enter designation"),
+      testimonial: (value) => (value?.length > 0 ? null : "Please enter testimonial"),
       image: (value) => (value ? null : "Please upload a Image"),
     },
   });
 
-  
-
+  const { status } = useQuery(
+    "fetchServices",
+    () => {
+      return axios.get(backendUrl + "/api/v1/web/services");
+    },
+    {
+      onSuccess: (res) => {
+        let data = res.data.data.map((item) => {
+          return { value: item._id, label: item.title };
+        });
+        setCategories(data);
+      },
+    }
+  );
   useEffect(() => {
     if (state?.isUpdate) {
       form.setValues(state.data);
@@ -51,15 +60,11 @@ export const AddTestimonial = () => {
   const handleAddService = useMutation(
     (values) => {
       if (state?.isUpdate)
-        return axios.patch(
-          `${backendUrl + `/api/v1/testimonial/${state?.data?._id}`}`,
-          values,
-          {
-            headers: {
-              authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        return axios.patch(`${backendUrl + `/api/v1/testimonial/${state?.data?._id}`}`, values, {
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        });
       else
         return axios.post(`${backendUrl + "/api/v1/testimonial"}`, values, {
           headers: {
@@ -89,19 +94,16 @@ export const AddTestimonial = () => {
   );
   return (
     <Container fluid>
-      <PageHeader
-        label={state?.isUpdate ? "Edit Testimonial" : "Add Testimonial"}
-      />
-      <form
-        onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}
-      >
-        <InputField
-          label={"Name"}
-          placeholder={"Enter Name"}
+      <PageHeader label={state?.isUpdate ? "Edit Testimonial" : "Add Testimonial"} />
+      <form onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}>
+        <DropDown
+          label={"Project"}
+          placeholder={"Select Project"}
+          data={categories} // Pass the fetched categories here
           form={form}
-          withAsterisk
-          validateName={"name"}
+          validateName={""}
         />
+        <InputField label={"Name"} placeholder={"Enter Name"} form={form} withAsterisk validateName={"name"} />
         <InputField
           label={"Designation"}
           placeholder={"Enter Designation"}
@@ -120,12 +122,7 @@ export const AddTestimonial = () => {
           validateName={"testimonial"}
         />
         <Group position="center">
-          <DropZone
-            form={form}
-            folderName={"service"}
-            name={"image"}
-            label="Cover Image"
-          />
+          <DropZone form={form} folderName={"service"} name={"image"} label="Cover Image" />
           {/* <DropZone
             form={form}
             folderName={"service"}
@@ -134,11 +131,7 @@ export const AddTestimonial = () => {
           /> */}
         </Group>
         <Group position="right" mt={"md"}>
-          <Button
-            label={"Cancel"}
-            variant={"outline"}
-            onClick={() => navigate(routeNames.general.viewTestimonial)}
-          />
+          <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.viewTestimonial)} />
           <Button
             label={state?.isUpdate ? "Edit Testimonial" : "Add Testimonial"}
             type={"submit"}
