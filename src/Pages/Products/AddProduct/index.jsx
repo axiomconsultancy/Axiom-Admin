@@ -40,7 +40,16 @@ export const AddProduct = () => {
       // shortDescription: (value) =>
       //   value?.length > 0 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
-      link: (value) => (value?.trim().length > 0 ? null : "Please enter project link"),
+      link: (value) => {
+        if (!value?.trim()) return "Please enter project link";
+
+        try {
+          new URL(value);
+          return null;
+        } catch (e) {
+          return "Please enter a valid URL";
+        }
+      }
       // homeImage: (value) => (value ? null : "Please upload a home Image"),
     },
   });

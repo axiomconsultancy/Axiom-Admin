@@ -15,6 +15,16 @@ import { UserContext } from "../../contexts/UserContext";
 export const AboutUs = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+
+  function isValidUrl(value) {
+    try {
+      new URL(value);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -37,44 +47,56 @@ export const AboutUs = () => {
     validate: {
       primaryEmail: (value) =>
         /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value) ? null : "Please enter a valid email",
+
       otherEmails: (value) =>
-        !value || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value) ? null : "Please Enter A Valid Email",
+        !value || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(value) ? null : "Please enter a valid email",
+
       primaryContact: (value) => {
-        // Regular expression to match phone numbers from UK, USA, and PTCCL
         const regex =
           /^(?:\+44-\d{4,5}-\d{6,7}|\+44 \d{4,5} \d{6,7}|(?:\+1 \(\d{3}\) \d{3}-\d{4}|\+1 \d{3} \d{3}-\d{4}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4})|\+92-\d{3}-\d{7}|\d{3}-\d{7})$/;
-
-        // Check if the phone number matches the regular expression
-        if (!regex.test(value)) {
-          return "Please enter a valid primary contact number";
-        }
-
-        return null; // No error if the validation passes
+        return regex.test(value)
+          ? null
+          : "Please enter a valid primary contact number (+44-xxxx-xxxxxx)";
       },
 
       whatsapp: (value) => {
-        if (!value) {
-          return null; // No validation error if the field is empty (optional)
-        }
-        const regex = /^(?:\+92-\d{10}|(?:\+44-\d{4,5}-\d{6,7})|\+(\d{1,3})-\d{7,10}|\(\d{3}\)\s?\d{3}-\d{4})$/; // Ensure the number starts with '+92-' and has exactly 10 digits after that
-        if (!regex.test(value)) {
-          return "Please enter a valid whatsapp number ";
-        }
-        return null; // No error if the validation passes
+        if (!value) return null;
+        const regex = /^(?:\+92-\d{10}|(?:\+44-\d{4,5}-\d{6,7})|\+(\d{1,3})-\d{7,10}|\(\d{3}\)\s?\d{3}-\d{4})$/;
+        return regex.test(value) ? null : "Please enter a valid WhatsApp number";
       },
+
       otherContacts: (value) => {
-        if (!value) {
-          return null; // No validation error if the field is empty (optional)
-        }
+        if (!value) return null;
         const regex =
           /^(?:\+44-\d{4,5}-\d{6,7}|\+44 \d{4,5} \d{6,7}|(?:\+1 \(\d{3}\) \d{3}-\d{4}|\+1 \d{3} \d{3}-\d{4}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4})|\+92-\d{3}-\d{7}|\d{3}-\d{7})$/;
-        if (!regex.test(value)) {
-          return "Please enter a valid whatsapp number ";
-        }
-        return null; // No error if the validation passes
+        return regex.test(value) ? null : "Please enter a valid contact number";
       },
-      primaryAddress: (value) => (value?.length > 0 ? null : "Please enter primary address"),
-    },
+
+      primaryAddress: (value) =>
+        value?.length > 0 ? null : "Please enter primary address",
+
+      // Social Media and Link Fields Validation
+      linkedIn: (value) =>
+        !value || isValidUrl(value) ? null : "Please enter a valid LinkedIn URL",
+
+      facebook: (value) =>
+        !value || isValidUrl(value) ? null : "Please enter a valid Facebook URL",
+
+      twitter: (value) =>
+        !value || isValidUrl(value) ? null : "Please enter a valid Twitter URL",
+
+      instagram: (value) =>
+        !value || isValidUrl(value) ? null : "Please enter a valid Instagram URL",
+
+      youtube: (value) =>
+        !value || isValidUrl(value) ? null : "Please enter a valid YouTube URL",
+
+      googleMapLink: (value) =>
+        !value || isValidUrl(value) ? null : "Please enter a valid Google Map URL",
+
+      googleMapImage: (value) =>
+        !value || isValidUrl(value) ? null : "Please enter a valid image URL",
+    }
   });
 
   //Get Data

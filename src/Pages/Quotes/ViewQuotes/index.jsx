@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Container, Grid } from "@mantine/core";
 import axios from "axios";
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useQuery } from "react-query";
 import SelectMenu from "../../../components/SelectMenu";
 import { useStyles } from "../styles";
@@ -89,7 +89,8 @@ const ViewQuotes = () => {
               fullWidth
               label={"Load Quotes"}
               leftIcon="plus"
-              onClick={() => navigate(routeNames.general.viewQuotes)}
+              onClick={() => { navigate(routeNames.general.viewQuotes) }
+              }
             />
           </Grid.Col>
         </Grid>

@@ -61,11 +61,29 @@ export const AddService = () => {
         value?.trim().length > 1 && value?.trim().length < 30
           ? null
           : "Please enter service title between 2 to 30 characters",
+      subTitle: (value) =>
+        value?.trim().length > 1 && value?.trim().length < 30
+          ? null
+          : "Please enter subtitle title between 2 to 30 characters",
       description: (value) => (value?.trim().length > 0 ? null : "Please enter project description"),
+      aboutSlogan: (value) =>
+        value?.trim().length > 1 && value?.trim().length < 30
+          ? null
+          : "Please enter slogan between 2 to 30 characters",
+      aboutTitle: (value) =>
+        value?.trim().length > 1 && value?.trim().length < 30
+          ? null
+          : "Please enter about title between 2 to 30 characters",
+      aboutDescription: (value) => (value?.trim().length > 0 ? null : "Please enter about description"),
       shortDescription: (value) =>
         value?.trim().length > 0 && value?.trim().length < 100 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
       serviceIcon: (value) => (value ? null : "Please upload a service Icon"),
+      serviceTitle: (value) =>
+        value?.trim().length > 1 && value?.trim().length < 30
+          ? null
+          : "Please enter service title between 2 to 30 characters",
+      serviceDescription: (value) => (value?.trim().length > 0 ? null : "Please enter service description"),
       homeImage: (value) => (value ? null : "Please upload a home Image"),
     },
   });

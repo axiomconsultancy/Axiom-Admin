@@ -19,6 +19,10 @@ const StatusToggle = ({ status, id, type, queryName }) => {
   //to change status
   const handleStatusChange = useMutation(
     async () => {
+
+      console.log('backendUrl', backendUrl);
+      console.log('type', type);
+      console.log('id', id);
       const link = backendUrl + `/api/v1/${type}/${id}`;
       return axios.patch(
         link,
