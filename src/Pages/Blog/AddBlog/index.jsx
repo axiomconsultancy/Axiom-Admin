@@ -14,7 +14,7 @@ import { backendUrl } from "../../../constants/constants";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../contexts/UserContext";
 import DropZone from "../../../components/Dropzone";
-import DropDown from "../../../components/DropDown"
+import DropDown from "../../../components/DropDown";
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../../Routes/routeNames";
 // import SelectMenu from "../../../components/SelectMenu";
@@ -26,7 +26,7 @@ export const AddBlog = () => {
   let { state } = useLocation();
   const [categories, setCategories] = useState([]);
 
-  console.log("categ : " , categories);
+  console.log("categ : ", categories);
 
   const form = useForm({
     validateInputOnChange: true,
@@ -39,6 +39,11 @@ export const AddBlog = () => {
       blogData: "",
       seoTitle: "",
       authorName: "",
+      authorAvatar: null,
+      authorBio: "",
+
+      authorSocial: "",
+      authorEmail: "",
       focusKeywords: [],
     },
 
@@ -107,18 +112,14 @@ export const AddBlog = () => {
   const handleAddService = useMutation(
     (values) => {
       if (state?.isUpdate) {
-        return axios.patch(
-          `${backendUrl}/api/v1/blog/${state?.data?._id}`,
-          values,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        return axios.patch(`${backendUrl}/api/v1/blog/${state?.data?._id}`, values, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
       } else {
-        console.log("values : " , values);
+        console.log("values : ", values);
         return axios.post(`${backendUrl}/api/v1/blog`, values, {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -150,9 +151,7 @@ export const AddBlog = () => {
   return (
     <Container fluid>
       <PageHeader label={state?.isUpdate ? "Edit Blog" : "Add Blog"} />
-      <form
-        onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}
-      >
+      <form onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}>
         <InputField
           label={"Title"}
           placeholder={"Enter Blog Title"}
@@ -200,12 +199,37 @@ export const AddBlog = () => {
           withAsterisk
           validateName={"seoTitle"}
         />
+        <Group position="">
+          <DropZone form={form} folderName={"authorData"} name={"authorAvatar"} label="Author Profile" />
+        </Group>
         <InputField
           label={"Author's Name"}
           placeholder={"Enter Blog's Author Name here"}
           form={form}
           withAsterisk
           validateName={"authorName"}
+        />{" "}
+        <InputField
+          label={"Author's Email"}
+          placeholder={"Enter Blog's Author Email here"}
+          form={form}
+          withAsterisk
+          validateName={"authorEmail"}
+        />
+        <InputField
+          label={"Author's Social"}
+          placeholder={"Enter Blog's Author Social handle here"}
+          form={form}
+          withAsterisk
+          validateName={"authorSocial"}
+        />
+        <TextArea
+          label={"Author's Bio"}
+          placeholder={"Enter Blog's Author Bio here"}
+          form={form}
+          rows="2"
+          withAsterisk
+          validateName={"authorBio"}
         />
         <TextArea
           label={"Meta Description"}
@@ -215,15 +239,6 @@ export const AddBlog = () => {
           withAsterisk
           validateName={"metaDescription"}
         />
-
-        {/* <TinyMCEEditor
-          label={"Meta Description"}
-          placeholder={"Enter Detailed Description"}
-          form={form}
-          withAsterisk
-          validateName={"blogDescription"}
-        /> */}
-
         <TinyMCEEditor
           label={"Blog Data"}
           placeholder={"Enter Blog Data"}
@@ -233,27 +248,11 @@ export const AddBlog = () => {
         />
         {/* y */}
         {/* <textarea name="" id=""></textarea> */}
-
         <Group position="center">
-          <DropZone
-            form={form}
-            folderName={"service"}
-            name={"blogImage"}
-            label="Cover Image"
-          />
-          {/* <DropZone
-            form={form}
-            folderName={"service"}
-            name={"homeImage"}
-            label="Home Image"
-          /> */}
+          <DropZone form={form} folderName={"service"} name={"blogImage"} label="Cover Image" />
         </Group>
         <Group position="right" mt={"md"}>
-          <Button
-            label={"Cancel"}
-            variant={"outline"}
-            onClick={() => navigate(routeNames.general.viewBlogs)}
-          />
+          <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.viewBlogs)} />
           <Button
             label={state?.isUpdate ? "Edit Blog" : "Add Blog"}
             type={"submit"}
