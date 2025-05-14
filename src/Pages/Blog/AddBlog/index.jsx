@@ -39,10 +39,10 @@ export const AddBlog = () => {
       blogData: "",
       seoTitle: "",
       authorName: "",
-      authorAvatar: null,
-      authorBio: "",
-      authorSocial: "",
-      authorEmail: "",
+      // authorAvatar: null,
+      // authorBio: "",
+      // authorSocial: "",
+      // authorEmail: "",
       focusKeywords: [],
     },
 
@@ -198,9 +198,9 @@ export const AddBlog = () => {
           withAsterisk
           validateName={"seoTitle"}
         />
-        <Group position="">
+        {/* <Group position="">
           <DropZone form={form} folderName={"authorData"} name={"authorAvatar"} label="Author Profile" />
-        </Group>
+        </Group> */}
         <InputField
           label={"Author's Name"}
           placeholder={"Enter Blog's Author Name here"}
@@ -208,14 +208,14 @@ export const AddBlog = () => {
           withAsterisk
           validateName={"authorName"}
         />{" "}
-        <InputField
+        {/* <InputField
           label={"Author's Email"}
           placeholder={"Enter Blog's Author Email here"}
           form={form}
           withAsterisk
           validateName={"authorEmail"}
-        />
-        <InputField
+        /> */}
+        {/* <InputField
           label={"Author's Social"}
           placeholder={"Enter Blog's Author Social handle here"}
           form={form}
@@ -229,7 +229,7 @@ export const AddBlog = () => {
           rows="2"
           withAsterisk
           validateName={"authorBio"}
-        />
+        /> */}
         <TextArea
           label={"Meta Description"}
           placeholder={"Enter Meta Description"}

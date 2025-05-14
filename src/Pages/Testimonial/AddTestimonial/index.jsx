@@ -19,7 +19,6 @@ export const AddTestimonial = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   let { state } = useLocation();
-  const [categories, setCategories] = useState([]);
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -28,6 +27,7 @@ export const AddTestimonial = () => {
       designation: "",
       testimonial: "",
       project: "",
+      projectLink: "",
     },
 
     validate: {
@@ -38,20 +38,6 @@ export const AddTestimonial = () => {
     },
   });
 
-  const { status } = useQuery(
-    "fetchServices",
-    () => {
-      return axios.get(backendUrl + "/api/v1/web/services");
-    },
-    {
-      onSuccess: (res) => {
-        let data = res.data.data.map((item) => {
-          return { value: item._id, label: item.title };
-        });
-        setCategories(data);
-      },
-    }
-  );
   useEffect(() => {
     if (state?.isUpdate) {
       form.setValues(state.data);
@@ -96,12 +82,12 @@ export const AddTestimonial = () => {
     <Container fluid>
       <PageHeader label={state?.isUpdate ? "Edit Testimonial" : "Add Testimonial"} />
       <form onSubmit={form.onSubmit((values) => handleAddService.mutate(values))}>
-        <DropDown
-          label={"Project"}
-          placeholder={"Select Project"}
-          data={categories} // Pass the fetched categories here
+        <InputField label={"Project Name"} placeholder={"Enter Project Name"} form={form} validateName={"project"} />
+        <InputField
+          label={"Project Link"}
+          placeholder={"Enter Project Link"}
           form={form}
-          validateName={""}
+          validateName={"projectLink"}
         />
         <InputField label={"Name"} placeholder={"Enter Name"} form={form} withAsterisk validateName={"name"} />
         <InputField
