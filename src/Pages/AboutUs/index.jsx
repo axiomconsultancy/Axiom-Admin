@@ -54,9 +54,7 @@ export const AboutUs = () => {
       primaryContact: (value) => {
         const regex =
           /^(?:\+44-\d{4,5}-\d{6,7}|\+44 \d{4,5} \d{6,7}|(?:\+1 \(\d{3}\) \d{3}-\d{4}|\+1 \d{3} \d{3}-\d{4}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4})|\+92-\d{3}-\d{7}|\d{3}-\d{7})$/;
-        return regex.test(value)
-          ? null
-          : "Please enter a valid primary contact number (+44-xxxx-xxxxxx)";
+        return regex.test(value) ? null : "Please enter a valid primary contact number (+44-xxxx-xxxxxx)";
       },
 
       whatsapp: (value) => {
@@ -72,31 +70,23 @@ export const AboutUs = () => {
         return regex.test(value) ? null : "Please enter a valid contact number";
       },
 
-      primaryAddress: (value) =>
-        value?.length > 0 ? null : "Please enter primary address",
+      primaryAddress: (value) => (value?.length > 0 ? null : "Please enter primary address"),
 
       // Social Media and Link Fields Validation
-      linkedIn: (value) =>
-        !value || isValidUrl(value) ? null : "Please enter a valid LinkedIn URL",
+      linkedIn: (value) => (!value || isValidUrl(value) ? null : "Please enter a valid LinkedIn URL"),
 
-      facebook: (value) =>
-        !value || isValidUrl(value) ? null : "Please enter a valid Facebook URL",
+      facebook: (value) => (!value || isValidUrl(value) ? null : "Please enter a valid Facebook URL"),
 
-      twitter: (value) =>
-        !value || isValidUrl(value) ? null : "Please enter a valid Twitter URL",
+      twitter: (value) => (!value || isValidUrl(value) ? null : "Please enter a valid Twitter URL"),
 
-      instagram: (value) =>
-        !value || isValidUrl(value) ? null : "Please enter a valid Instagram URL",
+      instagram: (value) => (!value || isValidUrl(value) ? null : "Please enter a valid Instagram URL"),
 
-      youtube: (value) =>
-        !value || isValidUrl(value) ? null : "Please enter a valid YouTube URL",
+      youtube: (value) => (!value || isValidUrl(value) ? null : "Please enter a valid YouTube URL"),
 
-      googleMapLink: (value) =>
-        !value || isValidUrl(value) ? null : "Please enter a valid Google Map URL",
+      googleMapLink: (value) => (!value || isValidUrl(value) ? null : "Please enter a valid Google Map URL"),
 
-      googleMapImage: (value) =>
-        !value || isValidUrl(value) ? null : "Please enter a valid image URL",
-    }
+      googleMapImage: (value) => (!value || isValidUrl(value) ? null : "Please enter a valid image URL"),
+    },
   });
 
   //Get Data
@@ -111,7 +101,7 @@ export const AboutUs = () => {
     },
     {
       onSuccess: (res) => {
-        form.setValues(res.data.data[0]);
+        form.setValues(res.data.data);
       },
     }
   );
