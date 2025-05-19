@@ -21,7 +21,7 @@ export default function TextEditorTinyMce({ form, validateName, label, required 
         <span style={{ color: "red", marginLeft: "4px", display: required ? "inline" : "none" }}>*</span>
       </Text>
       <Editor
-        apiKey="u3ici7ksqrmq51agx3kz00k3qbjp263zmdlmpgwjstzxhwy7"
+        apiKey="rqmcacu7tcpszxl3r5nxv7g11gsxw3faswumjej59og1oi4y"
         onInit={(_evt, editor) => (editorRef.current = editor)}
         value={form.values[validateName]}
         onEditorChange={handleEditorChange}
