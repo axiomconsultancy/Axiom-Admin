@@ -67,9 +67,9 @@ export const AddService = () => {
           : "Please enter subtitle title between 2 to 30 characters",
       description: (value) => (value?.trim().length > 0 ? null : "Please enter project description"),
       aboutSlogan: (value) =>
-        value?.trim().length > 1 && value?.trim().length < 30
+        value?.trim().length > 1 && value?.trim().length <= 70
           ? null
-          : "Please enter slogan between 2 to 30 characters",
+          : "Please enter slogan between 2 to 70 characters",
       aboutTitle: (value) =>
         value?.trim().length > 1 && value?.trim().length < 30
           ? null
