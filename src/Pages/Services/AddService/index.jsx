@@ -96,8 +96,13 @@ export const AddService = () => {
 
   const handleAddService = useMutation(
     (values) => {
+      const finalValues = {
+        ...values,
+        parentService: values.isParent ? null : values.parentService,
+      };
+
       if (state?.isUpdate)
-        return axios.patch(`${backendUrl + `/api/v1/service/${state?.data?._id}`}`, values, {
+        return axios.patch(`${backendUrl + `/api/v1/service/${state?.data?._id}`}`, finalValues, {
           headers: {
             authorization: `Bearer ${user.token}`,
           },
