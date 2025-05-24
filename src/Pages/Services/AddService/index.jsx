@@ -46,6 +46,7 @@ export const AddService = () => {
       shortDescription: "",
       description: "",
       aboutSlogan: "",
+      aboutSloganPartTwo: "",
       aboutTitle: "  ",
       aboutDescription: "",
       serviceTitle: "",
@@ -58,31 +59,37 @@ export const AddService = () => {
     },
     validate: {
       title: (value) =>
-        value?.trim().length > 1 && value?.trim().length < 30
+        value?.trim().length > 1 && value?.trim().length < 80
           ? null
-          : "Please enter service title between 2 to 30 characters",
+          : "Please enter service title between 2 to 80 characters",
       subTitle: (value) =>
-        value?.trim().length > 1 && value?.trim().length < 30
+        value?.trim().length > 1 && value?.trim().length < 80
           ? null
-          : "Please enter subtitle title between 2 to 30 characters",
+          : "Please enter subtitle title between 2 to 80 characters",
       description: (value) => (value?.trim().length > 0 ? null : "Please enter project description"),
       aboutSlogan: (value) =>
-        value?.trim().length > 1 && value?.trim().length < 30
+        value?.trim().length > 1 && value?.trim().length <= 80
           ? null
-          : "Please enter slogan between 2 to 30 characters",
+          : "Please enter slogan between 2 to 80 characters",
+      aboutSloganPartTwo: (value) =>
+        !value?.trim().length
+          ? null
+          : value?.trim().length > 1 && value?.trim().length <= 80
+          ? null
+          : "Please enter slogan part two between 2 to 80 characters",
       aboutTitle: (value) =>
-        value?.trim().length > 1 && value?.trim().length < 30
+        value?.trim().length > 1 && value?.trim().length < 80
           ? null
-          : "Please enter about title between 2 to 30 characters",
+          : "Please enter about title between 2 to 80 characters",
       aboutDescription: (value) => (value?.trim().length > 0 ? null : "Please enter about description"),
       shortDescription: (value) =>
         value?.trim().length > 0 && value?.trim().length < 100 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
       serviceIcon: (value) => (value ? null : "Please upload a service Icon"),
       serviceTitle: (value) =>
-        value?.trim().length > 1 && value?.trim().length < 30
+        value?.trim().length > 1 && value?.trim().length < 80
           ? null
-          : "Please enter service title between 2 to 30 characters",
+          : "Please enter service title between 2 to 80 characters",
       serviceDescription: (value) => (value?.trim().length > 0 ? null : "Please enter service description"),
       homeImage: (value) => (value ? null : "Please upload a home Image"),
     },
@@ -96,8 +103,13 @@ export const AddService = () => {
 
   const handleAddService = useMutation(
     (values) => {
+      const finalValues = {
+        ...values,
+        parentService: values.isParent ? null : values.parentService,
+      };
+
       if (state?.isUpdate)
-        return axios.patch(`${backendUrl + `/api/v1/service/${state?.data?._id}`}`, values, {
+        return axios.patch(`${backendUrl + `/api/v1/service/${state?.data?._id}`}`, finalValues, {
           headers: {
             authorization: `Bearer ${user.token}`,
           },
@@ -205,6 +217,12 @@ export const AddService = () => {
           form={form}
           withAsterisk
           validateName={"aboutSlogan"}
+        />
+        <InputField
+          label={"Slogan Part Two (It will appear below the first slogan after a line break)"}
+          placeholder={"Enter Slogan Part Two"}
+          form={form}
+          validateName={"aboutSloganPartTwo"}
         />
         <InputField
           label={"About Title"}
