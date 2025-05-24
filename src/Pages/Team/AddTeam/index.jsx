@@ -115,10 +115,10 @@ export const AddTeam = () => {
       officialEmail: "",
       officialPhone: "",
       CNIC: "",
-      kinName: "",
-      kinRelation: "",
-      kinContact: "",
-      kinAddress: "",
+      nextOfKinName: "",
+      nextOfKinRelation: "",
+      nextOfKinPhone: "",
+      nextOfKinAddress: "",
     },
     // we will add team member CNIC as well
     validate: {
@@ -163,10 +163,10 @@ export const AddTeam = () => {
       //     : "Please enter a valid Pakistani IBAN",
       IBAN: validateIBAN,
       // Making kin fields optional
-      kinName: (value) => (!value || value.trim() !== "" ? null : null),
-      kinRelation: (value) => (!value || value.trim() !== "" ? null : null),
-      kinContact: (value) => (!value || value.trim() !== "" ? null : null),
-      kinAddress: (value) => (!value || value.trim() !== "" ? null : null),
+      nextOfKinName: (value) => (!value || value.trim() !== "" ? null : null),
+      nextOfKinRelation: (value) => (!value || value.trim() !== "" ? null : null),
+      nextOfKinPhone: (value) => (!value || value.trim() !== "" ? null : null),
+      nextOfKinAddress: (value) => (!value || value.trim() !== "" ? null : null),
     },
   });
 
@@ -369,21 +369,21 @@ export const AddTeam = () => {
             label={"Next Of Kin Name"}
             placeholder={"Next Of Kin Name"}
             form={form}
-            validateName={"kinName"}
+            validateName={"nextOfKinName"}
           />
           <InputField
             label={"Next Of Kin Relation"}
             placeholder={"Next Of Kin Relation"}
             form={form}
-            validateName={"kinRelation"}
+            validateName={"nextOfKinRelation"}
           />
           <InputField
             label={"Next Of Kin Contact"}
             placeholder={"Next Of Kin Contact"}
             form={form}
-            validateName={"kinContact"}
+            validateName={"nextOfKinPhone"}
           />
-          <InputField label={"Address"} placeholder={"Address"} form={form} validateName={"kinAddress"} />
+          <InputField label={"Address"} placeholder={"Address"} form={form} validateName={"nextOfKinAddress"} />
         </SimpleGrid>
 
         <Divider my="xl" label="ID Card Information" labelPosition="center" fz={"lg"} />
