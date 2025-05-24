@@ -67,6 +67,7 @@ export const AddService = () => {
       serviceDescription: "",
       serviceSpecificFaqs: [],
       serviceSpecificSteps: [],
+      serviceSpecificAdvantages: [],
       serviceIcon: null,
       coverImage: null,
       homeImage: null,
@@ -111,12 +112,6 @@ export const AddService = () => {
     },
   });
 
-  // useEffect(() => {
-  //   if (state?.isUpdate) {
-  //     form.setValues(state.data);
-  //   }
-  // }, [state]);
-
   useEffect(() => {
     if (state?.isUpdate) {
       const data = state.data;
@@ -125,6 +120,7 @@ export const AddService = () => {
         ...data,
         faqs: data.serviceSpecificFaqs || [],
         steps: data.serviceSpecificSteps || [],
+        advantages: data.serviceSpecificAdvantages || [],
       });
     }
   }, [state]);
@@ -144,7 +140,21 @@ export const AddService = () => {
     updatedFaqs[index][field] = value;
     form.setFieldValue("faqs", updatedFaqs);
   };
+  const addAdvantage = () => {
+    const newAdvantages = [...(form.values.advantages || []), { title: "", description: "" }];
+    form.setFieldValue("advantages", newAdvantages);
+  };
 
+  const removeAdvantage = (index) => {
+    const updatedAdvantages = form.values.advantages.filter((_, i) => i !== index);
+    form.setFieldValue("advantages", updatedAdvantages);
+  };
+
+  const handleAdvantageChange = (index, field, value) => {
+    const updatedAdvantages = [...form.values.advantages];
+    updatedAdvantages[index][field] = value;
+    form.setFieldValue("advantages", updatedAdvantages);
+  };
   const addProcess = () => {
     const newSteps = [
       ...(form.values.steps || []),
@@ -238,6 +248,11 @@ export const AddService = () => {
               ...step,
               title: step.title.trim(),
               description: step.description.trim(),
+            })),
+            serviceSpecificAdvantages: values.advantages.map((advantage) => ({
+              image: advantage.image,
+              title: advantage.title.trim(),
+              description: advantage.description.trim(),
             })),
             serviceTitle: values.serviceTitle.trim(),
             serviceDescription: values.serviceDescription.trim(),
@@ -448,7 +463,62 @@ export const AddService = () => {
             </ActionIcon>
           </Group>
         </Stack>
+        {/* ======================= SERVICE ADVANTAGES SECTION ======================= */}
+        <Stack mt="xl" spacing="lg">
+          <Title align="center" order={2}>
+            {state?.isUpdate ? "Edit " : "Add "} Service Specific Advanages
+          </Title>
+          <Text align="center" size="md" color="dimmed">
+            Help users by adding common advantages of this service
+          </Text>
 
+          <Grid>
+            {form.values.advantages?.map((advantage, index) => (
+              <Col span={12} key={index}>
+                <Paper withBorder p="md" radius="md" shadow="xs">
+                  <Group position="apart" mb="sm">
+                    <Text weight={500}>ADVANTAGE {index + 1}</Text>
+                    {form.values.advantages.length > 1 && (
+                      <ActionIcon color="red" onClick={() => removeAdvantage(index)} size="sm">
+                        <FaTrashAlt />
+                      </ActionIcon>
+                    )}
+                  </Group>
+                  <DropZone
+                    form={form}
+                    folderName={"service"}
+                    name={`advantages.${index}.image`}
+                    label="Advantage Image"
+                  />
+
+                  <InputField
+                    label="Title"
+                    placeholder="Enter the Title"
+                    form={form}
+                    value={advantage.title}
+                    onChange={(e) => handleAdvantageChange(index, "title", e.target.value)}
+                    validateName={`advantages.${index}.title`}
+                  />
+                  <Textarea
+                    label="Description"
+                    placeholder="Enter the Description"
+                    form={form}
+                    rows={3}
+                    value={advantage.description}
+                    onChange={(e) => handleAdvantageChange(index, "description", e.target.value)}
+                    validateName={`advantages.${index}.description`}
+                  />
+                </Paper>
+              </Col>
+            ))}
+          </Grid>
+
+          <Group position="center">
+            <ActionIcon color="blue" size="xl" onClick={addAdvantage}>
+              <FaPlus />
+            </ActionIcon>
+          </Group>
+        </Stack>
         <Group position="right" mt={"md"}>
           <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.viewService)} />
           <Button
