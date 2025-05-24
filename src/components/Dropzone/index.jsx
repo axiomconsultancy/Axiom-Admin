@@ -12,6 +12,8 @@ export default function DropZone({ form, name, folderName, label }) {
   const [progress, setProgress] = useState(null);
   const [preview, setPreview] = useState(""); // Local blob URL for preview
 
+  const value = form.getInputProps(name).value;
+
   const { getRootProps, getInputProps, isDragActive, isDragReject, isDragAccept } = useDropzone({
     accept: {
       "image/*": [],
@@ -20,35 +22,30 @@ export default function DropZone({ form, name, folderName, label }) {
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file) {
-        // Create a preview URL for immediate display
         const previewUrl = URL.createObjectURL(file);
-        setPreview(previewUrl); // Set the preview URL
-        form.setFieldValue(name, previewUrl); // Set form value to preview URL temporarily
-
-        // Upload the file to Firebase Storage
+        setPreview(previewUrl);
+        form.setFieldValue(name, previewUrl); // Temporary preview
         uploadSingleFile({
           file,
           folderName,
-          urlSetter: setUrl, // Update the Firebase URL state
+          urlSetter: setUrl,
           setProgress,
         });
       }
     },
   });
 
-  // Update the form value with the Firebase URL once the upload is complete
   useEffect(() => {
     if (progress === 100 && url) {
-      form.setFieldValue(name, url); // Set form value to the Firebase URL
-      setPreview(""); // Clear the preview URL
+      form.setFieldValue(name, url); // Final Firebase URL
+      setPreview(""); // Clear preview
     }
   }, [progress, url, form, name]);
 
-  // Clean up the preview URL when the component unmounts
   useEffect(() => {
     return () => {
       if (preview) {
-        URL.revokeObjectURL(preview); // Free up memory
+        URL.revokeObjectURL(preview);
       }
     };
   }, [preview]);
@@ -62,7 +59,7 @@ export default function DropZone({ form, name, folderName, label }) {
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "white",
-        padding: form.values[name] == null ? 5 : 0,
+        padding: value == null ? 5 : 0,
         overflow: "hidden",
         borderWidth: "2px",
         borderStyle: "dashed",
@@ -82,7 +79,7 @@ export default function DropZone({ form, name, folderName, label }) {
       }}
       {...getRootProps()}
     >
-      {form.values[name] == null ? (
+      {value == null ? (
         <>
           <input {...getInputProps()} />
           <Photo size={"25%"} />
@@ -98,7 +95,7 @@ export default function DropZone({ form, name, folderName, label }) {
         >
           {progress === null || progress === 100 ? (
             <Image
-              src={preview || form.values[name]} // Use preview URL or the actual Firebase URL
+              src={preview || value}
               alt="preview"
               style={{
                 width: "100%",
@@ -123,10 +120,11 @@ export default function DropZone({ form, name, folderName, label }) {
             }}
             onClick={(e) => {
               e.stopPropagation();
-              form.setFieldValue(name, null); // Clear the form value
-              setPreview(""); // Clear the preview URL
-              setUrl(""); // Clear the Firebase URL
-              setProgress(null); // Reset progress
+              form.setFieldValue(name, null);
+              form.setFieldError(name, null); // Optional: clear error
+              setPreview("");
+              setUrl("");
+              setProgress(null);
             }}
           >
             <X />
