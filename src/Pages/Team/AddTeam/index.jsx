@@ -33,9 +33,7 @@ export const AddTeam = () => {
     // Parse the phone number
     const phoneNumber = parsePhoneNumberFromString(formattedVal);
 
-    return phoneNumber && phoneNumber.isValid()
-      ? null
-      : "Please enter a valid phone number";
+    return phoneNumber && phoneNumber.isValid() ? null : "Please enter a valid phone number";
   };
 
   const validateIBAN = (val) => {
@@ -92,9 +90,7 @@ export const AddTeam = () => {
       /^\d{10}$/, // Chile (RUN - 1234567890)
     ];
 
-    return cnicPatterns.some((pattern) => pattern.test(val))
-      ? null
-      : "Invalid CNIC/ID format for your region";
+    return cnicPatterns.some((pattern) => pattern.test(val)) ? null : "Invalid CNIC/ID format for your region";
   };
 
   const form = useForm({
@@ -126,23 +122,13 @@ export const AddTeam = () => {
     },
     // we will add team member CNIC as well
     validate: {
-      teamMemberName: (val) =>
-        val.trim().length < 1
-          ? "Please Enter Value Of Length Greater Than 0"
-          : null,
-      teamMemberTitle: (val) =>
-        val.trim().length < 1
-          ? "Please Enter Value Of Length Greater Than 0"
-          : null,
+      teamMemberName: (val) => (val.trim().length < 1 ? "Please Enter Value Of Length Greater Than 0" : null),
+      teamMemberTitle: (val) => (val.trim().length < 1 ? "Please Enter Value Of Length Greater Than 0" : null),
       teamMemberEmail: (val) =>
-        /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(val)
-          ? null
-          : "Please Enter A Valid Email",
+        /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(val) ? null : "Please Enter A Valid Email",
       // teamMemberPhone, must be 11 digits and digits only
       officialEmail: (val) =>
-        !val || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(val)
-          ? null
-          : "Please Enter A Valid Email",
+        !val || /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,6}$/i.test(val) ? null : "Please Enter A Valid Email",
 
       // ###### phone #########
 
@@ -159,18 +145,9 @@ export const AddTeam = () => {
 
       officialPhone: validatePhoneNumber,
 
-      teamMemberFacebookLink: (val) =>
-        val.trim().length < 1
-          ? "Please Enter Value Of Length Greater Than 0"
-          : null,
-      teamMemberTwitterLink: (val) =>
-        val.trim().length < 1
-          ? "Please Enter Value Of Length Greater Than 0"
-          : null,
-      teamMemberLinkedInLink: (val) =>
-        val.trim().length < 1
-          ? "Please Enter Value Of Length Greater Than 0"
-          : null,
+      teamMemberFacebookLink: (val) => (val.trim().length < 1 ? "Please Enter Value Of Length Greater Than 0" : null),
+      teamMemberTwitterLink: (val) => (val.trim().length < 1 ? "Please Enter Value Of Length Greater Than 0" : null),
+      teamMemberLinkedInLink: (val) => (val.trim().length < 1 ? "Please Enter Value Of Length Greater Than 0" : null),
       memberPriority: (val) => val.length < 1,
       // CNIC: (val) =>
       //   val.length < 1 || val?.length > 15 ? "Please Enter CNIC" : null,
@@ -179,9 +156,7 @@ export const AddTeam = () => {
       IDCardBack: (value) => (value ? null : "Please Upload Cnic back image"),
       teamMemberImage: (value) => (value ? null : "Please Upload User photo"),
       bankAccountNumber: (val) =>
-        !val || /^[0-9]{8,16}$/.test(val)
-          ? null
-          : "Bank account number must be 8-16 digits",
+        !val || /^[0-9]{8,36}$/.test(val) ? null : "Sanndard Bank account number must be 8-36 digits",
       // IBAN: (val) =>
       //   !val || /^PK\d{2}[A-Z0-9]{4}\d{16}$/.test(val)
       //     ? null
@@ -203,15 +178,11 @@ export const AddTeam = () => {
   const handleAddTeam = useMutation(
     (values) => {
       if (state?.isUpdate)
-        return axios.patch(
-          `${backendUrl + `/api/v1/teamMember/${state?.data?._id}`}`,
-          values,
-          {
-            headers: {
-              authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        return axios.patch(`${backendUrl + `/api/v1/teamMember/${state?.data?._id}`}`, values, {
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        });
       else
         return axios.post(`${backendUrl + "/api/v1/teamMember"}`, values, {
           headers: {
@@ -242,21 +213,11 @@ export const AddTeam = () => {
 
   return (
     <Container fluid>
-      <PageHeader
-        label={state?.isUpdate ? "Edit Team Member" : "Add Team Member"}
-      />
+      <PageHeader label={state?.isUpdate ? "Edit Team Member" : "Add Team Member"} />
       <form onSubmit={form.onSubmit((values) => handleAddTeam.mutate(values))}>
-        <Divider
-          my="xl"
-          label="Personal Information"
-          labelPosition="center"
-          fz={"lg"}
-        />
+        <Divider my="xl" label="Personal Information" labelPosition="center" fz={"lg"} />
         {/* <Flex gap={"xl"} justify={"space-around"}> */}
-        <SimpleGrid
-          cols={2}
-          breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "sm" }]}
-        >
+        <SimpleGrid cols={2} breakpoints={[{ maxWidth: "36rem", cols: 1, spacing: "sm" }]}>
           <InputField
             label={"Team Member Name"}
             placeholder={"Enter Name"}
@@ -329,12 +290,7 @@ export const AddTeam = () => {
           />
         </SimpleGrid>
         {/* </Flex> */}
-        <Divider
-          my="xl"
-          label="Contact Information"
-          labelPosition="center"
-          fz={"lg"}
-        />
+        <Divider my="xl" label="Contact Information" labelPosition="center" fz={"lg"} />
         <SimpleGrid cols={2}>
           <InputField
             label={"Official Email"}
@@ -361,12 +317,7 @@ export const AddTeam = () => {
             validateName={"officialPhone"}
           />
         </SimpleGrid>
-        <Divider
-          my="xl"
-          label="Social Links"
-          labelPosition="center"
-          fz={"lg"}
-        />
+        <Divider my="xl" label="Social Links" labelPosition="center" fz={"lg"} />
         <SimpleGrid cols={2}>
           <InputField
             label={"Facebook Link"}
@@ -393,25 +344,10 @@ export const AddTeam = () => {
             validateName={"githubLink"}
           />
         </SimpleGrid>
-        <Divider
-          my="xl"
-          label="Account Information"
-          labelPosition="center"
-          fz={"lg"}
-        />
+        <Divider my="xl" label="Account Information" labelPosition="center" fz={"lg"} />
         <SimpleGrid cols={2}>
-          <InputField
-            label={"Bank Name"}
-            placeholder={"Bank Name"}
-            form={form}
-            validateName={"bankName"}
-          />
-          <InputField
-            label={"Bank Branch"}
-            placeholder={"Bank Branch"}
-            form={form}
-            validateName={"bankBranch"}
-          />
+          <InputField label={"Bank Name"} placeholder={"Bank Name"} form={form} validateName={"bankName"} />
+          <InputField label={"Bank Branch"} placeholder={"Bank Branch"} form={form} validateName={"bankBranch"} />
           <InputField
             label={"Bank Account Number"}
             placeholder={"Bank Account Number"}
@@ -425,19 +361,9 @@ export const AddTeam = () => {
             validateName={"IBAN"}
           /> */}
 
-          <InputField
-            label="IBAN"
-            placeholder="Enter IBAN"
-            form={form}
-            validateName="IBAN"
-          />
+          <InputField label="IBAN" placeholder="Enter IBAN" form={form} validateName="IBAN" />
         </SimpleGrid>
-        <Divider
-          my="xl"
-          label="Emergency Contact"
-          labelPosition="center"
-          fz={"lg"}
-        />
+        <Divider my="xl" label="Emergency Contact" labelPosition="center" fz={"lg"} />
         <SimpleGrid cols={2}>
           <InputField
             label={"Next Of Kin Name"}
@@ -457,47 +383,18 @@ export const AddTeam = () => {
             form={form}
             validateName={"kinContact"}
           />
-          <InputField
-            label={"Address"}
-            placeholder={"Address"}
-            form={form}
-            validateName={"kinAddress"}
-          />
+          <InputField label={"Address"} placeholder={"Address"} form={form} validateName={"kinAddress"} />
         </SimpleGrid>
 
-        <Divider
-          my="xl"
-          label="ID Card Information"
-          labelPosition="center"
-          fz={"lg"}
-        />
+        <Divider my="xl" label="ID Card Information" labelPosition="center" fz={"lg"} />
 
         <Group position="center">
-          <DropZone
-            form={form}
-            folderName={"teamMember"}
-            name={"teamMemberImage"}
-            label="Team Member Image"
-          />
-          <DropZone
-            form={form}
-            folderName={"teamMember"}
-            name={"IDCardFront"}
-            label="ID Card Front Image"
-          />
-          <DropZone
-            form={form}
-            folderName={"teamMember"}
-            name={"IDCardBack"}
-            label="ID Card Back Image"
-          />
+          <DropZone form={form} folderName={"teamMember"} name={"teamMemberImage"} label="Team Member Image" />
+          <DropZone form={form} folderName={"teamMember"} name={"IDCardFront"} label="ID Card Front Image" />
+          <DropZone form={form} folderName={"teamMember"} name={"IDCardBack"} label="ID Card Back Image" />
         </Group>
         <Group position="right" mt={"md"}>
-          <Button
-            label={"Cancel"}
-            variant={"outline"}
-            onClick={() => navigate(routeNames.general.viewTeams)}
-          />
+          <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.viewTeams)} />
           <Button
             label={state?.isUpdate ? "Edit Team Member" : "Add Team Member"}
             type={"submit"}
