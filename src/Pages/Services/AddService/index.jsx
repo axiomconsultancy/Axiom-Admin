@@ -1,6 +1,19 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { Container, Group, Select, Switch } from "@mantine/core";
+import {
+  Container,
+  Group,
+  Select,
+  Text,
+  Switch,
+  Textarea,
+  Grid,
+  Col,
+  Stack,
+  ActionIcon,
+  Paper,
+  Title,
+} from "@mantine/core";
 import { useMutation, useQuery } from "react-query";
 import { useForm } from "@mantine/form";
 import { showNotification } from "@mantine/notifications";
@@ -14,6 +27,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import DropZone from "../../../components/Dropzone";
 import { useLocation, useNavigate } from "react-router";
 import { routeNames } from "../../../Routes/routeNames";
+import { FaPlus, FaTrashAlt } from "react-icons/fa";
 
 export const AddService = () => {
   const { user } = useContext(UserContext);
@@ -51,6 +65,8 @@ export const AddService = () => {
       aboutDescription: "",
       serviceTitle: "",
       serviceDescription: "",
+      faqs: [],
+      steps: [],
       serviceIcon: null,
       coverImage: null,
       homeImage: null,
@@ -100,7 +116,51 @@ export const AddService = () => {
       form.setValues(state.data);
     }
   }, [state]);
+  const addFaq = () => {
+    const newFaqs = [...(form.values.faqs || []), { question: "", answer: "" }];
+    form.setFieldValue("faqs", newFaqs);
+  };
 
+  const removeFaq = (index) => {
+    const updatedFaqs = form.values.faqs.filter((_, i) => i !== index);
+    form.setFieldValue("faqs", updatedFaqs);
+  };
+
+  const handleFaqChange = (index, field, value) => {
+    const updatedFaqs = [...form.values.faqs];
+    updatedFaqs[index][field] = value;
+    form.setFieldValue("faqs", updatedFaqs);
+  };
+
+  const addProcess = () => {
+    const newSteps = [
+      ...(form.values.steps || []),
+      {
+        stepNo: (form.values.steps?.length || 0) + 1,
+        title: "",
+        description: "",
+      },
+    ];
+    form.setFieldValue("steps", newSteps);
+  };
+
+  const removeProcess = (index) => {
+    const filteredSteps = form.values.steps.filter((_, i) => i !== index);
+    const reIndexed = filteredSteps.map((step, i) => ({
+      ...step,
+      stepNo: i + 1,
+    }));
+    form.setFieldValue("steps", reIndexed);
+  };
+
+  const handleChange = (index, field, value) => {
+    const steps = [...form.values.steps];
+    if (!steps[index]) {
+      steps[index] = { stepNo: index + 1, title: "", description: "" };
+    }
+    steps[index][field] = value;
+    form.setFieldValue("steps", steps);
+  };
   const handleAddService = useMutation(
     (values) => {
       const finalValues = {
@@ -245,7 +305,7 @@ export const AddService = () => {
         <TextArea
           label={"Service Title"}
           placeholder={"Enter Service Title"}
-          rows="2"
+          rows="1"
           form={form}
           withAsterisk
           validateName={"serviceTitle"}
@@ -264,6 +324,106 @@ export const AddService = () => {
           <DropZone form={form} folderName={"service"} name={"coverImage"} label="Cover Image" />
           <DropZone form={form} folderName={"service"} name={"homeImage"} label="Home Image" />
         </Group>
+        {/* ======================= SERVICE PROCESS STEPS ======================= */}
+        <Stack mt="xl" spacing="lg">
+          <Title align="center" order={2}>
+            {state?.isUpdate ? "Edit " : "Add "}Service Specific Process
+          </Title>
+          <Text align="center" size="md" color="dimmed">
+            Define the process steps clearly for this service
+          </Text>
+
+          <Grid>
+            {form.values.steps?.map((step, index) => (
+              <Col span={12} key={index}>
+                <Paper withBorder p="md" radius="md" shadow="xs">
+                  <Group position="apart" mb="sm">
+                    <Text weight={500}>Step {index + 1}</Text>
+                    {form.values.steps.length > 1 && (
+                      <ActionIcon color="red" onClick={() => removeProcess(index)} size="sm">
+                        <FaTrashAlt />
+                      </ActionIcon>
+                    )}
+                  </Group>
+                  <InputField
+                    label="Step Title"
+                    placeholder="Enter Step Title"
+                    form={form}
+                    value={step?.title || ""}
+                    onChange={(e) => handleChange(index, "title", e.target.value)}
+                    validateName={`steps.${index}.title`}
+                  />
+                  <Textarea
+                    label="Step Description"
+                    placeholder="Enter Step Description"
+                    form={form}
+                    rows={4}
+                    value={step?.description || ""}
+                    onChange={(e) => handleChange(index, "description", e.target.value)}
+                    validateName={`steps.${index}.description`}
+                  />
+                </Paper>
+              </Col>
+            ))}
+          </Grid>
+
+          <Group position="center">
+            <ActionIcon color="blue" size="xl" onClick={addProcess}>
+              <FaPlus />
+            </ActionIcon>
+          </Group>
+        </Stack>
+
+        {/* ======================= SERVICE FAQ SECTION ======================= */}
+        <Stack mt="xl" spacing="lg">
+          <Title align="center" order={2}>
+            {state?.isUpdate ? "Edit " : "Add "} Service Specific FAQs
+          </Title>
+          <Text align="center" size="md" color="dimmed">
+            Help users by adding common questions and answers
+          </Text>
+
+          <Grid>
+            {form.values.faqs?.map((faq, index) => (
+              <Col span={12} key={index}>
+                <Paper withBorder p="md" radius="md" shadow="xs">
+                  <Group position="apart" mb="sm">
+                    <Text weight={500}>FAQ {index + 1}</Text>
+                    {form.values.faqs.length > 1 && (
+                      <ActionIcon color="red" onClick={() => removeFaq(index)} size="sm">
+                        <FaTrashAlt />
+                      </ActionIcon>
+                    )}
+                  </Group>
+                  <InputField
+                    label="Question"
+                    placeholder="Enter the question"
+                    form={form}
+                    value={faq.question}
+                    onChange={(e) => handleFaqChange(index, "question", e.target.value)}
+                    validateName={`faqs.${index}.question`}
+                  />
+                  <Textarea
+                    label="Answer"
+                    placeholder="Enter the answer"
+                    form={form}
+                    rows={3}
+                    value={faq.answer}
+                    onChange={(e) => handleFaqChange(index, "answer", e.target.value)}
+                    validateName={`faqs.${index}.answer`}
+                  />
+                </Paper>
+              </Col>
+            ))}
+          </Grid>
+
+          <Group position="center">
+            <ActionIcon color="blue" size="xl" onClick={addFaq}>
+              <FaPlus />
+            </ActionIcon>
+          </Group>
+        </Stack>
+
         <Group position="right" mt={"md"}>
           <Button label={"Cancel"} variant={"outline"} onClick={() => navigate(routeNames.general.viewService)} />
           <Button
