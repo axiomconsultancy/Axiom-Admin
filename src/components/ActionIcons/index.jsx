@@ -245,13 +245,18 @@ const ActionIcons = ({ rowData, type, edit, view, del, viewData, blocked, left }
           </ActionIcon>
         </Tooltip>
       )}
-      <ViewModal
+      {/* <ViewModal
         opened={openView}
         setOpened={setOpenView}
         title={<span style={{ fontWeight: "bold", color: "black", fontSize: "2rem" }}>{`View ${type}`}</span>}
       >
         {viewData}
+      </ViewModal> */}
+
+      <ViewModal opened={openView} setOpened={setOpenView} title={`View ${type}`}>
+        {viewData}
       </ViewModal>
+
       <DeleteModal
         label={`Delete ${type}`}
         message={`Are you sure you want to delete this ${type}? This action is irreversible.`}
