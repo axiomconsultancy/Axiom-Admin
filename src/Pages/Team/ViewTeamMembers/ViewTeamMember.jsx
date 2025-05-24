@@ -111,7 +111,7 @@ const ViewTeamMember = ({ rowData }) => {
         <Field label="Next of Kin Name" value={rowData?.nextOfKinName} />
         <Field label="Relation with Next of Kin" value={rowData?.nextOfKinRelation} />
         <Field label="Next of Kin Phone" value={rowData?.nextOfKinPhone} />
-        <Field label="Next of Kin Email" value={rowData?.nextOfKinEmail} />
+        <Field label="Next of Kin Address" value={rowData?.nextOfKinAddress} />
       </SimpleGrid>
     </Flex>
   );
