@@ -65,8 +65,8 @@ export const AddService = () => {
       aboutDescription: "",
       serviceTitle: "",
       serviceDescription: "",
-      faqs: [],
-      steps: [],
+      serviceSpecificFaqs: [],
+      serviceSpecificSteps: [],
       serviceIcon: null,
       coverImage: null,
       homeImage: null,
@@ -111,11 +111,24 @@ export const AddService = () => {
     },
   });
 
+  // useEffect(() => {
+  //   if (state?.isUpdate) {
+  //     form.setValues(state.data);
+  //   }
+  // }, [state]);
+
   useEffect(() => {
     if (state?.isUpdate) {
-      form.setValues(state.data);
+      const data = state.data;
+
+      form.setValues({
+        ...data,
+        faqs: data.serviceSpecificFaqs || [],
+        steps: data.serviceSpecificSteps || [],
+      });
     }
   }, [state]);
+
   const addFaq = () => {
     const newFaqs = [...(form.values.faqs || []), { question: "", answer: "" }];
     form.setFieldValue("faqs", newFaqs);
@@ -210,10 +223,22 @@ export const AddService = () => {
           const trimmedValues = {
             ...values,
             title: values.title.trim(),
+            subTitle: values.subTitle.trim(),
             shortDescription: values.shortDescription.trim(),
+            description: values.description.trim(),
             aboutSlogan: values.aboutSlogan.trim(),
+            aboutSloganPartTwo: values.aboutSloganPartTwo.trim(),
             aboutTitle: values.aboutTitle.trim(),
             aboutDescription: values.aboutDescription.trim(),
+            serviceSpecificFaqs: values.faqs.map((faq) => ({
+              question: faq.question.trim(),
+              answer: faq.answer.trim(),
+            })),
+            serviceSpecificSteps: values.steps.map((step) => ({
+              ...step,
+              title: step.title.trim(),
+              description: step.description.trim(),
+            })),
             serviceTitle: values.serviceTitle.trim(),
             serviceDescription: values.serviceDescription.trim(),
           };
