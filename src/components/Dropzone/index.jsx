@@ -4,15 +4,24 @@ import { useMediaQuery } from "@mantine/hooks";
 import { useDropzone } from "react-dropzone";
 import { Photo, X } from "tabler-icons-react";
 import { uploadSingleFile } from "../../constants/firebase";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 export default function DropZone({ form, name, folderName, label }) {
   const isMobile = useMediaQuery("(max-width: 820px)");
   const [url, setUrl] = useState(""); // Firebase URL
   const [progress, setProgress] = useState(null);
   const [preview, setPreview] = useState(""); // Local blob URL for preview
+  const uploadCompleteRef = useRef(false);
 
   const value = form.getInputProps(name).value;
+
+  // Memoize the setFieldValue callback to prevent unnecessary re-renders
+  const updateFieldValue = useCallback(
+    (newValue) => {
+      form.setFieldValue(name, newValue);
+    },
+    [form.setFieldValue, name]
+  );
 
   const { getRootProps, getInputProps, isDragActive, isDragReject, isDragAccept } = useDropzone({
     accept: {
@@ -24,7 +33,8 @@ export default function DropZone({ form, name, folderName, label }) {
       if (file) {
         const previewUrl = URL.createObjectURL(file);
         setPreview(previewUrl);
-        form.setFieldValue(name, previewUrl); // Temporary preview
+        updateFieldValue(previewUrl); // Temporary preview
+        uploadCompleteRef.current = false;
         uploadSingleFile({
           file,
           folderName,
@@ -35,13 +45,17 @@ export default function DropZone({ form, name, folderName, label }) {
     },
   });
 
+  // Fixed useEffect - removed form and name dependencies and added ref check
   useEffect(() => {
-    if (progress === 100 && url) {
-      form.setFieldValue(name, url); // Final Firebase URL
+    if (progress === 100 && url && !uploadCompleteRef.current) {
+      console.log("Upload complete:", url);
+      updateFieldValue(url); // Final Firebase URL
       setPreview(""); // Clear preview
+      uploadCompleteRef.current = true;
     }
-  }, [progress, url, form, name]);
+  }, [progress, url, updateFieldValue]);
 
+  // Cleanup effect for preview URL
   useEffect(() => {
     return () => {
       if (preview) {
@@ -49,6 +63,19 @@ export default function DropZone({ form, name, folderName, label }) {
       }
     };
   }, [preview]);
+
+  const handleRemove = useCallback(
+    (e) => {
+      e.stopPropagation();
+      form.setFieldValue(name, null);
+      form.setFieldError(name, null); // Optional: clear error
+      setPreview("");
+      setUrl("");
+      setProgress(null);
+      uploadCompleteRef.current = false;
+    },
+    [form, name]
+  );
 
   return (
     <Box
@@ -118,14 +145,7 @@ export default function DropZone({ form, name, folderName, label }) {
               padding: 3,
               borderRadius: "50%",
             }}
-            onClick={(e) => {
-              e.stopPropagation();
-              form.setFieldValue(name, null);
-              form.setFieldError(name, null); // Optional: clear error
-              setPreview("");
-              setUrl("");
-              setProgress(null);
-            }}
+            onClick={handleRemove}
           >
             <X />
           </ActionIcon>
