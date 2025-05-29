@@ -33,7 +33,7 @@ export default function TextEditorTinyMce({
         </span>
       </Text>
       <Editor
-        apiKey="rqmcacu7tcpszxl3r5nxv7g11gsxw3faswumjej59og1oi4y"
+        apiKey="r4rgcqv340z2cowi2b7k1h57zott1h0nxxy8skgu017dwx5g"
         onInit={(_evt, editor) => (editorRef.current = editor)}
         value={form.values[validateName]}
         onEditorChange={handleEditorChange}
