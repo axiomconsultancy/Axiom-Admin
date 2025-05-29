@@ -47,41 +47,51 @@ export const AddBlog = () => {
     },
 
     validate: {
-      blogTitle: (value) =>
-        !value
-          ? "Title is required"
-          : value.length < 3
-          ? "Title must be at least 3 characters long"
-          : value.length > 100
-          ? "Title must be at most 100 characters long"
-          : null,
-      blogCategory: (value) => (!value ? "Category is required" : null),
-      altText: (value) =>
-        !value
-          ? "Alt Text is required"
-          : value.length < 3
-          ? "Alt Text must be at least 3 characters long"
-          : value.length > 100
-          ? "Alt Text must be at most 100 characters long"
-          : null,
-      metaDescription: (value) =>
-        !value
-          ? "Meta Description is required"
-          : value.length < 125
-          ? "Meta Description must be at least 125 characters long"
-          : value.length > 160
-          ? "Meta Description must be at most 160 characters long"
-          : null,
-      blogData: (value) => (value?.length > 0 ? null : "Please enter blogData"),
-      blogImage: (value) => (value ? null : "Please upload a cover Image"),
-      seoTitle: (value) =>
-        !value
-          ? "SEO Title is required"
-          : value.length < 30
-          ? "SEO Title must be at least 30 characters long"
-          : value.length > 70
-          ? "SEO Title must be at most 70 characters long"
-          : null,
+      blogTitle: (value) => {
+        const trimmed = value?.trim() || "";
+        if (!trimmed) return "Title is required";
+        if (trimmed.length < 3) return "Title must be at least 3 characters long";
+        if (trimmed.length > 100) return "Title must be at most 100 characters long";
+        return null;
+      },
+
+      blogCategory: (value) => {
+        const trimmed = value?.trim() || "";
+        return !trimmed ? "Category is required" : null;
+      },
+
+      altText: (value) => {
+        const trimmed = value?.trim() || "";
+        if (!trimmed) return "Alt Text is required";
+        if (trimmed.length < 3) return "Alt Text must be at least 3 characters long";
+        if (trimmed.length > 100) return "Alt Text must be at most 100 characters long";
+        return null;
+      },
+
+      metaDescription: (value) => {
+        const trimmed = value?.trim() || "";
+        if (!trimmed) return "Meta Description is required";
+        if (trimmed.length < 125) return "Meta Description must be at least 125 characters long";
+        if (trimmed.length > 160) return "Meta Description must be at most 160 characters long";
+        return null;
+      },
+
+      blogData: (value) => {
+        if (!value || value.length === 0) return "Please enter blogData";
+        return null;
+      },
+
+      blogImage: (value) => {
+        return value ? null : "Please upload a cover Image";
+      },
+
+      seoTitle: (value) => {
+        const trimmed = value?.trim() || "";
+        if (!trimmed) return "SEO Title is required";
+        if (trimmed.length < 30) return "SEO Title must be at least 30 characters long";
+        if (trimmed.length > 70) return "SEO Title must be at most 70 characters long";
+        return null;
+      },
     },
   });
 
