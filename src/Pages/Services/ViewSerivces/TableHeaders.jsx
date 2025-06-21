@@ -46,6 +46,28 @@ export const Columns = [
       />
     ),
   },
+ 
+  {
+    name: "Priority",
+    selector: (row) => row.periority,
+    width: "150px",
+    sortable: true,
+    center: true,
+  },
+  {
+    name: "Show In Ring",
+    selector: (row) => row.showInRing ? "Yes" : "No",
+    width: "150px",
+    sortable: true,
+    center: true,
+  },
+   {
+    name: "Show In Card",
+    selector: (row) => row.showInCard ? "Yes" : "No",
+    width: "150px",
+    sortable: true,
+    center: true,
+  },
   {
     name: "Actions",
     center: true,

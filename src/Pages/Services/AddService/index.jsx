@@ -71,6 +71,9 @@ export const AddService = () => {
       serviceIcon: null,
       coverImage: null,
       homeImage: null,
+      periority: 1,
+      showInRing: true,
+      showInCard: true,
       isParent: true, // Default to true (Parent service)
       parentService: null, // Default parentService to null (will be set if sub-service)
     },
@@ -92,8 +95,8 @@ export const AddService = () => {
         !value?.trim().length
           ? null
           : value?.trim().length > 1 && value?.trim().length <= 80
-          ? null
-          : "Please enter slogan part two between 2 to 80 characters",
+            ? null
+            : "Please enter slogan part two between 2 to 80 characters",
       aboutTitle: (value) =>
         value?.trim().length > 1 && value?.trim().length < 80
           ? null
@@ -103,6 +106,8 @@ export const AddService = () => {
         value?.trim().length > 0 && value?.trim().length < 100 ? null : "Please enter short description",
       coverImage: (value) => (value ? null : "Please upload a cover Image"),
       serviceIcon: (value) => (value ? null : "Please upload a service Icon"),
+      periority: (value) =>
+        !isNaN(value) && Number(value) > 0 ? null : "Please enter a valid number greater than 0",
       serviceTitle: (value) =>
         value?.trim().length > 1 && value?.trim().length < 80
           ? null
@@ -311,6 +316,7 @@ export const AddService = () => {
           withAsterisk
           validateName={"description"}
         />
+
         <InputField
           label={"Slogan"}
           placeholder={"Enter Sub Title"}
@@ -318,6 +324,31 @@ export const AddService = () => {
           withAsterisk
           validateName={"aboutSlogan"}
         />
+        <Paper withBorder shadow="md" radius="md" p="lg" mt="md" mb="md">
+          <Group position="apart" align="flex-end" spacing="xl" noWrap>
+            <InputField
+              label="Periority"
+              placeholder="Enter Periority"
+              form={form}
+              withAsterisk
+              validateName="periority"
+              inputProps={{ type: "number", min: 1 }}
+              style={{ minWidth: 180 }}
+            />
+            <Switch
+              checked={form.values.showInCard}
+              label="Show In Card?"
+              onChange={(e) => form.setFieldValue("showInCard", e.currentTarget.checked)}
+              size="md"
+            />
+            <Switch
+              checked={form.values.showInRing}
+              label="Show In Ring?"
+              onChange={(e) => form.setFieldValue("showInRing", e.currentTarget.checked)}
+              size="md"
+            />
+          </Group>
+        </Paper>
         <InputField
           label={"Slogan Part Two (It will appear below the first slogan after a line break)"}
           placeholder={"Enter Slogan Part Two"}
